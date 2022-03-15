@@ -35,9 +35,8 @@ static void InitializeFlipper(UIApplication *application) {
   InitializeFlipper(application);
 #endif
   // Add me --- \/
-  if([FIRApp defaultApp] == nil){
-    [FIRApp configure];
-  }
+
+  [FIRApp configure];
   // Add me --- /\
   
   RCTBridge *bridge = [self.reactDelegate createBridgeWithDelegate:self launchOptions:launchOptions];
