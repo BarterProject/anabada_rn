@@ -17,7 +17,7 @@ export default function Auth() {
         headerTitle: '',
         headerBackTitleVisible: false,
         headerBackButtonMenuEnabled: true,
-        headerTintColor: '#689633',
+        headerTintColor: '#E94057',
       }}
     >
       <Stack.Screen
@@ -34,6 +34,11 @@ export default function Auth() {
       <Stack.Screen
         name="SignUp"
         component={SignUp}
+        options={{
+          headerTitle:"회원가입",
+          title:"회원가입",
+          headerTitleAlign:'center'
+        }}
       />
     </Stack.Navigator>
   );

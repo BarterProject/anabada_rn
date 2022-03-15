@@ -8,7 +8,7 @@ const Container = styled.View`
 `;
 
 const Button = styled.TouchableOpacity`
-  background-color:#689633;
+  background-color:#E94057;
   height: 43px;
   width: 210px;
   border-radius: 15px;
