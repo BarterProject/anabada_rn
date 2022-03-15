@@ -37,6 +37,13 @@
             {
               "client_id": "374306540056-gu5i4noer93cadmqfnnl2gkl9ph2at6c.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "374306540056-nktagccpqofvip2iiuth1mpqb72mr1so.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.anorg.name.anabada"
+              }
             }
           ]
         }

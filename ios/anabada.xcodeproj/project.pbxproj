@@ -19,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		0D2BBA6727DE619C00092DF6 /* anabada.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = anabada.entitlements; path = anabada/anabada.entitlements; sourceTree = "<group>"; };
 		0DA4152C27DA45B600A7F6D4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* anabada.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = anabada.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = anabada/AppDelegate.h; sourceTree = "<group>"; };
@@ -50,6 +51,8 @@
 		13B07FAE1A68108700A75B9A /* anabada */ = {
 			isa = PBXGroup;
 			children = (
+				0DA4152C27DA45B600A7F6D4 /* GoogleService-Info.plist */,
+				0D2BBA6727DE619C00092DF6 /* anabada.entitlements */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -81,7 +84,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				0DA4152C27DA45B600A7F6D4 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* anabada */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -317,6 +319,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = anabada/anabada.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -345,6 +348,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = anabada/anabada.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = anabada/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
