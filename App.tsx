@@ -14,6 +14,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>ANABADA</Text>
+      <Text>TEST</Text>
     </View>
   );
 }
