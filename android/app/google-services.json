@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "374306540056",
+    "project_id": "clip-b0e37",
+    "storage_bucket": "clip-b0e37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374306540056:android:b3c8ac303f4b3df55f916d",
+        "android_client_info": {
+          "package_name": "com.anabada"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374306540056-0cu3ro1u65nmcegtaphb57ng9jrg24f6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anabada",
+            "certificate_hash": "00531f4a8f3dc4dd7f08523146de6a02e28d69f2"
+          }
+        },
+        {
+          "client_id": "374306540056-gu5i4noer93cadmqfnnl2gkl9ph2at6c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXjQlc9t4Blnj78zigL9gwC1Jd5S7EsL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374306540056-gu5i4noer93cadmqfnnl2gkl9ph2at6c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "374306540056-nktagccpqofvip2iiuth1mpqb72mr1so.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.anorg.name.anabada"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

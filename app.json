@@ -5,7 +5,13 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "org.name.anabada"
+    },
+    "android": {
+      "package": "org.name.anabada"
+    }
   },
   "name": "anabada"
 }
