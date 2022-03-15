@@ -11,6 +11,9 @@ function Root() {
   return (
     <Nav.Navigator
       initialRouteName="Auth"
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <Nav.Screen
         name="Auth"
