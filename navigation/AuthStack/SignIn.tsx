@@ -7,7 +7,6 @@ const Container = styled.View`
   justify-content:center;
   align-items:center;
   color: white;
-
 `;
 
 const Button = styled.TouchableOpacity`
