@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from "@react-navigation/native";
 
-import Root from './navigation/Root';
+import Root from "./navigation/Root";
 
 // async function requestUserPermission() {
 //   const authStatus = await messaging().requestPermission();
