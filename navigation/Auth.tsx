@@ -6,7 +6,13 @@ import Main from './AuthStack/Main';
 import SignIn from './AuthStack/SignIn';
 import SignUp from './AuthStack/SignUp';
 
-const Stack = createNativeStackNavigator();
+type AuthStackParamList = {
+  Main: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
+};
+
+const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 export default function Auth() {
   return (
@@ -35,9 +41,9 @@ export default function Auth() {
         name="SignUp"
         component={SignUp}
         options={{
-          headerTitle:"회원가입",
-          title:"회원가입",
-          headerTitleAlign:'center'
+          headerTitle: '회원가입',
+          title: '회원가입',
+          headerTitleAlign: 'center',
         }}
       />
     </Stack.Navigator>

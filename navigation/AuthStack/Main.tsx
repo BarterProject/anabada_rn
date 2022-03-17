@@ -1,55 +1,91 @@
 import React from 'react';
+
 import styled from 'styled-components/native';
+
+import Button from './components/Button';
+import ServiceInfoPressableText from './components/ServiceInfoPressable';
 
 const Container = styled.View`
   flex:1;
-  justify-content:center;
+`;
+
+const TitleContainer = styled.View`
+  top:80px;
+`;
+
+const Title = styled.Text`
+  font-size:80px;
+  color:#E94057;
+`;
+
+const ButtonsContainer = styled.View`
   align-items:center;
 `;
 
-const Button = styled.TouchableOpacity`
-  background-color:#E94057;
-  height: 43px;
-  width: 210px;
-  border-radius: 15px;
-  justify-content:center;
+const ServiceInfoContainer = styled.View`
+  flex-direction:row;
+  justify-content:space-around;
+  bottom:50px;
+`;
+
+const Footer = styled.View`
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+`;
+
+const Header = styled.View`
+  flex:1;
   align-items:center;
-  color: white;
+  justify-content:flex-end;
+  
 `;
 
-const ButtonText = styled.Text`
-  font-size: 18px;
-  font-weight: 800;
-  line-height: 27px;
-  letter-spacing: 0px;
-  color: #FFFFFF;
+const Body = styled.View`
+  flex:1;
+  justify-content:flex-end;
+
 `;
 
-export default function Main({ navigation }) {
+export default function Main({ navigation }:any) {
   return (
     <Container>
-      <Button
-        onPress={() => {
-          navigation.navigate('Auth', {
-            screen: 'SignIn',
-          });
-        }}
-      >
-        <ButtonText>
-          로그인
-        </ButtonText>
-      </Button>
-      <Button
-        onPress={() => {
-          navigation.navigate('Auth', {
-            screen: 'SignUp',
-          });
-        }}
-      >
-        <ButtonText>
-          회원가입
-        </ButtonText>
-      </Button>
+      <Header>
+        <TitleContainer>
+          <Title>CLIP</Title>
+        </TitleContainer>
+      </Header>
+
+      <Body>
+        <ButtonsContainer>
+          <Button
+            navigation={navigation}
+            to="SignIn"
+            text="로그인"
+          />
+          <Button
+            navigation={navigation}
+            to="SignUp"
+            text="회원가입"
+          />
+        </ButtonsContainer>
+      </Body>
+
+      <Footer>
+        <ServiceInfoContainer>
+          <ServiceInfoPressableText
+            navigation={navigation}
+            to="#"
+            text="이용안내"
+          />
+          <ServiceInfoPressableText
+            navigation={navigation}
+            to="#"
+            text="서비스 약관 및 정책"
+          />
+        </ServiceInfoContainer>
+      </Footer>
     </Container>
   );
 }
