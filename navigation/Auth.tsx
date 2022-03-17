@@ -5,11 +5,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Main from './AuthStack/Main';
 import SignIn from './AuthStack/SignIn';
 import SignUp from './AuthStack/SignUp';
+import PhoneAuth from './AuthStack/PhoneAuth';
 
 type AuthStackParamList = {
   Main: undefined;
   SignIn: undefined;
   SignUp: undefined;
+  PhoneAuth:undefined;
 };
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
@@ -43,6 +45,15 @@ export default function Auth() {
         options={{
           headerTitle: '회원가입',
           title: '회원가입',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="PhoneAuth"
+        component={PhoneAuth}
+        options={{
+          headerTitle: '휴대폰 인증',
+          title: '휴대폰 인증',
           headerTitleAlign: 'center',
         }}
       />
