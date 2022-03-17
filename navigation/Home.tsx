@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Main"
       screenOptions={{
         headerBackTitleVisible: false,
         title: "",
@@ -51,7 +51,7 @@ export default function Home() {
         },
       }}
     >
-      <Stack.Screen name="Home" component={Main} />
+      <Stack.Screen name="Main" component={Main} />
     </Stack.Navigator>
   );
 }
