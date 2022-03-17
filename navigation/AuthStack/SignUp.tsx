@@ -1,70 +1,100 @@
 import React, { useState } from 'react';
-import { Button, Text } from 'react-native';
+
 import styled from 'styled-components/native';
 
-import auth from '@react-native-firebase/auth';
+import InputFormRow from './components/InputFormRow';
+import InputFormColumn from './components/InputFormColumn';
+import ButtonRegular from './components/ButtonRegular';
+import ButtonFit from './components/ButtonFit';
+
+const TouchableButton = styled.TouchableOpacity`
+  background-color:#E94057;
+  height: 43px;
+  width: 150px;
+  border-radius: 15px;
+  justify-content:center;
+  align-items:center;
+  color: white;
+  margin:5px;
+`;
+
+const ButtonText = styled.Text`
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 27px;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+`;
 
 const Container = styled.View`
   flex:1;
-  justify-content:center;
+  align-items:center;
+  padding-top:100px;
+`;
+
+const Form = styled.View`
+  flex:1;
+  width:300px;
+`;
+
+const PhoneAuthContainer = styled.View`
+  align-items:flex-end;
+`;
+
+const FinshSigningUpContainer = styled.View`
   align-items:center;
 `;
 
-const CodeInput = styled.TextInput`
-  background-color:skyblue;
-  width:100px;
-`;
+interface SignUpProps{
+  navigation:any
+}
 
-export default function SignUp() {
-  // If null, no SMS has been sent
-  const [confirm, setConfirm] = useState(null);
-  const [code, setCode] = useState('');
+export default function SignUp({ navigation }:SignUpProps) {
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [account, setAccount] = useState('');
 
-  // Handle the button press
-  async function signInWithPhoneNumber(phoneNumber) {
-    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-    setConfirm(confirmation);
-  }
-
-  async function confirmCode() {
-    try {
-      const response = await confirm.confirm(code);
-      if (response) {
-        alert('Phone Auth 성공!');
-        // return (
-        //   <Container>
-        //     <Text>Phone Auth 성공! </Text>
-        //   </Container>
-        // )
-      }
-    } catch (e) {
-      alert(JSON.stringify(e));
-    }
-  }
-
-  if (!confirm) {
-    return (
-      <Container>
-        <Text>테스트</Text>
-        <Button
-          title="Phone Number Sign In"
-          onPress={() => signInWithPhoneNumber('+8201063666208')}
-        />
-      </Container>
-    );
-  }
   return (
     <Container>
-      <Text>테스트</Text>
-      <CodeInput value={code} onChangeText={(text) => setCode(text)} />
-      <Button title="Confirm Code" onPress={() => confirmCode()} />
+      <Form>
+        <InputFormRow title="아이디" placeholder="" setText={setId} />
+        <InputFormRow title="비밀번호" placeholder="" setText={setPassword} />
+        <InputFormRow title="" placeholder="비밀번호 확인" setText={setPassword2} />
+        <InputFormRow title="연락처" placeholder="" setText={setPhoneNumber} />
+        <PhoneAuthContainer>
+          <TouchableButton
+            onPress={() => {
+              navigation.navigate('PhoneAuth', {
+                phoneNumber,
+              });
+            }}
+          >
+            <ButtonText>
+              휴대폰 인증
+            </ButtonText>
+          </TouchableButton>
+        </PhoneAuthContainer>
+
+        <InputFormRow title="주소" placeholder="" setText={setAddress} />
+        <PhoneAuthContainer>
+          <ButtonRegular
+            text="주소찾기"
+            navigation={navigation}
+            to="#"
+          />
+        </PhoneAuthContainer>
+        <InputFormColumn title="보증금 반환 계좌" placeholder="" setText={setAccount} />
+        <FinshSigningUpContainer>
+          <ButtonFit
+            navigation={navigation}
+            to="#"
+            text="회원가입 완료"
+          />
+        </FinshSigningUpContainer>
+      </Form>
     </Container>
   );
-  // return (
-  //   <Container>
-  //     <Text>
-  //       Auth-SignUp
-  //     </Text>
-  //   </Container>
-  // );
 }

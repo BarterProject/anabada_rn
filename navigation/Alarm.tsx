@@ -1,21 +1,20 @@
-import React from "react";
+import React from 'react';
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Text } from "react-native";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Text } from 'react-native';
 
-import Main from "./AlarmStack/Main";
+import styled from 'styled-components/native';
 
-import styled from "styled-components/native";
+import { useNavigation } from '@react-navigation/native';
 
-import { useNavigation } from "@react-navigation/native";
-
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
+import Main from './AlarmStack/Main';
 
 const Stack = createNativeStackNavigator();
 
 const Btn = styled.TouchableOpacity``;
 
-const Alarm = () => {
+function Alarm() {
   const navigation = useNavigation();
 
   return (
@@ -23,7 +22,7 @@ const Alarm = () => {
       initialRouteName="Main"
       screenOptions={{
         headerBackTitleVisible: false,
-        title: "",
+        title: '',
         headerLeft: () => (
           <Btn
             onPress={() => {
@@ -37,13 +36,13 @@ const Alarm = () => {
         ),
         headerShadowVisible: false,
         contentStyle: {
-          backgroundColor: "white",
+          backgroundColor: 'white',
         },
       }}
     >
       <Stack.Screen name="Main" component={Main} />
     </Stack.Navigator>
   );
-};
+}
 
 export default Alarm;

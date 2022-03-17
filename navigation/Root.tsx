@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Auth from "./Auth";
-import Home from "./Home";
-import Alarm from "./Alarm";
+import Auth from './Auth';
+import Home from './Home';
+import Alarm from './Alarm';
 
 const Nav = createNativeStackNavigator();
 

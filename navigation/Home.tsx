@@ -1,17 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import { Text, View } from "react-native";
+import { Text, View } from 'react-native';
 
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
-import Main from "./HomeStack/Main";
+import { Ionicons } from '@expo/vector-icons';
 
-import { Ionicons } from "@expo/vector-icons";
-
-import { Badge } from "react-native-elements";
+import { Badge } from 'react-native-elements';
+import Main from './HomeStack/Main';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,14 +21,14 @@ export default function Home() {
 
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Main"
       screenOptions={{
         headerBackTitleVisible: false,
-        title: "",
+        title: '',
         headerRight: () => (
           <Btn
             onPress={() => {
-              navigation.navigate("Alarm", { screen: "Main" });
+              navigation.navigate('Alarm', { screen: 'Main' });
             }}
           >
             <Text>
@@ -39,7 +38,7 @@ export default function Home() {
                 <Badge
                   status="error"
                   value={10}
-                  containerStyle={{ position: "absolute", top: -5, left: 15 }}
+                  containerStyle={{ position: 'absolute', top: -5, left: 15 }}
                 />
               </View>
             </Text>
@@ -47,11 +46,11 @@ export default function Home() {
         ),
         headerShadowVisible: false,
         contentStyle: {
-          backgroundColor: "white",
+          backgroundColor: 'white',
         },
       }}
     >
-      <Stack.Screen name="Home" component={Main} />
+      <Stack.Screen name="Main" component={Main} />
     </Stack.Navigator>
   );
 }
