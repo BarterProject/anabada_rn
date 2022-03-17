@@ -4,8 +4,6 @@ import styled from 'styled-components/native';
 
 const Container = styled.View`
   flex:1;
-  justify-content:center;
-  align-items:center;
   color: white;
 `;
 
@@ -34,22 +32,56 @@ const TextInput = styled.TextInput`
   border-radius: 20px;
   border: 1px;
   padding-left:20px;
+  margin-bottom:10px;
 `;
 
-export default function SignIn({ navigation }) {
+const TitleContainer = styled.View`
+  top:80px;
+`;
+
+const Title = styled.Text`
+  font-size:80px;
+  color:#E94057;
+`;
+
+const Header = styled.View`
+  flex:1;
+  align-items:center;
+  justify-content:flex-end;
+`;
+
+const Body = styled.View`
+  justify-content:center;
+  align-items:center;
+  flex:2;
+  bottom:30px;
+`;
+interface SignInProps {
+  navigation: any;
+}
+
+export default function SignIn({ navigation }: SignInProps) {
   return (
     <Container>
-      <TextInput placeholder="아이디" />
-      <TextInput placeholder="비밀번호" />
-      <Button
-        onPress={() => {
-          navigation.navigate('Home');
-        }}
-      >
-        <ButtonText>
-          로그인
-        </ButtonText>
-      </Button>
+      <Header>
+        <TitleContainer>
+          <Title>CLIP</Title>
+        </TitleContainer>
+      </Header>
+      <Body>
+
+        <TextInput placeholder="아이디" />
+        <TextInput placeholder="비밀번호" />
+        <Button
+          onPress={() => {
+            navigation.navigate('Home');
+          }}
+        >
+          <ButtonText>
+            로그인
+          </ButtonText>
+        </Button>
+      </Body>
     </Container>
   );
 }

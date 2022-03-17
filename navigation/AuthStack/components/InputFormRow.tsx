@@ -35,10 +35,10 @@ export default function InputFormRow({ title, placeholder, setText }:InputFormRo
   return (
     <Container>
       <Title>{title}</Title>
-      <TextInput 
-      placeholder={placeholder}
-       onChangeText={(text) => { handleChangeText(text) }}
-        />
+      <TextInput
+        placeholder={placeholder}
+        onChangeText={(text) => { handleChangeText(text); }}
+      />
     </Container>
   );
 }
