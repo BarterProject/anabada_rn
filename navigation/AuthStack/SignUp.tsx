@@ -64,7 +64,6 @@ export default function SignUp({ navigation }:SignUpProps) {
         <InputFormRow title="비밀번호" placeholder="" setText={setPassword} />
         <InputFormRow title="" placeholder="비밀번호 확인" setText={setPassword2} />
         <InputFormRow title="연락처" placeholder="" setText={setPhoneNumber} />
-        m
         <PhoneAuthContainer>
           <TouchableButton
             onPress={() => {

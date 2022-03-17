@@ -1,22 +1,20 @@
 import React from 'react';
 
-import { Text, View } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Text } from 'react-native';
 
 import styled from 'styled-components/native';
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons';
-
-import { Badge } from 'react-native-elements';
-import Main from './HomeStack/Main';
+import Main from './AlarmStack/Main';
 
 const Stack = createNativeStackNavigator();
 
 const Btn = styled.TouchableOpacity``;
 
-export default function Home() {
+function Alarm() {
   const navigation = useNavigation();
 
   return (
@@ -25,22 +23,14 @@ export default function Home() {
       screenOptions={{
         headerBackTitleVisible: false,
         title: '',
-        headerRight: () => (
+        headerLeft: () => (
           <Btn
             onPress={() => {
-              navigation.navigate('Alarm', { screen: 'Main' });
+              navigation.goBack();
             }}
           >
             <Text>
-              <View>
-                <Ionicons size={30} name="notifications" />
-
-                <Badge
-                  status="error"
-                  value={10}
-                  containerStyle={{ position: 'absolute', top: -5, left: 15 }}
-                />
-              </View>
+              <Ionicons size={30} name="arrow-back-outline" />
             </Text>
           </Btn>
         ),
@@ -54,3 +44,5 @@ export default function Home() {
     </Stack.Navigator>
   );
 }
+
+export default Alarm;
