@@ -19,7 +19,6 @@ function Alarm() {
 
   return (
     <Stack.Navigator
-      initialRouteName="Main"
       screenOptions={{
         headerBackTitleVisible: false,
         title: '',
@@ -30,7 +29,7 @@ function Alarm() {
             }}
           >
             <Text>
-              <Ionicons size={30} name="arrow-back-outline" />
+              <Ionicons size={30} name="close-outline" />
             </Text>
           </Btn>
         ),

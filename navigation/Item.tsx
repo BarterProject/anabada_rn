@@ -5,21 +5,29 @@ import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons';
-import Main from './HomeStack/Main';
+import Main from './ItemStack/Main';
+import Enroll from './ItemStack/Enroll';
 
 const Stack = createNativeStackNavigator();
+
+const Badge = styled.View`
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #e94057;
+  justify-content: center;
+  align-items: center;
+`;
 const Btn = styled.TouchableOpacity``;
 
-interface HomeProps {
-  navigation : any;
-}
+export default function Home() {
+  const navigation = useNavigation();
 
-export default function Home({ navigation }:HomeProps) {
   return (
     <Stack.Navigator
-      initialRouteName="Main"
       screenOptions={{
         headerBackTitleVisible: false,
         title: '',
@@ -32,17 +40,31 @@ export default function Home({ navigation }:HomeProps) {
             <Text>
               <View>
                 <Ionicons size={30} name="notifications" />
+                <Badge style={{ position: 'absolute', top: -3, left: 15 }}>
+                  <Text style={{ fontSize: 10, color: 'white' }}>5</Text>
+                </Badge>
               </View>
             </Text>
           </Btn>
         ),
-        headerShadowVisible: false,
+        headerLeft: () => (
+          <Btn
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Text>
+              <Ionicons size={30} name="chevron-back-outline" />
+            </Text>
+          </Btn>
+        ),
         contentStyle: {
           backgroundColor: 'white',
         },
       }}
     >
       <Stack.Screen name="Main" component={Main} />
+      <Stack.Screen name="Enroll" component={Enroll} />
     </Stack.Navigator>
   );
 }

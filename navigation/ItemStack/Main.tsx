@@ -1,29 +1,31 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-
-import { Text } from 'react-native';
 
 import styled from 'styled-components/native';
 
+import { Text } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
+
 const Container = styled.View`
+  flex: 1;
   align-items: center;
   justify-content: center;
 `;
-const Btn = styled.TouchableOpacity``;
-
 const Message = styled.Text``;
+
+const Btn = styled.TouchableOpacity``;
 function Main() {
   const navigation = useNavigation();
 
   return (
     <Container>
-      <Message>home</Message>
+      <Message>Item</Message>
       <Btn
         onPress={() => {
-          navigation.navigate('Item', { screen: 'Main' });
+          navigation.navigate('Item', { screen: 'Enroll' });
         }}
       >
-        <Text>아이템</Text>
+        <Text>아이템 등록</Text>
       </Btn>
     </Container>
   );
