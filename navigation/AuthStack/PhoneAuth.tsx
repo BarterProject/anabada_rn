@@ -50,14 +50,12 @@ export default function PhoneAuth({ route, navigation }:PhoneAuthProps) {
   const [confirm, setConfirm] = useState(null);
   const [code, setCode] = useState('');
   const { phoneNumber } = route.params;
-  console.log(phoneNumber);
   async function signInWithPhoneNumber() {
     const confirmation = await auth().signInWithPhoneNumber(`+82${phoneNumber}`);
     setConfirm(confirmation);
   }
 
   async function confirmCode() {
-    console.log(code);
     try {
       const response = await confirm.confirm(code);
       if (response) {
