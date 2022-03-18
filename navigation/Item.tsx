@@ -61,6 +61,7 @@ export default function Home() {
         contentStyle: {
           backgroundColor: 'white',
         },
+        headerShadowVisible: false,
       }}
     >
       <Stack.Screen name="Main" component={Main} />
