@@ -9,7 +9,6 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { Badge } from 'react-native-elements';
 import Main from './HomeStack/Main';
 
 const Stack = createNativeStackNavigator();
@@ -34,12 +33,6 @@ export default function Home() {
             <Text>
               <View>
                 <Ionicons size={30} name="notifications" />
-
-                <Badge
-                  status="error"
-                  value={10}
-                  containerStyle={{ position: 'absolute', top: -5, left: 15 }}
-                />
               </View>
             </Text>
           </Btn>
