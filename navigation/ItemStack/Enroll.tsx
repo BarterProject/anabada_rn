@@ -12,6 +12,7 @@ import Slide from './components/Slide';
 
 const Container = styled.ScrollView`
   flex: 1;
+  height: 100%;
 `;
 
 const Btn = styled.TouchableOpacity``;
@@ -84,7 +85,6 @@ function Enroll({
   useEffect(() => {
     setOptions({
       headerBackTitleVisible: false,
-      headerShadowVisible: false,
       title: '',
       headerLeft: () => (
         <Btn
