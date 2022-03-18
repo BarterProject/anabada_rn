@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Main from './HomeStack/Main';
 
@@ -12,7 +11,6 @@ export default function Home() {
       screenOptions={{
         headerBackTitleVisible: false,
         title: '',
-
         contentStyle: {
           backgroundColor: 'white',
         },
