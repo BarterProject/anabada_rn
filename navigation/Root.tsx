@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Auth from './Auth';
 import Home from './Home';
 import Alarm from './Alarm';
+import Item from './Item';
+
 
 const Nav = createNativeStackNavigator();
 
@@ -19,6 +21,7 @@ function Root() {
       <Nav.Screen name="Auth" component={Auth} />
       <Nav.Screen name="Home" component={Home} />
       <Nav.Screen name="Alarm" component={Alarm} />
+      <Nav.Screen name="Item" component={Item} />
     </Nav.Navigator>
   );
 }
