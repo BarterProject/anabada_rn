@@ -80,11 +80,15 @@ export default function SignUp({ navigation }:SignUpProps) {
 
         <InputFormRow title="주소" placeholder="" setText={setAddress} />
         <PhoneAuthContainer>
-          <ButtonRegular
-            text="주소찾기"
-            navigation={navigation}
-            to="#"
-          />
+          <TouchableButton
+            onPress={() => {
+              navigation.navigate('SearchAddress');
+            }}
+          >
+            <ButtonText>
+              주소찾기
+            </ButtonText>
+          </TouchableButton>
         </PhoneAuthContainer>
         <InputFormColumn title="보증금 반환 계좌" placeholder="" setText={setAccount} />
         <FinshSigningUpContainer>
