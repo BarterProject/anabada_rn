@@ -10,11 +10,13 @@ export type initialStateProps ={
       id: string,
       password: string,
       isPhoneAuthChecked: boolean,
+      phoneNumber:string
       addressinfo: {
         zonecode: string,
         address: string,
         addressDetail: string,
       },
+      accountNumber:string
     },
 }
 
@@ -30,12 +32,10 @@ const { actions, reducer } = createSlice({
         address: '',
         addressDetail: '',
       },
+      accountNumber:''
     },
   },
   reducers: {
-    setTest: (state, { payload }: PayloadAction<string>) => ({
-      ...state,
-    }),
     setIdForSigningUp: (state, { payload: id }: PayloadAction<string>) => ({
       ...state,
       signUpField: {
@@ -57,7 +57,7 @@ const { actions, reducer } = createSlice({
         isPhoneAuthChecked: true,
       },
     }),
-    setAddressinfo: (state, { payload: { zonecode, address } }) => ({
+    setAddressinfo: (state, { payload: { zonecode, address, addressDetail } }) => ({
       ...state,
       signUpField: {
         ...state.signUpField,
@@ -65,18 +65,26 @@ const { actions, reducer } = createSlice({
           ...state.signUpField.addressinfo,
           zonecode,
           address,
+          addressDetail
         },
       },
     }),
+    setAccountNumber: (state, {payload:{accountNumber}})=>({
+      ...state,
+      signUpField:{
+        ...state.signUpField,
+        accountNumber
+      }
+    })
   },
 });
 
 export const {
-  setTest,
   setIdForSigningUp,
   setPasswordForSigingUp,
   setPhoneAuthChecked,
   setAddressinfo,
+  setAccountNumber
 } = actions;
 
 export default reducer;
