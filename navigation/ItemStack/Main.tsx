@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from "react-native";
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
-import ItemList from './components/ItemList';
+import ItemList from "./components/ItemList";
+
+import DropShadow from "react-native-drop-shadow";
 
 const Container = styled.View`
   flex: 1;
@@ -49,12 +51,17 @@ const Btn = styled.TouchableOpacity`
   width: 100px;
   height: 100px;
   right: 30px;
-  bottom: 90px;
+  bottom: 50px;
   border-radius: 80px;
+`;
+
+const BtnInstance = styled.View`
+  width: 100%;
+  height: 100%;
   background-color: #e94057;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.4);
+  border-radius: 80px;
 `;
 
 function Main() {
@@ -90,14 +97,26 @@ function Main() {
         </NavigationItem>
       </Navigation>
       <ItemList />
+
       <Btn
         onPress={() => {
-          navigation.navigate('Item', { screen: 'Enroll' });
+          navigation.navigate("Item", { screen: "Enroll" });
         }}
       >
-        <Text style={{ color: 'white', fontSize: 18, fontWeight: '600' }}>
-          등록하기
-        </Text>
+        <DropShadow
+          style={{
+            shadowColor: "#171717",
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.5,
+            shadowRadius: 2,
+          }}
+        >
+          <BtnInstance>
+            <Text style={{ color: "white", fontSize: 18, fontWeight: "600" }}>
+              등록하기
+            </Text>
+          </BtnInstance>
+        </DropShadow>
       </Btn>
     </Container>
   );
