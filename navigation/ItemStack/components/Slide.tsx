@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 
 const Container = styled.View`
   width: 100%;
@@ -55,7 +55,7 @@ function Slide() {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        aspect: [3, 4],
+        aspect: [4, 4],
         quality: 1,
       });
       if (!result.cancelled) {

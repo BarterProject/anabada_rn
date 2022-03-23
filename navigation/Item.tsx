@@ -1,15 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import { Text, View } from 'react-native';
+import { Text, View } from "react-native";
 
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 
-import { Ionicons } from '@expo/vector-icons';
-import Main from './ItemStack/Main';
-import Enroll from './ItemStack/Enroll';
+import { Ionicons } from "@expo/vector-icons";
+import Main from "./ItemStack/Main";
+import ItemDetail from "./ItemStack/ItemDetail";
+import Enroll from "./ItemStack/Enroll";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,18 +31,18 @@ export default function Home() {
     <Stack.Navigator
       screenOptions={{
         headerBackTitleVisible: false,
-        title: '',
+        title: "",
         headerRight: () => (
           <Btn
             onPress={() => {
-              navigation.navigate('Alarm', { screen: 'Main' });
+              navigation.navigate("Alarm", { screen: "Main" });
             }}
           >
             <Text>
               <View>
                 <Ionicons size={30} name="notifications" />
-                <Badge style={{ position: 'absolute', top: -3, left: 15 }}>
-                  <Text style={{ fontSize: 10, color: 'white' }}>5</Text>
+                <Badge style={{ position: "absolute", top: -3, left: 15 }}>
+                  <Text style={{ fontSize: 10, color: "white" }}>5</Text>
                 </Badge>
               </View>
             </Text>
@@ -59,13 +60,14 @@ export default function Home() {
           </Btn>
         ),
         contentStyle: {
-          backgroundColor: 'white',
+          backgroundColor: "white",
         },
         headerShadowVisible: false,
       }}
     >
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Enroll" component={Enroll} />
+      <Stack.Screen name="Detail" component={ItemDetail} />
     </Stack.Navigator>
   );
 }
