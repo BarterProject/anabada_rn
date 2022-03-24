@@ -4,9 +4,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Main from './AuthStack/Main';
 import SignIn from './AuthStack/SignIn';
-import SignUp from './AuthStack/SignUp';
+
 import PhoneAuth from './AuthStack/PhoneAuth';
-import SearchAddrees from './AuthStack/SearchAddrees';
+
+import SignUp from './SignUp';
 
 type AuthStackParamList = {
   Main: undefined;
@@ -45,9 +46,7 @@ export default function Auth() {
         name="SignUp"
         component={SignUp}
         options={{
-          headerTitle: '회원가입',
-          title: '회원가입',
-          headerTitleAlign: 'center',
+          headerShown: false,
         }}
       />
       <Stack.Screen
@@ -56,15 +55,6 @@ export default function Auth() {
         options={{
           headerTitle: '휴대폰 인증',
           title: '휴대폰 인증',
-          headerTitleAlign: 'center',
-        }}
-      />
-      <Stack.Screen
-        name="SearchAddress"
-        component={SearchAddrees}
-        options={{
-          headerTitle: '주소 찾기',
-          title: '주소 찾기',
           headerTitleAlign: 'center',
         }}
       />

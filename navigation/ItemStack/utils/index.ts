@@ -1,8 +1,8 @@
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
 // about input
 export const InputTitle = styled.TextInput.attrs({
-  placeholderTextColor: "#626262",
+  placeholderTextColor: '#626262',
 })`
   background-color: #f2f2f2;
   height: 50px;
@@ -22,7 +22,7 @@ export const Inputs = styled.View`
   padding: 0 25px;
 `;
 
-//about button
+// about button
 
 export const Button = styled.TouchableOpacity`
   width: 100%;

@@ -10,6 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Main from './HomeStack/Main';
 
 const Stack = createNativeStackNavigator();
+
 const Btn = styled.TouchableOpacity``;
 
 interface HomeProps {

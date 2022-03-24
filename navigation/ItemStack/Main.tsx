@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from 'react-native';
 
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 
-import ItemList from "./components/ItemList";
-
-import DropShadow from "react-native-drop-shadow";
+import DropShadow from 'react-native-drop-shadow';
+import ItemList from './components/ItemList';
 
 const Container = styled.View`
   flex: 1;
@@ -100,19 +99,19 @@ function Main() {
 
       <Btn
         onPress={() => {
-          navigation.navigate("Item", { screen: "Enroll" });
+          navigation.navigate('Item', { screen: 'Enroll' });
         }}
       >
         <DropShadow
           style={{
-            shadowColor: "#171717",
+            shadowColor: '#171717',
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: 0.5,
             shadowRadius: 2,
           }}
         >
           <BtnInstance>
-            <Text style={{ color: "white", fontSize: 18, fontWeight: "600" }}>
+            <Text style={{ color: 'white', fontSize: 18, fontWeight: '600' }}>
               등록하기
             </Text>
           </BtnInstance>

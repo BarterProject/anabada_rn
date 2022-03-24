@@ -1,18 +1,17 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 
-import { Text, View } from "react-native";
-import Checkbox from "expo-checkbox";
+import { Text, View } from 'react-native';
+import Checkbox from 'expo-checkbox';
 
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
 
-import Slide from "./components/Slide";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Slide from './components/Slide';
 
-import { InputTitle, InputContent } from "./utils";
-
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { InputTitle, InputContent } from './utils';
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -73,7 +72,7 @@ function Enroll({
   useEffect(() => {
     setOptions({
       headerBackTitleVisible: false,
-      title: "",
+      title: '',
       headerLeft: () => (
         <Btn
           onPress={() => {
@@ -99,7 +98,7 @@ function Enroll({
             placeholder="설명"
             multiline
             numberOfLines={10}
-            style={{ textAlignVertical: "top" }}
+            style={{ textAlignVertical: 'top' }}
           />
           <InputColumn>
             <ImageText>보증금</ImageText>
@@ -111,7 +110,7 @@ function Enroll({
           </StatusText>
           <InputColumn>
             <ImageText>계약명세서 (더보기)</ImageText>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               <ImageText>동의</ImageText>
               <Checkbox
                 style={{ marginLeft: 10 }}
@@ -121,7 +120,7 @@ function Enroll({
             </View>
           </InputColumn>
           <Button style={{ marginBottom: 20 }}>
-            <Text style={{ color: "white", fontWeight: "600", fontSize: 20 }}>
+            <Text style={{ color: 'white', fontWeight: '600', fontSize: 20 }}>
               등록완료
             </Text>
           </Button>

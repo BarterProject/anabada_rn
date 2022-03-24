@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 import auth from '@react-native-firebase/auth';
-
-import InputFormColumn from './components/InputFormColumn';
+import { useDispatch } from 'react-redux';
+import InputFormColumn from '../AuthStack/components/InputFormColumn';
+import { setPhoneAuthChecked } from '../../slice';
 
 const TouchableButton = styled.TouchableOpacity`
   background-color:#E94057;
@@ -30,9 +31,11 @@ flex:1;
 margin-left: 10%;
 margin-right:10%;
 `;
+
 const Header = styled.View`
   flex:1;
 `;
+
 const Body = styled.View`
   flex:7;
 `;
@@ -50,6 +53,9 @@ export default function PhoneAuth({ route, navigation }:PhoneAuthProps) {
   const [confirm, setConfirm] = useState(null);
   const [code, setCode] = useState('');
   const { phoneNumber } = route.params;
+
+  const dispatch = useDispatch();
+
   async function signInWithPhoneNumber() {
     const confirmation = await auth().signInWithPhoneNumber(`+82${phoneNumber}`);
     setConfirm(confirmation);
@@ -60,6 +66,7 @@ export default function PhoneAuth({ route, navigation }:PhoneAuthProps) {
       const response = await confirm.confirm(code);
       if (response) {
         alert('Phone Auth 성공!');
+        dispatch(setPhoneAuthChecked());
         navigation.goBack();
       }
     } catch (e) {

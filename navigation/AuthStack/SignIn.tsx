@@ -1,3 +1,4 @@
+import { CommonActions } from '@react-navigation/native';
 import React from 'react';
 
 import styled from 'styled-components/native';
@@ -69,12 +70,17 @@ export default function SignIn({ navigation }: SignInProps) {
         </TitleContainer>
       </Header>
       <Body>
-
         <TextInput placeholder="아이디" />
         <TextInput placeholder="비밀번호" />
         <Button
           onPress={() => {
-            navigation.navigate('Home');
+            // navigation.navigate('Home');
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'Home' }],
+              }),
+            );
           }}
         >
           <ButtonText>

@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
-import ItemInstance from "./ItemInstance";
+import ItemInstance from './ItemInstance';
 
 const Container = styled.ScrollView`
   width: 100%;
@@ -18,33 +18,33 @@ const GridItem = styled.View`
 function ItemList() {
   const images = [
     {
-      uri: "https://t1.daumcdn.net/cfile/tistory/995BB63A5BDF9C0F0B",
+      uri: 'https://t1.daumcdn.net/cfile/tistory/995BB63A5BDF9C0F0B',
       connectedUser: 3,
-      status: "normal",
+      status: 'normal',
       passport: false,
     },
     {
-      uri: "http://image.auction.co.kr/itemimage/1a/12/30/1a12307236.jpg",
+      uri: 'http://image.auction.co.kr/itemimage/1a/12/30/1a12307236.jpg',
       connectedUser: 0,
-      status: "stop",
+      status: 'stop',
       passport: true,
     },
     {
-      uri: "http://m.specimen.co.kr/web/product/big/20200331/0f00d0c07403175cd6a4668c1fed3be2.jpg",
+      uri: 'http://m.specimen.co.kr/web/product/big/20200331/0f00d0c07403175cd6a4668c1fed3be2.jpg',
       connectedUser: 1,
-      status: "normal",
+      status: 'normal',
       passport: false,
     },
     {
-      uri: "https://view01.wemep.co.kr/wmp-product/3/450/1711114503/pm_pfrbmxst7e0f.jpg",
+      uri: 'https://view01.wemep.co.kr/wmp-product/3/450/1711114503/pm_pfrbmxst7e0f.jpg',
       connectedUser: 0,
-      status: "enroll",
+      status: 'enroll',
       passport: true,
     },
     {
-      uri: "https://file.mk.co.kr/meet/neds/2021/09/image_readtop_2021_927932_16329132754799395.jpg",
+      uri: 'https://file.mk.co.kr/meet/neds/2021/09/image_readtop_2021_927932_16329132754799395.jpg',
       connectedUser: 0,
-      status: "end",
+      status: 'end',
       passport: false,
     },
   ];
@@ -52,7 +52,7 @@ function ItemList() {
   return (
     <Container
       contentContainerStyle={{
-        justifyContent: "flex-start",
+        justifyContent: 'flex-start',
       }}
     >
       <GridItem>
@@ -61,7 +61,7 @@ function ItemList() {
             uri={image.uri}
             connectedUser={image.connectedUser}
             status={image.status}
-            clickable={true}
+            clickable
             width={33}
             passport={image.passport}
           />

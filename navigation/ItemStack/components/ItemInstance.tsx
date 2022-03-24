@@ -1,18 +1,20 @@
-import React from "react";
-import { Dimensions, TouchableOpacity, Text, Platform } from "react-native";
+import React from 'react';
+import {
+  Dimensions, TouchableOpacity, Text, Platform,
+} from 'react-native';
 
-import styled from "styled-components/native";
+import styled from 'styled-components/native';
 
-import { BlurView } from "expo-blur";
-import DropShadow from "react-native-drop-shadow";
-import { useNavigation } from "@react-navigation/native";
+import { BlurView } from 'expo-blur';
+import DropShadow from 'react-native-drop-shadow';
+import { useNavigation } from '@react-navigation/native';
 
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
+import { Ionicons } from '@expo/vector-icons';
 
-import { Ionicons } from "@expo/vector-icons";
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const Container = styled.View<{ width: number }>`
-  width: ${(props) => props.width + "%"};
+  width: ${(props) => `${props.width}%`};
   height: 123px;
   flex-shrink: 0;
   padding: 7px;
@@ -47,7 +49,7 @@ const AndroidStatus = styled.View`
   opacity: 0.8;
 `;
 
-const ItemInstance = ({
+function ItemInstance({
   uri,
   connectedUser,
   status,
@@ -61,16 +63,16 @@ const ItemInstance = ({
   clickable: boolean;
   width: number;
   passport: boolean;
-}) => {
+}) {
   const { navigate } = useNavigation();
 
   return (
     <Container width={width}>
       <TouchableOpacity
         onPress={() => {
-          clickable &&
-            navigate("Item", {
-              screen: "Detail",
+          clickable
+            && navigate('Item', {
+              screen: 'Detail',
               params: {
                 uri,
               },
@@ -79,7 +81,7 @@ const ItemInstance = ({
       >
         <DropShadow
           style={{
-            shadowColor: "#171717",
+            shadowColor: '#171717',
             shadowOffset: { width: 0, height: 3 },
             shadowOpacity: 0.25,
             shadowRadius: 2,
@@ -93,27 +95,27 @@ const ItemInstance = ({
             imageStyle={{ borderRadius: 25 }}
           >
             {passport ? (
-              <Badge style={{ position: "absolute", top: -5, left: -5 }}>
+              <Badge style={{ position: 'absolute', top: -5, left: -5 }}>
                 <Ionicons
                   size={13}
                   name="rocket-outline"
-                  style={{ color: "white" }}
+                  style={{ color: 'white' }}
                 />
               </Badge>
             ) : connectedUser === 0 ? null : (
-              <Badge style={{ position: "absolute", top: -5, left: -5 }}>
-                <Text style={{ fontSize: 13, color: "white" }}>
+              <Badge style={{ position: 'absolute', top: -5, left: -5 }}>
+                <Text style={{ fontSize: 13, color: 'white' }}>
                   {connectedUser}
                 </Text>
               </Badge>
             )}
-            {status === "normal" ? null : Platform.OS === "ios" ? (
+            {status === 'normal' ? null : Platform.OS === 'ios' ? (
               <BlurView
                 intensity={20}
                 style={{
                   height: 30,
-                  justifyContent: "center",
-                  alignItems: "center",
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
                 <Status>{status}</Status>
@@ -128,6 +130,6 @@ const ItemInstance = ({
       </TouchableOpacity>
     </Container>
   );
-};
+}
 
 export default ItemInstance;
