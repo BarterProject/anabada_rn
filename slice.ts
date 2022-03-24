@@ -32,7 +32,7 @@ const { actions, reducer } = createSlice({
         address: '',
         addressDetail: '',
       },
-      accountNumber:''
+      accountNumber: '',
     },
   },
   reducers: {
@@ -65,17 +65,17 @@ const { actions, reducer } = createSlice({
           ...state.signUpField.addressinfo,
           zonecode,
           address,
-          addressDetail
+          addressDetail,
         },
       },
     }),
-    setAccountNumber: (state, {payload:{accountNumber}})=>({
+    setAccountNumber: (state, { payload: { accountNumber } }) => ({
       ...state,
-      signUpField:{
+      signUpField: {
         ...state.signUpField,
-        accountNumber
-      }
-    })
+        accountNumber,
+      },
+    }),
   },
 });
 
@@ -84,7 +84,7 @@ export const {
   setPasswordForSigingUp,
   setPhoneAuthChecked,
   setAddressinfo,
-  setAccountNumber
+  setAccountNumber,
 } = actions;
 
 export default reducer;

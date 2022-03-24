@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons';
 import Main from './ItemStack/Main';
+import ItemDetail from './ItemStack/ItemDetail';
 import Enroll from './ItemStack/Enroll';
 
 const Stack = createNativeStackNavigator();
@@ -61,10 +62,12 @@ export default function Home() {
         contentStyle: {
           backgroundColor: 'white',
         },
+        headerShadowVisible: false,
       }}
     >
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Enroll" component={Enroll} />
+      <Stack.Screen name="Detail" component={ItemDetail} />
     </Stack.Navigator>
   );
 }

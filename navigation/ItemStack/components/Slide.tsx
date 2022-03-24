@@ -55,7 +55,7 @@ function Slide() {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        aspect: [3, 4],
+        aspect: [4, 4],
         quality: 1,
       });
       if (!result.cancelled) {
