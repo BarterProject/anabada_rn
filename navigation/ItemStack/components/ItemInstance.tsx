@@ -5,11 +5,14 @@ import styled from "styled-components/native";
 
 import { BlurView } from "expo-blur";
 import DropShadow from "react-native-drop-shadow";
+import { useNavigation } from "@react-navigation/native";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-console.log(SCREEN_WIDTH);
-const Container = styled.View`
-  width: 33%;
+
+import { Ionicons } from "@expo/vector-icons";
+
+const Container = styled.View<{ width: number }>`
+  width: ${(props) => props.width + "%"};
   height: 123px;
   flex-shrink: 0;
   padding: 7px;
@@ -48,14 +51,32 @@ const ItemInstance = ({
   uri,
   connectedUser,
   status,
+  clickable,
+  width,
+  passport,
 }: {
   uri: string;
   connectedUser: number;
   status: string;
+  clickable: boolean;
+  width: number;
+  passport: boolean;
 }) => {
+  const { navigate } = useNavigation();
+
   return (
-    <Container>
-      <TouchableOpacity>
+    <Container width={width}>
+      <TouchableOpacity
+        onPress={() => {
+          clickable &&
+            navigate("Item", {
+              screen: "Detail",
+              params: {
+                uri,
+              },
+            });
+        }}
+      >
         <DropShadow
           style={{
             shadowColor: "#171717",
@@ -71,9 +92,19 @@ const ItemInstance = ({
             resizeMode="cover"
             imageStyle={{ borderRadius: 25 }}
           >
-            {connectedUser === 0 ? null : (
+            {passport ? (
               <Badge style={{ position: "absolute", top: -5, left: -5 }}>
-                <Text style={{ fontSize: 13, color: "white" }}>2</Text>
+                <Ionicons
+                  size={13}
+                  name="rocket-outline"
+                  style={{ color: "white" }}
+                />
+              </Badge>
+            ) : connectedUser === 0 ? null : (
+              <Badge style={{ position: "absolute", top: -5, left: -5 }}>
+                <Text style={{ fontSize: 13, color: "white" }}>
+                  {connectedUser}
+                </Text>
               </Badge>
             )}
             {status === "normal" ? null : Platform.OS === "ios" ? (

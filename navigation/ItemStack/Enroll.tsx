@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 
-import { Text, View, Platform } from "react-native";
+import { Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
 
 import styled from "styled-components/native";
@@ -9,6 +9,9 @@ import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 
 import Slide from "./components/Slide";
+
+import { InputTitle, InputContent } from "./utils";
+
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Container = styled.ScrollView`
@@ -21,23 +24,6 @@ const Btn = styled.TouchableOpacity``;
 
 const Inputs = styled.View`
   padding: 0 25px;
-`;
-
-const InputTitle = styled.TextInput.attrs({
-  placeholderTextColor: "#626262",
-})`
-  background-color: #f2f2f2;
-  height: 50px;
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  padding: 10px 15px;
-`;
-
-const InputContent = styled(InputTitle)`
-  height: 150px;
-  padding-top: 15px;
-  margin: 0;
 `;
 
 const InputColumn = styled.View`
@@ -65,7 +51,7 @@ const StatusText = styled.Text`
   font-size: 20px;
 `;
 
-const AgreeBtn = styled.TouchableOpacity`
+const Button = styled.TouchableOpacity`
   width: 100%;
   height: 50px;
   padding: 5px;
@@ -108,7 +94,7 @@ function Enroll({
       <Container>
         <Slide />
         <Inputs>
-          <InputTitle placeholder="제품며ㅇ" />
+          <InputTitle placeholder="제품명" />
           <InputContent
             placeholder="설명"
             multiline
@@ -134,11 +120,11 @@ function Enroll({
               />
             </View>
           </InputColumn>
-          <AgreeBtn>
+          <Button style={{ marginBottom: 20 }}>
             <Text style={{ color: "white", fontWeight: "600", fontSize: 20 }}>
               등록완료
             </Text>
-          </AgreeBtn>
+          </Button>
         </Inputs>
       </Container>
     </KeyboardAwareScrollView>
