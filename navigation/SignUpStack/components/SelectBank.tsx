@@ -29,22 +29,19 @@ const pickerSelectStyles = StyleSheet.create({
 
 export default function SelectBank() {
   const [bank, setBank] = useState('국민');
-  // const items = [
-  //   { label: '국민', value: '국민' },
-  //   { label: '우리', value: '우리' },
-  //   { label: '신한', value: '신한' },
-  // ];
+  const items = [
+    { label: '국민', value: '국민' },
+    { label: '우리', value: '우리' },
+    { label: '신한', value: '신한' },
+  ];
   return (
     <RNPickerSelect
-      placeholder="은행"
+      // placeholder="은행"
       onValueChange={(value) => { setBank(value); }}
       style={pickerSelectStyles}
       value={bank}
-      items={[
-        { label: '국민', value: '국민' },
-        { label: '우리', value: '우리' },
-        { label: '신한', value: '신한' },
-      ]}
+      placeholder={{ label: '카카오' }}
+      items={items}
     />
   );
 }
