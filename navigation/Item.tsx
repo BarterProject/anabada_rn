@@ -24,7 +24,7 @@ const Badge = styled.View`
 `;
 const Btn = styled.TouchableOpacity``;
 
-export default function Home() {
+export default function Item() {
   const navigation = useNavigation();
 
   return (

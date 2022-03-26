@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { Ionicons } from '@expo/vector-icons';
 import Main from './HomeStack/Main';
+import Item from './Item';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,7 @@ export default function Home({ navigation }:HomeProps) {
       }}
     >
       <Stack.Screen name="Main" component={Main} />
+      <Stack.Screen name="Item" component={Item} />
     </Stack.Navigator>
   );
 }
