@@ -2,12 +2,20 @@ import React from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import Auth from './Auth';
+import { NavigatorScreenParams } from '@react-navigation/native';
+import Auth, { AuthStackParamList } from './Auth';
 import Home from './Home';
 import Alarm from './Alarm';
 import Item from './Item';
 
-const Nav = createNativeStackNavigator();
+export type RootStackParamList = {
+  Auth: NavigatorScreenParams<AuthStackParamList>;
+  Home: undefined;
+  Alarm: undefined;
+  Item:undefined;
+};
+
+const Nav = createNativeStackNavigator<RootStackParamList>();
 
 function Root() {
   return (

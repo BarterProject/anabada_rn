@@ -4,8 +4,10 @@ import styled from 'styled-components/native';
 
 import auth from '@react-native-firebase/auth';
 import { useDispatch } from 'react-redux';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import InputFormColumn from '../AuthStack/components/InputFormColumn';
 import { setPhoneAuthChecked } from '../../slice';
+import { AuthStackParamList } from '../Auth';
 
 const TouchableButton = styled.TouchableOpacity`
   background-color:#E94057;
@@ -44,10 +46,7 @@ const ButtonContainer = styled.View`
   align-items:flex-end;
 `;
 
-interface PhoneAuthProps {
-  route:any;
-  navigation:any;
-}
+type PhoneAuthProps = NativeStackScreenProps<AuthStackParamList, 'PhoneAuth'>
 
 export default function PhoneAuth({ route, navigation }:PhoneAuthProps) {
   const [confirm, setConfirm] = useState(null);

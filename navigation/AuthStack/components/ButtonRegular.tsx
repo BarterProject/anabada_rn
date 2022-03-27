@@ -1,7 +1,9 @@
 import React from 'react';
-import { Alert } from 'react-native';
+
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import styled from 'styled-components/native';
+import { RootStackParamList } from '../../Root';
 
 const TouchableButton = styled.TouchableOpacity`
   background-color:#E94057;
@@ -22,9 +24,10 @@ const ButtonText = styled.Text`
   color: #FFFFFF;
 `;
 
-interface ButtonProps{
-  navigation:any,
-  to:string,
+type Props = NativeStackScreenProps<RootStackParamList>
+
+interface ButtonProps extends Props{
+  to: 'Main'|'SignIn'|'SignUp'|'PhoneAuth'|'SearchAddress',
   text:string
 }
 
@@ -34,7 +37,6 @@ export default function ButtonRegular(
   return (
     <TouchableButton
       onPress={() => {
-        Alert.alert('Clicked!');
         navigation.navigate('Auth', {
           screen: to,
         });
