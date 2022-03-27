@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { postLogin, postSignup } from './api';
 
 export type initialStateProps ={
     signUpField: {
@@ -13,6 +14,9 @@ export type initialStateProps ={
       },
       accountNumber:string
     },
+    userState:{
+      accessToken:string
+    }
 }
 
 export type stateProps= {
@@ -33,6 +37,9 @@ const { actions, reducer } = createSlice({
         addressDetail: '',
       },
       accountNumber: '',
+    },
+    userState: {
+      accessToken: '',
     },
   },
   reducers: {
@@ -76,6 +83,14 @@ const { actions, reducer } = createSlice({
         accountNumber,
       },
     }),
+    setAccessToken: (state, { payload: accessToken }) => ({
+      ...state,
+      userState: {
+        ...state.userState,
+        accessToken,
+      },
+
+    }),
   },
 });
 
@@ -85,6 +100,37 @@ export const {
   setPhoneAuthChecked,
   setAddressinfo,
   setAccountNumber,
+  setAccessToken,
 } = actions;
+
+export function requestSignUp() {
+  return async (dispatch, getState) => {
+    const { loginFields: { email, password } } = getState();
+    try {
+      const accessToken = await postSignup({ email, password });
+
+      // saveItem('accessToken', accessToken);
+
+      dispatch(setAccessToken(accessToken));
+    } catch (error) {
+      dispatch(setAccessToken(''));
+    }
+  };
+}
+
+export function requestLogin() {
+  return async (dispatch, getState) => {
+    const { loginFields: { email, password } } = getState();
+    try {
+      const accessToken = await postLogin({ email, password });
+
+      // saveItem('accessToken', accessToken);
+
+      dispatch(setAccessToken(accessToken));
+    } catch (error) {
+      dispatch(setAccessToken(''));
+    }
+  };
+}
 
 export default reducer;

@@ -44,7 +44,8 @@ module.exports = {
     ],
     'global-require': 0,
     'import/no-unresolved': ['error'],
-    'linebreak-style': ['error', 'windows'],
+    // 'linebreak-style': ['error', 'windows'],
+    'linebreak-style': 0,
     allowTemplateLiterals: 0,
   },
 };
