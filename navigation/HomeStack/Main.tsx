@@ -63,10 +63,6 @@ const ButtonTextContainer = styled.View`
   align-items:center;
 `;
 
-const Btn = styled.TouchableOpacity``;
-
-const Message = styled.Text``;
-
 const CardContainer = styled.View`
   flex:1;
   /* background-color:red; */
@@ -151,8 +147,24 @@ function Main() {
       POSITION.flattenOffset();
     });
   };
-  const onPressIn = () => { Animated.spring(scale, { toValue: 0.95, useNativeDriver: true }).start(); };
-  const onPressOut = () => { Animated.spring(scale, { toValue: 1, useNativeDriver: true }).start(); };
+  const onPressIn = () => {
+    Animated.spring(
+      scale,
+      {
+        toValue: 0.95,
+        useNativeDriver: true,
+      },
+    ).start();
+  };
+  const onPressOut = () => {
+    Animated.spring(
+      scale,
+      {
+        toValue: 1,
+        useNativeDriver: true,
+      },
+    ).start();
+  };
 
   const panResponder = useRef(
     PanResponder.create({

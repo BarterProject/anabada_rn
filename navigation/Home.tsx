@@ -4,9 +4,10 @@ import { Text, View } from 'react-native';
 
 import styled from 'styled-components/native';
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { Ionicons } from '@expo/vector-icons';
+import { NavigatorScreenParams } from '@react-navigation/native';
 import Main from './HomeStack/Main';
 import Item from './Item';
 
@@ -14,11 +15,19 @@ const Stack = createNativeStackNavigator();
 
 const Btn = styled.TouchableOpacity``;
 
-interface HomeProps {
-  navigation : any;
+type AlarmStackParamList={
+  Main:undefined,
 }
 
-export default function Home({ navigation }:HomeProps) {
+type RootStackParamList = {
+  Main: undefined;
+  Item: undefined;
+  Alarm: NavigatorScreenParams<AlarmStackParamList>
+};
+
+type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
+
+export default function Home({ navigation }:HomeScreenProps) {
   return (
     <Stack.Navigator
       initialRouteName="Main"

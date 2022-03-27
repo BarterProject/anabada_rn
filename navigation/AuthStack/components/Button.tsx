@@ -1,6 +1,9 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 
 import styled from 'styled-components/native';
+
+import { RootStackParamList } from '../../Root';
 
 const TouchableButton = styled.TouchableOpacity`
   background-color:#E94057;
@@ -21,10 +24,12 @@ const ButtonText = styled.Text`
   color: #FFFFFF;
 `;
 
-interface ButtonProps{
-  navigation:any,
-  to:string,
-  text:string
+type Props = NativeStackScreenProps<RootStackParamList>
+
+interface ButtonProps extends Props{
+  to: 'Main'|'SignIn'|'SignUp'|'PhoneAuth'|'SearchAddress',
+  text:string,
+  // route?:any,
 }
 
 export default function Button(

@@ -1,7 +1,9 @@
 import { CommonActions } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 
 import styled from 'styled-components/native';
+import { AuthStackParamList } from '../Auth';
 
 const Container = styled.View`
   flex:1;
@@ -57,9 +59,8 @@ const Body = styled.View`
   flex:2;
   bottom:30px;
 `;
-interface SignInProps {
-  navigation: any;
-}
+
+type SignInProps = NativeStackScreenProps<AuthStackParamList, 'PhoneAuth'>
 
 export default function SignIn({ navigation }: SignInProps) {
   return (
@@ -74,7 +75,6 @@ export default function SignIn({ navigation }: SignInProps) {
         <TextInput placeholder="비밀번호" />
         <Button
           onPress={() => {
-            // navigation.navigate('Home');
             navigation.dispatch(
               CommonActions.reset({
                 index: 0,

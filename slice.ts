@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type stateProps= {
-  name: string,
-  initialsState: initialStateProps
-}
-
 export type initialStateProps ={
     signUpField: {
       id: string,
@@ -18,6 +13,11 @@ export type initialStateProps ={
       },
       accountNumber:string
     },
+}
+
+export type stateProps= {
+  name: string,
+  initialsState: initialStateProps
 }
 
 const { actions, reducer } = createSlice({
