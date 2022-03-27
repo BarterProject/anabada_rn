@@ -11,8 +11,8 @@ export async function postLogin({ email, password }) {
     body: JSON.stringify({ email, password }),
   }).then((res) => (res.json()))
     .catch(() => ({ jwt: 'err' }));
-    
-  const {accessToken} = data
+
+  const { accessToken } = data;
 
   return accessToken;
 }
@@ -20,7 +20,7 @@ export async function postLogin({ email, password }) {
 //   export async function postSignup({ email, username, password }) {
 export async function postSignup(userInfo) {
   const url = `${BASE_URL}/api/member`;
-  
+
   const {
     email,
     password,
@@ -45,7 +45,7 @@ export async function postSignup(userInfo) {
     }),
   }).then((res) => (res.json())).catch(() => ({ jwt: 'err' }));
 
-  const {accessToken} = data
+  const { accessToken } = data;
 
   return accessToken;
 }
