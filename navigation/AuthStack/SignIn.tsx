@@ -1,8 +1,12 @@
 import { CommonActions } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
+import {
+  initialStateProps, requestLogin, setIdForSigningIn, setPasswordForSigingIn,
+} from '../../slice';
 import { AuthStackParamList } from '../Auth';
 
 const Container = styled.View`
@@ -63,6 +67,45 @@ const Body = styled.View`
 type SignInProps = NativeStackScreenProps<AuthStackParamList, 'PhoneAuth'>
 
 export default function SignIn({ navigation }: SignInProps) {
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+
+  const {
+    accessToken,
+  } = useSelector(
+    (state:initialStateProps) => ({
+      accessToken: state.userState.accessToken,
+    }),
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('로그인 스크린 리렌더 accessToken', accessToken);
+    if (accessToken === '' || accessToken === undefined) {
+      console.log('accessToken의 값이 없습니다.');
+      return;
+    }
+    if (accessToken === 'err') {
+      console.log('accessToken의 값이 에러가 뜹니다..');
+      alert('아이디/비밀번호를 다시 확인해주세요');
+    } else {
+      console.log('accessToken의 값이 감지가 되어 로그인됩니다.');
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        }),
+      );
+    }
+  }, [accessToken]);
+  const handleSubmit = () => {
+    console.log('로그인을 눌렀습니다.');
+    dispatch(setIdForSigningIn(id));
+    dispatch(setPasswordForSigingIn(password));
+    dispatch(requestLogin());
+    // alert(`accessToken${accessToken}`);
+  };
   return (
     <Container>
       <Header>
@@ -71,17 +114,10 @@ export default function SignIn({ navigation }: SignInProps) {
         </TitleContainer>
       </Header>
       <Body>
-        <TextInput placeholder="아이디" />
-        <TextInput placeholder="비밀번호" />
+        <TextInput onChangeText={(text) => { setId(text); }} placeholder="아이디" />
+        <TextInput onChangeText={(text) => { setPassword(text); }} placeholder="비밀번호" />
         <Button
-          onPress={() => {
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [{ name: 'Home' }],
-              }),
-            );
-          }}
+          onPress={handleSubmit}
         >
           <ButtonText>
             로그인
