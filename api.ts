@@ -1,25 +1,27 @@
 import { BASE_URL } from '@env';
 
-export async function postLogin({ email, password }) {
-  const url = `${BASE_URL}/user/authentication`;
-
+export async function postLogin({ id, password }) {
+  // const url = 'http://146.56.36.179:8080/api/user/authentication';
+  const url = `${BASE_URL}/api/user/authentication`;
+  console.log('postLogin진입');
   const data = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email: id, password }),
   }).then((res) => (res.json()))
-    .catch(() => ({ jwt: 'err' }));
-
-  const { accessToken } = data;
-
-  return accessToken;
+    .catch((err) => {
+      console.log(err);
+      return { jwt: 'err' };
+    });
+  return data;
 }
 
 //   export async function postSignup({ email, username, password }) {
 export async function postSignup(userInfo) {
-  const url = `${BASE_URL}/api/member`;
+  const url = `${BASE_URL}/api/user`;
+  console.log('postSignup진입');
 
   const {
     email,
@@ -43,9 +45,13 @@ export async function postSignup(userInfo) {
       bankAccount,
       bankKind,
     }),
-  }).then((res) => (res.json())).catch(() => ({ jwt: 'err' }));
+  }).then((res) => (res.json()))
+    .catch((err) => {
+      console.log(err);
+      return { jwt: 'err' };
+    });
+  // const { jwt } = data;
+  // console.log(`postSignup 아웃풋 : ${jwt}`);
 
-  const { accessToken } = data;
-
-  return accessToken;
+  return data;
 }
