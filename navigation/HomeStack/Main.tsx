@@ -82,8 +82,8 @@ const AnimatedCard = styled(Animated.createAnimatedComponent(View))`
   border-radius:12px;
 `;
 
-function Main() {
-  const navigation = useNavigation();
+function Main({ navigation }) {
+  // const navigation = useNavigation();
 
   const scale = useRef(new Animated.Value(1)).current;
   const POSITION = useRef(new Animated.Value(0)).current;
@@ -253,7 +253,11 @@ function Main() {
               shadowRadius: 2,
             }}
           >
-            <CircleButton>
+            <CircleButton
+              onPress={() => {
+                navigation.navigate('Configure');
+              }}
+            >
               <ButtonTextContainer>
                 <ButtonText>
                   <Ionicons name="ios-settings-outline" size={45} />
