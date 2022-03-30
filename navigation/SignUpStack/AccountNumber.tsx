@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { Text } from 'react-native';
-
 import styled from 'styled-components/native';
 
+import { useDispatch, useSelector } from 'react-redux';
 import SelectBank from './components/SelectBank';
-import ButtonFit from './components/ButtonFit';
-import { setAccountNumber } from '../../slice';
+
+import { initialStateProps, setAccountNumber } from '../../slice';
 
 const Container = styled.View`
     flex: 1;
@@ -39,18 +38,48 @@ const TextInput = styled.TextInput`
   padding-left:20px;
 `;
 
-export default function AccountNumber() {
+const ButtonText = styled.Text`
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 27px;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+`;
+
+const TouchableButton = styled.TouchableOpacity`
+  background-color:#E94057;
+  height: 43px;
+  width: 100%;
+  border-radius: 15px;
+  justify-content:center;
+  align-items:center;
+  color: white;
+  /* margin:5px; */
+  margin-top:30px;
+`;
+
+export default function AccountNumber({ navigation }) {
+  const { bankName } = useSelector((state:initialStateProps) => ({
+    bankName: state.signUpField.bankName,
+  }));
   const [account, setAccount] = useState('');
+  const [isCompleted, setCompleted] = useState(false);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    setAccountNumber(account);
-  }, [account]);
+    console.log(bankName, account);
+    if (bankName !== null && account.length > 11) {
+      console.log('true');
+      setCompleted(true);
+    } else {
+      console.log('false');
+      setCompleted(false);
+    }
+  }, [bankName, account]);
 
   return (
     <Container>
       <Form>
-        <Text>
-          AccountNumber
-        </Text>
         <AccountContainer>
           <Title>보증금 반환 계좌</Title>
           <SelectBank />
@@ -59,10 +88,27 @@ export default function AccountNumber() {
             onChangeText={(text) => { setAccount(text); }}
           />
         </AccountContainer>
-        <ButtonFit
+        {/* <ButtonFit
           to="Success"
           text="next"
-        />
+        /> */}
+
+        <TouchableButton
+          style={{
+            opacity: isCompleted ? 1 : 0.5,
+            // opacity: 0.5,
+          }}
+          disabled={!isCompleted}
+          onPress={() => {
+            dispatch(setAccountNumber(account));
+            navigation.navigate('Success');
+          }}
+        >
+          <ButtonText>
+            계좌 입력 완료
+          </ButtonText>
+        </TouchableButton>
+
       </Form>
     </Container>
   );
