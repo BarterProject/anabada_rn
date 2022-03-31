@@ -1,37 +1,36 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+
 import React, { useRef, useState } from 'react';
 
 import {
-  Animated, PanResponder, Text, View,
+  Animated, PanResponder, View,
 } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
 
 import styled from 'styled-components/native';
+import Card from './components/Card';
 
 const Container = styled.View`
-  /* align-items: center;
-  justify-content: center; */
   flex:1;
 `;
-// const Header = styled.View`
-//   flex:1;
-//   background-color:red;
-// `
+
 const Body = styled.View`
   flex:10;
   background-color:skyblue;
 `;
+
 const NavBar = styled.View`
   flex:2;
   background-color:pink;
 `;
+
 const CircleButton = styled.TouchableOpacity`
   width:70px;
   height:70px;
   border-radius:35px;
   background-color:white;
 `;
+
 const CenterButton = styled.TouchableOpacity`
   width:100px;
   height:100px;
@@ -48,7 +47,6 @@ const NavBarButtonsConatainer = styled.View`
   padding-left:20px;
   padding-right:20px;
   top:-30px;
-  /* align-content:center; */
 `;
 
 const ButtonText = styled.Text`
@@ -57,7 +55,6 @@ const ButtonText = styled.Text`
 `;
 
 const ButtonTextContainer = styled.View`
-  /* justify-content:center; */
   flex:1;
   justify-content:center;
   align-items:center;
@@ -75,9 +72,6 @@ const AnimatedCard = styled(Animated.createAnimatedComponent(View))`
   position:absolute;
   width:100%;
   height:100%;
-  /* flex:1; */
-  justify-content:center;
-  align-items:center;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.2); 
   border-radius:12px;
 `;
@@ -118,6 +112,7 @@ function Main({ navigation }) {
       // POSITION.flattenOffset()
     });
   };
+
   const bounceTotheRightOut = () => {
     // console.log('bounceTotheRightOut start POSITION', POSITION)
     Animated.spring(POSITION, {
@@ -203,11 +198,6 @@ function Main({ navigation }) {
   ).current;
   return (
     <Container>
-      {/* <Header>
-        <HeaderText>
-          레드클립
-        </HeaderText>
-      </Header> */}
       <Body>
         <CardContainer>
           <AnimatedCard
@@ -215,15 +205,10 @@ function Main({ navigation }) {
               transform: [{ scale: secondScale }],
             }}
           >
-            <Text
-              style={{
-                fontSize: 80,
-                fontWeight: '900',
-              }}
-            >
-              {index + 1}
-            </Text>
-            {/* <Ionicons name="open" size={98} /> */}
+            <Card
+              index={index + 1}
+              text="이름"
+            />
           </AnimatedCard>
           <AnimatedCard
             {...panResponder.panHandlers}
@@ -231,15 +216,10 @@ function Main({ navigation }) {
               transform: [{ scale }, { translateX: POSITION }, { rotateZ: rotation }],
             }}
           >
-            <Text
-              style={{
-                fontSize: 80,
-                fontWeight: '900',
-              }}
-            >
-              {index}
-            </Text>
-            {/* <Ionicons name="pizza" size={98} /> */}
+            <Card
+              index={index}
+              text="이름"
+            />
           </AnimatedCard>
         </CardContainer>
       </Body>

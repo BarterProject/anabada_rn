@@ -11,6 +11,7 @@ import { NavigatorScreenParams } from '@react-navigation/native';
 import Main from './HomeStack/Main';
 import Item from './Item';
 import Configure from './Configure';
+import ItemDetail from './HomeStack/ItemDetail';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,10 +21,11 @@ type AlarmStackParamList={
   Main:undefined,
 }
 
-type RootStackParamList = {
+export type RootStackParamList = {
   Main: undefined;
   Item: undefined;
   Alarm: NavigatorScreenParams<AlarmStackParamList>
+  ItemDetail:undefined;
 };
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
@@ -62,6 +64,7 @@ export default function Home({ navigation }:HomeScreenProps) {
           headerShown: false,
         }}
       />
+      <Stack.Screen name="ItemDetail" component={ItemDetail} />
       <Stack.Screen name="Item" component={Item} />
     </Stack.Navigator>
   );
