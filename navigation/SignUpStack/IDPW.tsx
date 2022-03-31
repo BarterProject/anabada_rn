@@ -51,20 +51,30 @@ export default function IDPW({ navigation }:IDPWProps) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
+  const [isCompleted, setCompleted] = useState(false);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(setIdForSigningUp(id));
     dispatch(setPasswordForSigingUp(password));
-  }, [id, password]);
+    if (id.length > 5 && password.length > 5 && password === password2) {
+      setCompleted(true);
+    }
+  }, [id, password === password2]);
 
   return (
     <Container>
       <Form>
-        <InputFormRow title="아이디" placeholder="" setText={setId} />
-        <InputFormRowSecrue title="비밀번호" placeholder="" setText={setPassword} />
+        <InputFormRow title="아이디" placeholder="6자리 이상" setText={setId} />
+        <InputFormRowSecrue title="비밀번호" placeholder="6자리 이상" setText={setPassword} />
         <InputFormRowSecrue title="" placeholder="비밀번호 확인" setText={setPassword2} />
         <TouchableButton
+          style={{
+            opacity: isCompleted ? 1 : 0.5,
+            // opacity: 0.5,
+          }}
+          disabled={!isCompleted}
           onPress={() => {
             // 중복되면 안넘어감
             // 비밀번호 다르면 안넘어감

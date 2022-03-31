@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import styled from 'styled-components/native';
 
 import { AntDesign } from '@expo/vector-icons';
 
-import ButtonFit from './components/ButtonFit';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { CommonActions } from '@react-navigation/native';
+import { AuthStackParamList } from '../Auth';
+import { initialStateProps, requestSignUp } from '../../slice';
+
+// import { useSelector } from 'react-redux';
 
 const Container = styled.View`
     flex: 1;
@@ -34,8 +41,41 @@ const Footer = styled.View`
   padding-right:5px;
 `;
 
-export default function Success() {
-  // 토큰 생성해서 redux에 저장
+const TouchableButton = styled.TouchableOpacity`
+    background-color:#E94057;
+    height: 43px;
+    width: 100%;
+    border-radius: 15px;
+    justify-content:center;
+    align-items:center;
+    color: white;
+    /* margin:5px; */
+    margin-top:30px;
+  `;
+
+const ButtonText = styled.Text`
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 27px;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+`;
+
+type SuccessProps = NativeStackScreenProps<AuthStackParamList, 'SignUp'>
+
+export default function Success({ navigation }:SuccessProps) {
+  const { signUpField } = useSelector((state:initialStateProps) => ({
+    signUpField: state.signUpField,
+  }));
+
+  console.log('Success의 signUpField:', signUpField);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(requestSignUp());
+  }, []);
+
   return (
     <Container>
 
@@ -51,10 +91,26 @@ export default function Success() {
         </Text>
       </Body>
       <Footer>
-        <ButtonFit
+        {/* <ButtonFit
           text="들어가기"
           to="SignIn"
-        />
+        /> */}
+        <TouchableButton
+          onPress={() => {
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'SignIn' }],
+              }),
+            );
+            // navigation.navigate('SignIn');
+          }}
+        >
+          <ButtonText>
+            가입완료
+          </ButtonText>
+        </TouchableButton>
+
       </Footer>
     </Container>
   );

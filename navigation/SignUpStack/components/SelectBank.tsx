@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 
 import RNPickerSelect from 'react-native-picker-select';
+import { useDispatch } from 'react-redux';
+import { setBankName } from '../../../slice';
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
@@ -29,18 +31,22 @@ const pickerSelectStyles = StyleSheet.create({
 
 export default function SelectBank() {
   const [bank, setBank] = useState('국민');
+  const dispatch = useDispatch();
   const items = [
+    { label: '카카오', value: '카카오' },
     { label: '국민', value: '국민' },
     { label: '우리', value: '우리' },
     { label: '신한', value: '신한' },
   ];
   return (
     <RNPickerSelect
-      // placeholder="은행"
-      onValueChange={(value) => { setBank(value); }}
+      onValueChange={(value) => {
+        setBank(value);
+        dispatch(setBankName(value));
+      }}
       style={pickerSelectStyles}
       value={bank}
-      placeholder={{ label: '카카오' }}
+      // placeholder={{ label: '국민' }}
       items={items}
     />
   );

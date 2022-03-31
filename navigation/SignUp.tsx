@@ -10,6 +10,16 @@ import Success from './SignUpStack/Success';
 import PhoneAuth from './SignUpStack/PhoneAuth';
 import SearchAddress from './SignUpStack/SearchAddress';
 
+export type SignUpStackParamList = {
+  IDPW: undefined;
+  PhoneNumber: undefined;
+  PhoneAuth: undefined;
+  Address: undefined;
+  SearchAddress: undefined;
+  AccountNumber: undefined;
+  Success: undefined;
+};
+
 export default function SignUp() {
   const Stack = createNativeStackNavigator();
 

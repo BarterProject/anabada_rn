@@ -64,12 +64,10 @@ export default function PhoneAuth({ route, navigation }:PhoneAuthProps) {
     try {
       const response = await confirm.confirm(code);
       if (response) {
-        alert('Phone Auth 성공!');
         dispatch(setPhoneAuthChecked());
         navigation.goBack();
       }
     } catch (e) {
-      console.log(e);
       alert(JSON.stringify(e));
     }
   }

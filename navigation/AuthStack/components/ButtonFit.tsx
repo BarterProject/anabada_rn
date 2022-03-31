@@ -5,7 +5,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import styled from 'styled-components/native';
 import { RootStackParamList } from '../../Root';
 
-const TouchableButton = styled.TouchableOpacity`
+export const TouchableButton = styled.TouchableOpacity`
   background-color:#E94057;
   height: 43px;
   width: 100%;
@@ -17,7 +17,7 @@ const TouchableButton = styled.TouchableOpacity`
   margin-top:30px;
 `;
 
-const ButtonText = styled.Text`
+export const ButtonText = styled.Text`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;

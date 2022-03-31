@@ -10,6 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import Main from './HomeStack/Main';
 import Item from './Item';
+import Configure from './Configure';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +55,13 @@ export default function Home({ navigation }:HomeScreenProps) {
       }}
     >
       <Stack.Screen name="Main" component={Main} />
+      <Stack.Screen
+        name="Configure"
+        component={Configure}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen name="Item" component={Item} />
     </Stack.Navigator>
   );
