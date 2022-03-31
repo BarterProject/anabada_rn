@@ -65,7 +65,13 @@ export default function Home({ navigation }:HomeScreenProps) {
         }}
       />
       <Stack.Screen name="ItemDetail" component={ItemDetail} />
-      <Stack.Screen name="Item" component={Item} />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Item"
+        component={Item}
+      />
     </Stack.Navigator>
   );
 }
