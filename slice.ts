@@ -199,6 +199,7 @@ export function requestLogin() {
     const { signInField: { id, password } } = getState();
 
     try {
+      console.log(id, password);
       const data = await postLogin({ id, password });
 
       const { message, jwt } = data;
@@ -208,7 +209,7 @@ export function requestLogin() {
         dispatch(setAccessToken(jwt));
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
       dispatch(setAccessToken(''));
     }
   };

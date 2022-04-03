@@ -48,7 +48,7 @@ function ItemHistory({
     onPanResponderGrant: () => {
       console.log('start');
     },
-  }));
+  })).current;
   useEffect(() => {
     setOptions({
       headerLeft: () => (
