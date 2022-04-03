@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Main from './ItemStack/Main';
 import ItemDetail from './ItemStack/ItemDetail';
 import Enroll from './ItemStack/Enroll';
+import ItemHistory from './ItemStack/ItemHistory';
 
 const Stack = createNativeStackNavigator();
 
@@ -68,6 +69,8 @@ export default function Item() {
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Enroll" component={Enroll} />
       <Stack.Screen name="Detail" component={ItemDetail} />
+      <Stack.Screen name="History" component={ItemHistory} />
+
     </Stack.Navigator>
   );
 }

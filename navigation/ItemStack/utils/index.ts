@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 
+import { Animated, View } from 'react-native';
 // about input
 export const InputTitle = styled.TextInput.attrs({
   placeholderTextColor: '#626262',
@@ -39,4 +40,15 @@ export const ButtonText = styled.Text`
   color: white;
   font-weight: 600;
   font-size: 20px;
+`;
+
+export const Card = styled(Animated.createAnimatedComponent(View))`
+  background-color: white;
+  width: 300px;
+  height: 300px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  position: absolute;
 `;

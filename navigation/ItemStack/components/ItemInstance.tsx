@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import {
-  Dimensions, TouchableOpacity, Text, Platform,
+  TouchableOpacity, Text, Platform,
 } from 'react-native';
 
 import styled from 'styled-components/native';
@@ -10,8 +12,6 @@ import DropShadow from 'react-native-drop-shadow';
 import { useNavigation } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const Container = styled.View<{ width: number }>`
   width: ${(props) => `${props.width}%`};

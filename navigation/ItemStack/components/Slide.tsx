@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components/native';
 
 import { Ionicons } from '@expo/vector-icons';
 
 import * as ImagePicker from 'expo-image-picker';
+
+import { Img } from '../../../types';
 
 const Container = styled.View`
   width: 100%;
@@ -47,15 +50,18 @@ const DelBtn = styled.TouchableOpacity`
   box-shadow: 1px 1px 5px lightgray;
 `;
 
-function Slide() {
+function Slide({ img, edit }:{img:Array<Img>, edit:boolean}) {
   const [imgList, setImgList] = useState([]);
+  useEffect(() => {
+    setImgList(img);
+  }, [img]);
 
   const upload = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        aspect: [4, 4],
+        aspect: [3, 1],
         quality: 1,
       });
       if (!result.cancelled) {
@@ -72,9 +78,11 @@ function Slide() {
   return (
     <Container>
       {imgList && imgList.length === 0 ? (
-        <ImageItem onPress={upload}>
-          <ImageText>사진을 추가하세요.</ImageText>
-        </ImageItem>
+        edit ? (
+          <ImageItem onPress={upload}>
+            <ImageText>사진을 추가하세요.</ImageText>
+          </ImageItem>
+        ) : null
       ) : (
         <Scroll
           contentContainerStyle={{ paddingHorizontal: 15 }}
@@ -93,19 +101,24 @@ function Slide() {
                 resizeMode="cover"
                 imageStyle={{ borderRadius: 25 }}
               />
-              <DelBtn
-                onPress={() => {
-                  removeImage(idx);
-                }}
-              >
-                <Ionicons size={30} color="black" name="close-circle" />
-              </DelBtn>
+              {edit ? (
+                <DelBtn
+                  onPress={() => {
+                    removeImage(idx);
+                  }}
+                >
+                  <Ionicons size={30} color="black" name="close-circle" />
+                </DelBtn>
+              ) : null}
+
             </ImageItem>
           ))}
+          {edit ? (
+            <ImageItem onPress={upload}>
+              <ImageText>사진을 추가하세요.</ImageText>
+            </ImageItem>
+          ) : null}
 
-          <ImageItem onPress={upload}>
-            <ImageText>사진을 추가하세요.</ImageText>
-          </ImageItem>
         </Scroll>
       )}
     </Container>
