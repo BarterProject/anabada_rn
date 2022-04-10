@@ -1,11 +1,12 @@
 import { CommonActions } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
 import {
-  initialStateProps, requestLogin, setIdForSigningIn, setPasswordForSigingIn,
+  initialStateProps, requestLogin, setAccessToken, setIdForSigningIn, setPasswordForSigingIn,
 } from '../../slice';
 import { AuthStackParamList } from '../Auth';
 
@@ -69,7 +70,7 @@ type SignInProps = NativeStackScreenProps<AuthStackParamList, 'PhoneAuth'>
 export default function SignIn({ navigation }: SignInProps) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
-
+  const [loading, setLoading] = useState(false);
   const {
     accessToken,
   } = useSelector(
@@ -88,6 +89,7 @@ export default function SignIn({ navigation }: SignInProps) {
     }
     if (accessToken === 'err') {
       console.log('accessToken의 값이 에러가 뜹니다..');
+      dispatch(setAccessToken(''));
       alert('아이디/비밀번호를 다시 확인해주세요');
     } else {
       console.log('accessToken의 값이 감지가 되어 로그인됩니다.');
@@ -98,9 +100,11 @@ export default function SignIn({ navigation }: SignInProps) {
         }),
       );
     }
+    setLoading(false);
   }, [accessToken]);
   const handleSubmit = () => {
     console.log('로그인을 눌렀습니다.');
+    setLoading(true);
     dispatch(setIdForSigningIn(id));
     dispatch(setPasswordForSigingIn(password));
     dispatch(requestLogin());
@@ -117,11 +121,16 @@ export default function SignIn({ navigation }: SignInProps) {
         <TextInput onChangeText={(text) => { setId(text); }} placeholder="아이디" />
         <TextInput onChangeText={(text) => { setPassword(text); }} placeholder="비밀번호" />
         <Button
+          disabled={loading}
           onPress={handleSubmit}
         >
-          <ButtonText>
-            로그인
-          </ButtonText>
+          {loading
+            ? <ActivityIndicator color="white" />
+            : (
+              <ButtonText>
+                로그인
+              </ButtonText>
+            )}
         </Button>
       </Body>
     </Container>

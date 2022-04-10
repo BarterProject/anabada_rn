@@ -205,6 +205,7 @@ export function requestLogin() {
       const { message, jwt } = data;
       if (message !== undefined) {
         console.log(message);
+        dispatch(setAccessToken('err'));
       } else {
         dispatch(setAccessToken(jwt));
       }
