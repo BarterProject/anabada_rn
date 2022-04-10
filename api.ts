@@ -2,6 +2,7 @@ import { BASE_URL } from '@env';
 
 export async function postLogin({ id, password }) {
   // const url = 'http://146.56.36.179:8080/api/user/authentication';
+  console.log(BASE_URL);
   const url = `${BASE_URL}/api/user/authentication`;
   console.log('postLogin진입');
   const data = await fetch(url, {
@@ -12,7 +13,7 @@ export async function postLogin({ id, password }) {
     body: JSON.stringify({ email: id, password }),
   }).then((res) => (res.json()))
     .catch((err) => {
-      console.log(err);
+      console.log(err.response);
       return { jwt: 'err' };
     });
   return data;
@@ -47,7 +48,7 @@ export async function postSignup(userInfo) {
     }),
   }).then((res) => (res.json()))
     .catch((err) => {
-      console.log(err);
+      console.log(err.response);
       return { jwt: 'err' };
     });
   // const { jwt } = data;

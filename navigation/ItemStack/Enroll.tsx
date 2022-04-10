@@ -91,7 +91,7 @@ function Enroll({
   return (
     <KeyboardAwareScrollView extraScrollHeight={30}>
       <Container>
-        <Slide />
+        <Slide img={[]} edit />
         <Inputs>
           <InputTitle placeholder="제품명" />
           <InputContent

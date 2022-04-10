@@ -2,15 +2,13 @@ import React, { useEffect } from 'react';
 
 import styled from 'styled-components/native';
 
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import Carousel from 'react-native-snap-carousel';
-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import ItemInstance from './components/ItemInstance';
+import Slide from './components/Slide';
 
 import {
   InputContent, Inputs, InputTitle, Button, ButtonText,
@@ -35,12 +33,21 @@ const Status = styled.View<{ color: string }>`
   align-items: center;
 `;
 
+const HistoryBtn = styled.TouchableOpacity`
+  width:32px;
+  height:32px;
+  border-radius: 32px;
+  background-color: rgba(236, 101, 120, 0.19);
+  align-items: center;
+  justify-content: center;
+`;
+
 function ItemDetail({
-  route: { params },
-  navigation: { setOptions, goBack },
+  // route: { params },
+  navigation: { setOptions, goBack, navigate },
 }: {
-  route: { params: any };
-  navigation: { setOptions: Function; goBack: Function };
+  // route: { params: any };
+  navigation: { setOptions: Function; goBack: Function, navigate:Function };
 }) {
   useEffect(() => {
     setOptions({
@@ -55,81 +62,104 @@ function ItemDetail({
           </Text>
         </TouchableOpacity>
       ),
+      headerRight: () => (
+        <HistoryBtn
+          onPress={() => {
+            navigate('Item', { screen: 'History' });
+          }}
+        >
+          <Text>
+            <Ionicons
+              size={20}
+              name="layers-outline"
+              color="#E94057"
+            />
+          </Text>
+        </HistoryBtn>
+      ),
       title: '물건 디테일',
     });
   }, []);
 
   const images = [
     {
-      uri: 'https://t1.daumcdn.net/cfile/tistory/995BB63A5BDF9C0F0B',
-      connectedUser: 0,
-      status: 'normal',
+      cancelled: false,
+      height: 2848,
+      type: 'image',
+      path: 'https://dnvefa72aowie.cloudfront.net/origin/article/202203/AE33A8E09508FEFBAF957FA1EB33D022CB04A3219085AB886B0BD2C4B04A2EC5.jpg?q=95&s=1440x1440&t=inside',
+      width: 4288,
     },
     {
-      uri: 'http://image.auction.co.kr/itemimage/1a/12/30/1a12307236.jpg',
-      connectedUser: 0,
-      status: 'stop',
+      cancelled: false,
+      height: 2848,
+      type: 'image',
+      path: 'https://dnvefa72aowie.cloudfront.net/origin/article/202203/36615BB020E805847B3D4098BA9CE4B59158D0EABBBAD7FD84159C79D64026C0.jpg?q=95&s=1440x1440&t=inside',
+      width: 4288,
     },
     {
-      uri: 'http://m.specimen.co.kr/web/product/big/20200331/0f00d0c07403175cd6a4668c1fed3be2.jpg',
-      connectedUser: 0,
-      status: 'normal',
+      cancelled: false,
+      height: 2848,
+      type: 'image',
+      path: 'https://dnvefa72aowie.cloudfront.net/origin/article/202203/7418001DFC185E78F4F07ADE9D995A27DECB4319679C8F3668F489F07B246AF4.jpg?q=95&s=1440x1440&t=inside',
+      width: 4288,
     },
     {
-      uri: 'https://view01.wemep.co.kr/wmp-product/3/450/1711114503/pm_pfrbmxst7e0f.jpg',
-      connectedUser: 0,
-      status: 'enroll',
+      cancelled: false,
+      height: 2848,
+      type: 'image',
+      path: 'https://dnvefa72aowie.cloudfront.net/origin/article/202203/8A31CEA154298AC393568A6553615F882B0BBEB9C4DF343AD5984BE244E32423.jpg?q=95&s=1440x1440&t=inside',
+      width: 4288,
     },
-    {
-      uri: 'https://file.mk.co.kr/meet/neds/2021/09/image_readtop_2021_927932_16329132754799395.jpg',
-      connectedUser: 0,
-      status: 'end',
-    },
+
   ];
-  function _renderItem({ item, index }) {
-    return (
-      <View
-        style={{
-          position: 'relative',
-        }}
-      >
-        <ItemInstance
-          uri={item.uri}
-          connectedUser={item.connectedUser}
-          status={item.status}
-          clickable={false}
-          width={100}
-          passport={false}
-        />
-        {index == 4 ? (
-          <View
-            style={{
-              position: 'absolute',
-              bottom: -20,
-              width: '100%',
-              alignItems: 'center',
-            }}
-          >
-            <Ionicons size={30} name="checkmark-outline" color="green" />
-          </View>
-        ) : null}
-      </View>
-    );
-  }
+  // function renderItem({ item, index }) {
+  //   return (
+  //     <View
+  //       style={{
+  //         position: 'relative',
+  //       }}
+  //     >
+  //       <ItemInstance
+  //         uri={item.uri}
+  //         connectedUser={item.connectedUser}
+  //         status={item.status}
+  //         clickable={false}
+  //         width={100}
+  //         passport={false}
+  //       />
+  //       {index === 4 ? (
+  //         <View
+  //           style={{
+  //             position: 'absolute',
+  //             bottom: -20,
+  //             width: '100%',
+  //             alignItems: 'center',
+  //           }}
+  //         >
+  //           <Ionicons size={30} name="checkmark-outline" color="green" />
+  //         </View>
+  //       ) : null}
+  //     </View>
+  //   );
+  // }
 
   return (
     <KeyboardAwareScrollView extraScrollHeight={30}>
       <Container>
-        <View style={{ height: 150, marginVertical: 20 }}>
+        <Slide img={images} edit={false} />
+
+        {/* <View style={{ height: 150, marginVertical: 20 }}>
           <Carousel
             layout="default"
             data={images}
-            renderItem={_renderItem}
+            // eslint-disable-next-line react/jsx-no-bind
+            renderItem={renderItem}
             sliderWidth={393}
             itemWidth={123}
             firstItem={4}
           />
-        </View>
+        </View> */}
+
         <StatusContainer>
           <Status color="green">
             <Text style={{ color: 'green' }}>거래 완료</Text>

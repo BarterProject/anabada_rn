@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import {
-  Dimensions, TouchableOpacity, Text, Platform,
+  TouchableOpacity, Text, Platform,
 } from 'react-native';
 
 import styled from 'styled-components/native';
@@ -11,11 +13,9 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-
 const Container = styled.View<{ width: number }>`
   width: ${(props) => `${props.width}%`};
-  height: 123px;
+  height: 160px;
   flex-shrink: 0;
   padding: 7px;
 `;
