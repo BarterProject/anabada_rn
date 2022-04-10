@@ -1,6 +1,9 @@
 import styled from 'styled-components/native';
 
-import { Animated, View } from 'react-native';
+import { Animated, ImageBackground } from 'react-native';
+
+import DropShadow from 'react-native-drop-shadow';
+
 // about input
 export const InputTitle = styled.TextInput.attrs({
   placeholderTextColor: '#626262',
@@ -42,13 +45,13 @@ export const ButtonText = styled.Text`
   font-size: 20px;
 `;
 
-export const Card = styled(Animated.createAnimatedComponent(View))`
-  background-color: white;
-  width: 300px;
-  height: 300px;
+export const Card = styled(Animated.createAnimatedComponent(ImageBackground))`
+  width: 200px;
+  height: 200px;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
   position: absolute;
+
 `;

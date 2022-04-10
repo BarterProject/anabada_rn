@@ -5,14 +5,14 @@ import styled from 'styled-components/native';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import * as ImagePicker from 'expo-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import { Img } from '../../../types';
 
 const Container = styled.View`
   width: 100%;
   align-items: center;
-  height: 250px;
+  height: 330px;
   margin: 5px 0 20px 0;
 `;
 
@@ -58,16 +58,23 @@ function Slide({ img, edit }:{img:Array<Img>, edit:boolean}) {
 
   const upload = async () => {
     try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [3, 1],
-        quality: 1,
+      ImagePicker.openPicker({
+        width: 300,
+        height: 400,
+        cropping: true,
+      }).then((images) => {
+        setImgList([...imgList, images]);
       });
-      if (!result.cancelled) {
-        setImgList([...imgList, result]);
-        console.log(result);
-      }
+      // const result = await ImagePicker.launchImageLibraryAsync({
+      //   mediaTypes: ImagePicker.MediaTypeOptions.All,
+      //   allowsEditing: true,
+      //   aspect: [3, 1],
+      //   quality: 1,
+      // });
+      // if (!result.cancelled) {
+      // setImgList([...imgList, result]);
+      // console.log(result);
+      // }
     } catch (e) {
       console.log(e);
     }
@@ -93,10 +100,10 @@ function Slide({ img, edit }:{img:Array<Img>, edit:boolean}) {
           // }}
         >
           {imgList.map((e: any, idx: number) => (
-            <ImageItem key={e.uri}>
+            <ImageItem key={e.path}>
               <ImageInstance
                 source={{
-                  uri: e.uri,
+                  uri: e.path,
                 }}
                 resizeMode="cover"
                 imageStyle={{ borderRadius: 25 }}

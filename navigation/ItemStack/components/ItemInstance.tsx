@@ -15,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 const Container = styled.View<{ width: number }>`
   width: ${(props) => `${props.width}%`};
-  height: 123px;
+  height: 160px;
   flex-shrink: 0;
   padding: 7px;
 `;
