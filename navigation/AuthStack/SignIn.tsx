@@ -2,6 +2,7 @@ import { CommonActions } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
@@ -11,11 +12,11 @@ import {
 import { AuthStackParamList } from '../Auth';
 
 const Container = styled.View`
-  flex:1;
-  color: white;
+  display:flex;
 `;
 
 const Button = styled.TouchableOpacity`
+  opacity:${(props) => (props.disabled ? 0.5 : 1)};
   background-color:#E94057;
   height: 43px;
   width: 210px;
@@ -44,7 +45,7 @@ const TextInput = styled.TextInput`
 `;
 
 const TitleContainer = styled.View`
-  top:80px;
+  /* top:80px; */
 `;
 
 const Title = styled.Text`
@@ -55,16 +56,17 @@ const Title = styled.Text`
 const Header = styled.View`
   flex:1;
   align-items:center;
-  justify-content:flex-end;
+  padding-top:200px;
+  padding-bottom:60px;
+  /* justify-content:flex-end; */
 `;
 
 const Body = styled.View`
   justify-content:center;
   align-items:center;
   flex:2;
-  bottom:30px;
+  /* bottom:30px; */
 `;
-
 type SignInProps = NativeStackScreenProps<AuthStackParamList, 'PhoneAuth'>
 
 export default function SignIn({ navigation }: SignInProps) {
@@ -78,7 +80,6 @@ export default function SignIn({ navigation }: SignInProps) {
       accessToken: state.userState.accessToken,
     }),
   );
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -111,28 +112,31 @@ export default function SignIn({ navigation }: SignInProps) {
     // alert(`accessToken${accessToken}`);
   };
   return (
-    <Container>
-      <Header>
-        <TitleContainer>
-          <Title>CLIP</Title>
-        </TitleContainer>
-      </Header>
-      <Body>
-        <TextInput onChangeText={(text) => { setId(text); }} placeholder="아이디" />
-        <TextInput onChangeText={(text) => { setPassword(text); }} placeholder="비밀번호" />
-        <Button
-          disabled={loading}
-          onPress={handleSubmit}
-        >
-          {loading
-            ? <ActivityIndicator color="white" />
-            : (
-              <ButtonText>
-                로그인
-              </ButtonText>
-            )}
-        </Button>
-      </Body>
-    </Container>
+    <KeyboardAwareScrollView>
+      <Container>
+        <Header>
+          <TitleContainer>
+            <Title>CLIP</Title>
+          </TitleContainer>
+        </Header>
+        <Body>
+          <TextInput onChangeText={(text) => { setId(text); }} placeholder="아이디" />
+          <TextInput secureTextEntry onChangeText={(text) => { setPassword(text); }} placeholder="비밀번호" />
+          <Button
+            disabled={loading || !id || !password}
+            onPress={handleSubmit}
+          >
+            {loading
+              ? <ActivityIndicator color="white" />
+              : (
+                <ButtonText>
+                  로그인
+                </ButtonText>
+              )}
+          </Button>
+        </Body>
+      </Container>
+    </KeyboardAwareScrollView>
+
   );
 }
