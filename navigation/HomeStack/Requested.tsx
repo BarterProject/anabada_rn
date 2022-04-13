@@ -5,6 +5,8 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import ImagePicker from 'react-native-image-crop-picker';
+import { BASE_URL } from '@env';
+import { useSelector } from 'react-redux';
 
 const Container = styled.View`
     flex: 1;
@@ -21,6 +23,13 @@ const Text = styled.Text`
 export default function Requested() {
   const [imgList, setImgList] = useState([]);
   const formData = new FormData();
+  const mockData = {
+    name: 'asdasd',
+    description: 'test description2',
+    clause_agree: true,
+    payment: { amount: 30000, paymentOption: { idx: 3 } },
+    itemCategory: { idx: 3 },
+  };
   const upload = async () => {
     try {
       ImagePicker.openPicker({
@@ -35,11 +44,18 @@ export default function Requested() {
     }
   };
 
+  const { accessToken } = useSelector((state) => ({
+    accessToken: state.userState.accessToken,
+  }));
+
   useEffect(() => {
-    formData.append('name', 'park');
-    formData.append('description', 'verygood');
-    formData.append('clause_agree', '');
-    formData.append('deposit', '10001');
+    alert(accessToken);
+    console.log(accessToken);
+    // formData.append('name', 'park');
+    // formData.append('description', 'verygood');
+    // formData.append('clause_agree', '');
+    // formData.append('deposit', '10001');
+    formData.append('item', JSON.stringify(mockData));
     console.log('formData', formData);
   });
 
@@ -83,19 +99,21 @@ export default function Requested() {
         title="더미데이터 업로드"
         onPress={async () => {
           try {
-            const res = await fetch('http://10.0.2.2:3000/items/imgsandobject', {
+            // const res = await fetch('http://10.0.2.2:3000/items/imgsandobject', {
+            const res = await fetch(`${BASE_URL}/api/user/items`, {
               method: 'POST',
               // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
               headers: {
                 Accept: 'application/json',
                 'Content-Type': 'multipart/form-data',
+                Authorization: `Bear ${accessToken}`,
               },
               body: formData,
             });
+            console.log(res);
           } catch (e) {
             console.error(e);
           }
-          console.log(res);
         }}
       />
     </Container>
