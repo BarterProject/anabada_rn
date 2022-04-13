@@ -1,13 +1,16 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
-  Animated, PanResponder, View,
+  ActivityIndicator,
+  Animated, PanResponder, Pressable, View,
 } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
 
 import styled from 'styled-components/native';
+import { getTESTItems } from '../../api';
+import { testItem } from '../../types';
 import Card from './components/Card';
 
 const Container = styled.View`
@@ -76,12 +79,63 @@ const AnimatedCard = styled(Animated.createAnimatedComponent(View))`
   border-radius:12px;
 `;
 
+const ActivityIndicatorContainer = styled.View`
+  flex:1;
+  justify-content:center;
+  align-items: center;
+`;
+
+const ChangeImageContainer = styled.View`
+  position:absolute;
+  width:50%;
+  height:100%;
+  opacity:0.1;
+  background-color:blue;
+`;
+
 function Main({ navigation }) {
   // const navigation = useNavigation();
 
   const scale = useRef(new Animated.Value(1)).current;
   const POSITION = useRef(new Animated.Value(0)).current;
   // const checkButtonPosition = useRef(new Animated.Value(0)).current;
+  // const [testItems, setTestItems] = useState([]);
+  // const testItems : testItem[] = await getTESTItems();
+  const testItems : testItem[] = [
+    {
+      id: 1,
+      name: 'hi5',
+      description: 'hey5',
+      clause_agree: false,
+      deposit: '900',
+      imgName: '254af30f-5ba9-4aa5-85c7-8185fc7594ae.png',
+    },
+    {
+      id: 2,
+      name: 'dancingbug',
+      description: 'a dancing bug',
+      clause_agree: false,
+      deposit: '2500',
+      imgName: 'b117f147-9288-42d4-8aa3-e6ff58b62079.jpg',
+    },
+    {
+      id: 3,
+      name: 'Marceline',
+      description: 'the vampire queen',
+      clause_agree: false,
+      deposit: '2500',
+      imgName: '3274b189-1435-405f-944d-27fb71c561e8.png',
+    },
+    {
+      id: 4,
+      name: 'the vampire dad',
+      description: 'the vampire dad',
+      clause_agree: false,
+      deposit: '1241242',
+      imgName: 'b796942e-006c-49ce-aba2-d9edf73ac76d.png',
+    },
+  ];
+  // const [testItems, setTestItems] = useState<testItem[]>([]);
 
   const secondScale = POSITION.interpolate({
     inputRange: [-250, 0, 250],
@@ -94,11 +148,14 @@ function Main({ navigation }) {
     outputRange: ['-30deg', '30deg'],
     extrapolate: 'clamp',
   });
+
   const [index, setIndex] = useState(0);
+
   const onDismiss = () => {
     setIndex((prev) => 1 + prev);
     POSITION.setValue(0);
   };
+
   const bounceTotheLeftOut = () => {
     Animated.spring(POSITION, {
       toValue: -400,
@@ -108,6 +165,7 @@ function Main({ navigation }) {
     }).start(() => {
       // POSITION.setValue(-400)
       // POSITION.flattenOffset()
+      console.log('버리기', testItems.length);
       onDismiss();
       // POSITION.flattenOffset()
     });
@@ -199,29 +257,55 @@ function Main({ navigation }) {
   return (
     <Container>
       <Body>
-        <CardContainer>
-          <AnimatedCard
-            style={{
-              transform: [{ scale: secondScale }],
-            }}
-          >
-            <Card
-              index={index + 1}
-              text="이름"
-            />
-          </AnimatedCard>
-          <AnimatedCard
-            {...panResponder.panHandlers}
-            style={{
-              transform: [{ scale }, { translateX: POSITION }, { rotateZ: rotation }],
-            }}
-          >
-            <Card
-              index={index}
-              text="이름"
-            />
-          </AnimatedCard>
-        </CardContainer>
+        {testItems.length > 0
+          ? (
+            <CardContainer>
+              <AnimatedCard
+                style={{
+                  transform: [{ scale: secondScale }],
+                }}
+              >
+                <Card
+                  index={index + 1}
+                  img={testItems[index + 1].imgName}
+                  // img=""
+                  text={testItems[index + 1].name}
+                />
+              </AnimatedCard>
+              <AnimatedCard
+                {...panResponder.panHandlers}
+                style={{
+                  transform: [{ scale }, { translateX: POSITION }, { rotateZ: rotation }],
+                }}
+              >
+                <Card
+                  index={index}
+                  img={testItems[index].imgName}
+                  // img=""
+                  text={testItems[index].name}
+                />
+                {/* <ChangeImageContainer>
+                  <Pressable
+                    style={{
+                      flex: 1,
+                      // position: 'absolute',
+                      backgroundColor: 'blue',
+                    }}
+                    onPressOut={() => {
+                      console.log('hi');
+                    }}
+                  />
+                </ChangeImageContainer> */}
+              </AnimatedCard>
+            </CardContainer>
+          )
+          : (
+            <ActivityIndicatorContainer>
+              <ActivityIndicator
+                color="black"
+              />
+            </ActivityIndicatorContainer>
+          )}
       </Body>
       <NavBar>
         <NavBarButtonsConatainer>
