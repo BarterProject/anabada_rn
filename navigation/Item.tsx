@@ -12,6 +12,7 @@ import Main from './ItemStack/Main';
 import ItemDetail from './ItemStack/ItemDetail';
 import Enroll from './ItemStack/Enroll';
 import ItemHistory from './ItemStack/ItemHistory';
+import SelectOption from './ItemStack/SelectOption';
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +71,7 @@ export default function Item() {
       <Stack.Screen name="Enroll" component={Enroll} />
       <Stack.Screen name="Detail" component={ItemDetail} />
       <Stack.Screen name="History" component={ItemHistory} />
+      <Stack.Screen name="SelectOption" component={SelectOption} />
 
     </Stack.Navigator>
   );
