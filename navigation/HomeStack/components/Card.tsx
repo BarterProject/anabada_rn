@@ -1,7 +1,11 @@
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
+import {
+  Button,
+  Image, Platform, Pressable, TouchableOpacity, View,
+} from 'react-native';
 import styled from 'styled-components/native';
 import { RootStackParamList } from '../../Home';
 
@@ -16,7 +20,7 @@ const NumberContainer = styled.View`
   flex:1;
   justify-content:center;
   align-items:center;
-  background-color:red;
+  /* background-color:red; */
 `;
 
 const NumberText = styled.Text`
@@ -39,7 +43,7 @@ const InfoText = styled.Text`
 
 const InfoContainerBackground = styled.View`
   position:absolute;
-  z-index:0;
+  /* z-index:0; */
   /* flex:1; */
   width:100%;
   height:30%;
@@ -59,21 +63,69 @@ const DetailButton = styled.Pressable`
 const DetailButtonText = styled.Text`
   
 `;
+const ChangeImageContainer = styled.View`
+  position:absolute;
+flex-direction:row;
+  width:100%;
+  height:100%;
+  opacity:0.5;
+`;
 
 interface CardProps {
     index:number;
+    img:string;
     text:string;
 }
 
-export default function Card({ index, text }:CardProps) {
+export default function Card({ index, img, text }:CardProps) {
   const navigation = useNavigation();
+  // const images = []
+  // const number = useState(0);
+  console.log(img);
   return (
     <Container>
-      <NumberContainer>
+      <Image
+        style={{
+          borderColor: 'gray',
+          // position: 'absolute',
+          flex: 1,
+        }}
+        source={{
+          uri: Platform.OS === 'ios' ? `http://localhost:3000/${img}` : `http://10.0.2.2:3000/${img}`,
+          // uri: `http://localhost:3000/${img}`,
+        }}
+      />
+      <ChangeImageContainer>
+        {/* <Button
+          title="test"
+          onPress={() => {
+            console.log('123');
+          }}
+        /> */}
+        <View
+          style={{
+            flex: 1,
+          }}
+          onTouchEnd={() => {
+            console.log('left');
+          }}
+        />
+        <View
+          style={{
+            flex: 1,
+          }}
+          onTouchEnd={() => {
+            console.log('right');
+          }}
+        />
+
+      </ChangeImageContainer>
+      {/* <NumberContainer>
         <NumberText>
           {index}
         </NumberText>
-      </NumberContainer>
+      </NumberContainer> */}
+      <InfoContainerBackground />
       <InfoContainer>
         <InfoText>
           {text}
@@ -93,7 +145,6 @@ export default function Card({ index, text }:CardProps) {
           </DetailButton>
         </DetailButtonContainer>
       </InfoContainer>
-      <InfoContainerBackground />
     </Container>
   );
 }
