@@ -12,6 +12,7 @@ import Main from './HomeStack/Main';
 import Item from './Item';
 import Configure from './Configure';
 import ItemDetail from './HomeStack/ItemDetail';
+import Requested from './HomeStack/Requested';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,9 +61,13 @@ export default function Home({ navigation }:HomeScreenProps) {
       <Stack.Screen
         name="Configure"
         component={Configure}
+      />
+      <Stack.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
+        name="Requested"
+        component={Requested}
       />
       <Stack.Screen name="ItemDetail" component={ItemDetail} />
       <Stack.Screen
@@ -72,6 +77,7 @@ export default function Home({ navigation }:HomeScreenProps) {
         name="Item"
         component={Item}
       />
+
     </Stack.Navigator>
   );
 }

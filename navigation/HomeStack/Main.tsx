@@ -284,18 +284,6 @@ function Main({ navigation }) {
                   // img=""
                   text={testItems[index].name}
                 />
-                {/* <ChangeImageContainer>
-                  <Pressable
-                    style={{
-                      flex: 1,
-                      // position: 'absolute',
-                      backgroundColor: 'blue',
-                    }}
-                    onPressOut={() => {
-                      console.log('hi');
-                    }}
-                  />
-                </ChangeImageContainer> */}
               </AnimatedCard>
             </CardContainer>
           )
@@ -337,7 +325,10 @@ function Main({ navigation }) {
               shadowRadius: 2,
             }}
           >
-            <CenterButton />
+            <CenterButton onPress={() => {
+              navigation.navigate('Requested');
+            }}
+            />
           </DropShadow>
           <DropShadow
             style={{
