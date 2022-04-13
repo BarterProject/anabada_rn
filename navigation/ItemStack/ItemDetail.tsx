@@ -11,7 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Slide from './components/Slide';
 
 import {
-  InputContent, Inputs, InputTitle, Button, ButtonText,
+  InputContent, Inputs, InputTitle, Button, ButtonText, InputColumn, CommonText, InputValue,
 } from './utils';
 
 const Container = styled.ScrollView``;
@@ -43,10 +43,10 @@ const HistoryBtn = styled.TouchableOpacity`
 `;
 
 function ItemDetail({
-  // route: { params },
+  route: { params: { readOnly } },
   navigation: { setOptions, goBack, navigate },
 }: {
-  // route: { params: any };
+  route: { params: {readOnly:boolean} };
   navigation: { setOptions: Function; goBack: Function, navigate:Function };
 }) {
   useEffect(() => {
@@ -62,20 +62,22 @@ function ItemDetail({
           </Text>
         </TouchableOpacity>
       ),
-      headerRight: () => (
-        <HistoryBtn
-          onPress={() => {
-            navigate('Item', { screen: 'History' });
-          }}
-        >
-          <Text>
-            <Ionicons
-              size={20}
-              name="layers-outline"
-              color="#E94057"
-            />
-          </Text>
-        </HistoryBtn>
+      headerRight: () => (!readOnly
+        ? (
+          <HistoryBtn
+            onPress={() => {
+              navigate('Item', { screen: 'History' });
+            }}
+          >
+            <Text>
+              <Ionicons
+                size={20}
+                name="layers-outline"
+                color="#E94057"
+              />
+            </Text>
+          </HistoryBtn>
+        ) : null
       ),
       title: '물건 디테일',
     });
@@ -146,7 +148,7 @@ function ItemDetail({
   return (
     <KeyboardAwareScrollView extraScrollHeight={30}>
       <Container>
-        <Slide img={images} edit={false} />
+        <Slide imgList={images} edit={false} />
 
         {/* <View style={{ height: 150, marginVertical: 20 }}>
           <Carousel
@@ -159,18 +161,20 @@ function ItemDetail({
             firstItem={4}
           />
         </View> */}
+        {!readOnly ? (
+          <StatusContainer>
+            <Status color="green">
+              <Text style={{ color: 'green' }}>거래 완료</Text>
+            </Status>
+            <Status color="red">
+              <Text style={{ color: 'red' }}>배송기간 만료</Text>
+            </Status>
+            <Status color="blue">
+              <Text style={{ color: 'blue' }}>배송중</Text>
+            </Status>
+          </StatusContainer>
+        ) : null}
 
-        <StatusContainer>
-          <Status color="green">
-            <Text style={{ color: 'green' }}>거래 완료</Text>
-          </Status>
-          <Status color="red">
-            <Text style={{ color: 'red' }}>배송기간 만료</Text>
-          </Status>
-          <Status color="blue">
-            <Text style={{ color: 'blue' }}>배송중</Text>
-          </Status>
-        </StatusContainer>
         <Inputs>
           <InputTitle placeholder="제품명" />
           <InputContent
@@ -179,12 +183,26 @@ function ItemDetail({
             numberOfLines={15}
             style={{ textAlignVertical: 'top' }}
           />
-          <Button style={{ marginTop: 15 }}>
-            <ButtonText>배송 신청</ButtonText>
-          </Button>
-          <Button style={{ marginTop: 15 }}>
-            <ButtonText>배송 상태 보기</ButtonText>
-          </Button>
+
+          <InputColumn style={{ marginTop: 30 }}>
+            <CommonText>카테고리</CommonText>
+            <InputValue textAlign="center" value="휴대전화" editable={false} />
+          </InputColumn>
+          <InputColumn style={{ marginTop: 15 }}>
+            <CommonText>보증금</CommonText>
+            <InputValue textAlign="center" value="1000000" editable={false} />
+          </InputColumn>
+          {!readOnly ? (
+            <>
+              <Button style={{ marginTop: 15 }}>
+                <ButtonText>배송 신청</ButtonText>
+              </Button>
+              <Button style={{ marginTop: 15 }}>
+                <ButtonText>배송 상태 보기</ButtonText>
+              </Button>
+            </>
+          ) : null}
+
         </Inputs>
       </Container>
     </KeyboardAwareScrollView>

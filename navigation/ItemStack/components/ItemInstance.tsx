@@ -74,7 +74,7 @@ function ItemInstance({
             && navigate('Item', {
               screen: 'Detail',
               params: {
-                uri,
+                readOnly: false,
               },
             });
         }}
