@@ -4,13 +4,15 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import {
   ActivityIndicator,
-  Animated, PanResponder, Pressable, View,
+  Animated, PanResponder, View,
 } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
-import { getTESTItems } from '../../api';
-import { testItem } from '../../types';
+import { getRandomItems, getTESTItems } from '../../api';
+import { initialStateProps, requestRandomItems } from '../../slice';
+import { Item, testItem } from '../../types';
 import Card from './components/Card';
 
 const Container = styled.View`
@@ -136,6 +138,17 @@ function Main({ navigation }) {
     },
   ];
   // const [testItems, setTestItems] = useState<testItem[]>([]);
+  const dispatch = useDispatch();
+  const { accessToken, randomItems } = useSelector((state:initialStateProps) => ({
+    accessToken: state.userState.accessToken,
+    randomItems: state.randomItems,
+  }));
+  const [itemList, setItemList] = useState<Item[]>([]);
+  const [test, setTest] = useState(0);
+  useEffect(() => {
+    console.log(`accessToken : ${accessToken}`);
+    dispatch(requestRandomItems());
+  }, [randomItems]);
 
   const secondScale = POSITION.interpolate({
     inputRange: [-250, 0, 250],

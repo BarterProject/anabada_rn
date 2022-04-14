@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { postLogin, postSignup } from './api';
+import { getRandomItems, postLogin, postSignup } from './api';
+import { Item } from './types';
 
 export type initialStateProps ={
     signInField:{
@@ -23,6 +24,7 @@ export type initialStateProps ={
     userState:{
       accessToken:string
     }
+    randomItems:Item[]
 }
 
 export type stateProps= {
@@ -53,6 +55,7 @@ const { actions, reducer } = createSlice({
     userState: {
       accessToken: '',
     },
+    randomItems: [],
   },
   reducers: {
     setIdForSigningIn: (state, { payload: id }: PayloadAction<string>) => ({
@@ -139,6 +142,10 @@ const { actions, reducer } = createSlice({
         accessToken: '',
       },
     }),
+    setRandomItems: (state, { payload: randomItems }) => ({
+      ...state,
+      randomItems,
+    }),
   },
 });
 
@@ -154,6 +161,7 @@ export const {
   setAccountNumber,
   setAccessToken,
   deleteAccessToken,
+  setRandomItems,
 } = actions;
 
 export function requestSignUp() {
@@ -212,6 +220,19 @@ export function requestLogin() {
     } catch (error) {
       console.log(error.response);
       dispatch(setAccessToken(''));
+    }
+  };
+}
+
+export function requestRandomItems() {
+  return async (dispatch, getState) => {
+    const { userState: { accessToken } } = getState();
+
+    try {
+      const data = await getRandomItems(accessToken);
+      setRandomItems(data);
+    } catch (e) {
+      console.log(e);
     }
   };
 }

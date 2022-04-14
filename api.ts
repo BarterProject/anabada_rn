@@ -1,7 +1,7 @@
 import { BASE_URL } from '@env';
 
 import axios from 'axios';
-import { testItem } from './types';
+import { testItem, Item } from './types';
 
 export async function postLogin({ id, password }) {
   // const url = 'http://146.56.36.179:8080/api/user/authentication';
@@ -57,6 +57,15 @@ export async function postSignup(userInfo) {
   // const { jwt } = data;
   // console.log(`postSignup 아웃풋 : ${jwt}`);
 
+  return data;
+}
+
+export async function getRandomItems(accessToken) {
+  const response = await (await axios.get(
+    `${BASE_URL}/api/items?size=10`,
+    { headers: { Authorization: `Bearer ${accessToken}` } },
+  ));
+  const { data } = response;
   return data;
 }
 
