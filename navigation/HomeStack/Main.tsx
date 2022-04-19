@@ -10,8 +10,7 @@ import DropShadow from 'react-native-drop-shadow';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
-import { getRandomItems, getTESTItems } from '../../api';
-import { initialStateProps, requestRandomItems } from '../../slice';
+import { initialStateProps, removeARandomItem, requestRandomItems } from '../../slice';
 import { Item, testItem } from '../../types';
 import Card from './components/Card';
 
@@ -87,67 +86,27 @@ const ActivityIndicatorContainer = styled.View`
   align-items: center;
 `;
 
-const ChangeImageContainer = styled.View`
-  position:absolute;
-  width:50%;
-  height:100%;
-  opacity:0.1;
-  background-color:blue;
-`;
-
 function Main({ navigation }) {
   // const navigation = useNavigation();
 
   const scale = useRef(new Animated.Value(1)).current;
   const POSITION = useRef(new Animated.Value(0)).current;
-  // const checkButtonPosition = useRef(new Animated.Value(0)).current;
-  // const [testItems, setTestItems] = useState([]);
-  // const testItems : testItem[] = await getTESTItems();
-  const testItems : testItem[] = [
-    {
-      id: 1,
-      name: 'hi5',
-      description: 'hey5',
-      clause_agree: false,
-      deposit: '900',
-      imgName: '254af30f-5ba9-4aa5-85c7-8185fc7594ae.png',
-    },
-    {
-      id: 2,
-      name: 'dancingbug',
-      description: 'a dancing bug',
-      clause_agree: false,
-      deposit: '2500',
-      imgName: 'b117f147-9288-42d4-8aa3-e6ff58b62079.jpg',
-    },
-    {
-      id: 3,
-      name: 'Marceline',
-      description: 'the vampire queen',
-      clause_agree: false,
-      deposit: '2500',
-      imgName: '3274b189-1435-405f-944d-27fb71c561e8.png',
-    },
-    {
-      id: 4,
-      name: 'the vampire dad',
-      description: 'the vampire dad',
-      clause_agree: false,
-      deposit: '1241242',
-      imgName: 'b796942e-006c-49ce-aba2-d9edf73ac76d.png',
-    },
-  ];
-  // const [testItems, setTestItems] = useState<testItem[]>([]);
   const dispatch = useDispatch();
-  const { accessToken, randomItems } = useSelector((state:initialStateProps) => ({
+  const { accessToken, randomItems }:
+  {accessToken:String, randomItems:Item[]} = useSelector((state:initialStateProps) => ({
     accessToken: state.userState.accessToken,
     randomItems: state.randomItems,
   }));
-  const [itemList, setItemList] = useState<Item[]>([]);
-  const [test, setTest] = useState(0);
+
   useEffect(() => {
-    console.log(`accessToken : ${accessToken}`);
-    dispatch(requestRandomItems());
+    console.log(`randomItems.length값이 ${randomItems.length}입니다. `);
+    // console.log('값이 0입니다. ');
+    if (randomItems.length === 0) {
+      dispatch(requestRandomItems(10));
+    } else if (randomItems.length === 5) {
+      dispatch(requestRandomItems(5));
+    }
+    return () => {};
   }, [randomItems]);
 
   const secondScale = POSITION.interpolate({
@@ -162,11 +121,9 @@ function Main({ navigation }) {
     extrapolate: 'clamp',
   });
 
-  const [index, setIndex] = useState(0);
-
-  const onDismiss = () => {
-    setIndex((prev) => 1 + prev);
-    POSITION.setValue(0);
+  const next = () => {
+    dispatch(removeARandomItem());
+    console.log('next');
   };
 
   const bounceTotheLeftOut = () => {
@@ -176,39 +133,30 @@ function Main({ navigation }) {
       restDisplacementThreshold: 100,
       restSpeedThreshold: 100,
     }).start(() => {
-      // POSITION.setValue(-400)
-      // POSITION.flattenOffset()
-      console.log('버리기', testItems.length);
-      onDismiss();
-      // POSITION.flattenOffset()
+      next();
+
+      POSITION.setValue(0);
     });
   };
 
   const bounceTotheRightOut = () => {
-    // console.log('bounceTotheRightOut start POSITION', POSITION)
     Animated.spring(POSITION, {
       toValue: 400,
       useNativeDriver: true,
       restDisplacementThreshold: 100,
       restSpeedThreshold: 100,
     }).start(() => {
-      // console.log('bounceTotheRightOut end POSITION', POSITION)
-      // console.log('bounceTotheRightOut POSITION', POSITION)
-      // POSITION.setValue(400)
-      // POSITION.flattenOffset()
-      onDismiss();
+      next();
+      POSITION.setValue(0);
     });
   };
 
   const bounceBack = () => {
-    // console.log('bounceBack start POSITION', POSITION)
-
     Animated.spring(POSITION, {
       toValue: 0,
       bounciness: 10,
       useNativeDriver: true,
     }).start(() => {
-      console.log('bounceBack end POSITION', POSITION);
       POSITION.setValue(0);
       POSITION.flattenOffset();
     });
@@ -236,25 +184,12 @@ function Main({ navigation }) {
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderGrant: (_, test) => {
-        console.log('POSITION', POSITION);
-        console.log('POSITION.setOffset(POSITION._value)', POSITION._value);
-        // POSITION.setOffset(POSITION._value);
-        // POSITION.setValue(0)
-        console.log('POSITION', POSITION);
-        console.log('POSITION.setOffset(POSITION._value)', POSITION._value);
         onPressIn();
-        // console.log("grant\tPOSITION\t", POSITION)
-        // console.log("grant\tPOSITION._value\t", POSITION._value)
       },
       onPanResponderMove: (_, { dx }) => {
         POSITION.setValue(dx);
-        // console.log('setValue(dx)\t\t', dx)
-        // console.log('Move\tPOSITION\t', POSITION)
-        // console.log('Move\tPOSITION.value\t', POSITION._value)
       },
       onPanResponderRelease: (_, { dx }) => {
-        console.log('Release POSITION', typeof POSITION);
-        console.log('Release POSITION._value', POSITION._value);
         POSITION.flattenOffset();
         if (POSITION._value > 150) {
           bounceTotheRightOut();
@@ -270,7 +205,7 @@ function Main({ navigation }) {
   return (
     <Container>
       <Body>
-        {testItems.length > 0
+        {randomItems.length > 0
           ? (
             <CardContainer>
               <AnimatedCard
@@ -279,10 +214,7 @@ function Main({ navigation }) {
                 }}
               >
                 <Card
-                  index={index + 1}
-                  img={testItems[index + 1].imgName}
-                  // img=""
-                  text={testItems[index + 1].name}
+                  item={randomItems[1]}
                 />
               </AnimatedCard>
               <AnimatedCard
@@ -292,10 +224,7 @@ function Main({ navigation }) {
                 }}
               >
                 <Card
-                  index={index}
-                  img={testItems[index].imgName}
-                  // img=""
-                  text={testItems[index].name}
+                  item={randomItems[0]}
                 />
               </AnimatedCard>
             </CardContainer>
