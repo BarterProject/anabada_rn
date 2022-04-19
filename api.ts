@@ -60,12 +60,14 @@ export async function postSignup(userInfo) {
   return data;
 }
 
-export async function getRandomItems(accessToken) {
-  const response = await (await axios.get(
-    `${BASE_URL}/api/items?size=10`,
+export async function getRandomItems({ accessToken, number }) {
+  console.log('getRandomItems');
+  const response = await axios.get(
+    `${BASE_URL}/api/items?size=${number}`,
     { headers: { Authorization: `Bearer ${accessToken}` } },
-  ));
+  );
   const { data } = response;
+  // console.log('getRandomItems', data);
   return data;
 }
 
@@ -76,4 +78,30 @@ export async function getTESTItems() {
   console.log('getTESTItems : ', data);
 
   return data;
+}
+
+export async function getMyItems(accessToken) {
+  const response = await (await axios.get(
+    `${BASE_URL}/api/user/items?option=owner`,
+    { headers: { Authorization: `Bearer ${accessToken}` } },
+  ));
+  const { data } = response;
+  console.log(data);
+  // return data;
+}
+
+export async function sendReport({ accessToken, title, content }) {
+  const response = await (await axios.get(
+    `${BASE_URL}/api/items/1/reports`,
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      data: {
+        title, content,
+      },
+    },
+
+  ));
+  const { data } = response;
+  console.log(data);
+  // return data;
 }
