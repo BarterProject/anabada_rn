@@ -46,7 +46,7 @@ export type Item={
     name:string;
     description:string;
     createdAt:string;
-    end:string|null;
+    endAt:string|null;
     deposit:number;
     clause_agree:boolean;
     payment:string|null;
