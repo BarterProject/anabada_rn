@@ -142,9 +142,13 @@ const { actions, reducer } = createSlice({
         accessToken: '',
       },
     }),
-    setRandomItems: (state, { payload: randomItems }) => ({
+    addRandomItems: (state, { payload: randomItems }) => ({
       ...state,
-      randomItems,
+      randomItems: [...state.randomItems, ...randomItems],
+    }),
+    removeARandomItem: (state) => ({
+      ...state,
+      randomItems: [...state.randomItems.slice(1)],
     }),
   },
 });
@@ -161,7 +165,8 @@ export const {
   setAccountNumber,
   setAccessToken,
   deleteAccessToken,
-  setRandomItems,
+  addRandomItems,
+  removeARandomItem,
 } = actions;
 
 export function requestSignUp() {
@@ -224,13 +229,13 @@ export function requestLogin() {
   };
 }
 
-export function requestRandomItems() {
+export function requestRandomItems(number :number) {
   return async (dispatch, getState) => {
     const { userState: { accessToken } } = getState();
 
     try {
-      const data = await getRandomItems(accessToken);
-      setRandomItems(data);
+      const data:Item[] = await getRandomItems({ accessToken, number });
+      dispatch(addRandomItems(data));
     } catch (e) {
       console.log(e);
     }
