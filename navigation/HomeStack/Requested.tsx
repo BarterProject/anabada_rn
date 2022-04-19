@@ -49,25 +49,46 @@ export default function Requested() {
   }));
 
   useEffect(() => {
-    alert(accessToken);
+    // alert(accessToken);
     console.log(accessToken);
+    const asf = new Blob([JSON.stringify(mockData)], {
+      type: 'application/json',
+    });
+    console.log('New Blob앞');
+    console.log(new Blob([JSON.stringify(mockData)], {
+      type: 'application/json',
+    }));
+    console.log(asf);
+    console.log('New Blob뒤');
     // formData.append('name', 'park');
     // formData.append('description', 'verygood');
     // formData.append('clause_agree', '');
     // formData.append('deposit', '10001');
     formData.append('item', JSON.stringify(mockData));
+    // formData.append('item', asf);
     console.log('formData', formData);
   });
 
   return (
     <Container>
-      <Button
+      <Image
+        style={{ width: '100%', height: '100%' }}
+        source={{
+          uri: `${BASE_URL}/api/items/images/4d4925f4-a73a-49d3-ab37-c259dd3a072.jpg`,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }}
+      />
+
+      {/* <Button
         title="이미지 올리기"
         onPress={upload}
       />
       {imgList.length === 0 ? null : (
         imgList.map((aImg) => {
-          formData.append('images', {
+          console.log('aImg', aImg);
+          formData.append('img', {
             uri: aImg.path,
             name: aImg.path,
             type: `image/${aImg.path.split('.').pop()}`,
@@ -101,6 +122,7 @@ export default function Requested() {
           try {
             // const res = await fetch('http://10.0.2.2:3000/items/imgsandobject', {
             const res = await fetch(`${BASE_URL}/api/user/items`, {
+            // const res = await fetch('http://172.20.10.2:8080/api/user/items', {
               method: 'POST',
               // headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
               headers: {
@@ -110,12 +132,12 @@ export default function Requested() {
               },
               body: formData,
             });
-            console.log(res);
+            console.log('try', res);
           } catch (e) {
-            console.error(e);
+            // console.log('error', e);
           }
         }}
-      />
+      /> */}
     </Container>
   );
 }
