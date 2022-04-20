@@ -9,9 +9,15 @@ import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useSelector } from 'react-redux';
 import Slide from './components/Slide';
 
-import { InputTitle, InputContent } from './utils';
+import {
+  InputTitle, InputContent, InputColumn, CommonText, InputValue,
+} from './utils';
+
+import { itemApi } from '../../api';
+import { initialStateProps } from '../../slice';
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -23,26 +29,6 @@ const Btn = styled.TouchableOpacity``;
 
 const Inputs = styled.View`
   padding: 0 25px;
-`;
-
-const InputColumn = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  height: 40px;
-  align-items: center;
-  margin: 15px 0;
-`;
-
-const InputMoney = styled(InputTitle)`
-  height: 35px;
-  width: 100px;
-  margin: 0;
-`;
-
-const ImageText = styled.Text`
-  color: #626262;
-  font-weight: 300;
-  font-size: 20px;
 `;
 
 const StatusText = styled.Text`
@@ -61,18 +47,57 @@ const Button = styled.TouchableOpacity`
   align-items: center;
 `;
 
+const CategoryBtn = styled.Pressable`
+  
+`;
 function Enroll({
   navigation: { setOptions },
+  route: { params },
 }: {
-  navigation: { setOptions: Function };
+  navigation: { setOptions: Function },
+  route:{params:{idx:number, type:string}}
 }) {
   const navigation = useNavigation();
   const [isChecked, setChecked] = useState(false);
+  const [category, setCategory] = useState(null);
+  const [paymentOption, setPaymentOption] = useState(null);
+  const [imgList, setImgList] = useState([]);
+  const [categoryCheck, setCategoryCheck] = useState(null);
+  const [paymentCheck, setPaymentCheck] = useState(null);
 
+  const {
+    accessToken,
+  } = useSelector(
+    (state:initialStateProps) => ({
+      accessToken: state.userState.accessToken,
+    }),
+  );
+  const getCategories = async () => {
+    const { data } = await itemApi.getCategories(accessToken);
+    // const newData = data.map((e:categoryType) => ({ ...e, check: false }));
+    setCategory(data);
+  };
+
+  const getPaymentOptions = async () => {
+    const { data } = await itemApi.getPaymentOptions(accessToken);
+    setPaymentOption(data);
+  };
+
+  const saveItem = async () => {
+    const item = {
+      name: 'test!!!', description: '배성연화이팅22', clause_agree: true, payment: { amount: 30000, paymentOption: { idx: 3 } }, itemCategory: { idx: 3 },
+    };
+    try {
+      const { data } = await itemApi.saveItem(accessToken, item, imgList);
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   useEffect(() => {
     setOptions({
       headerBackTitleVisible: false,
-      title: '',
+      title: '아이템 등록하기',
       headerLeft: () => (
         <Btn
           onPress={() => {
@@ -84,14 +109,22 @@ function Enroll({
           </Text>
         </Btn>
       ),
-      headerRight: () => null,
     });
+    getCategories();
+    getPaymentOptions();
   }, []);
+  useEffect(() => {
+    if (params) {
+      // eslint-disable-next-line no-unused-expressions
+      params.type === 'category' ? setCategoryCheck(params.idx)
+        : setPaymentCheck(params.idx);
+    }
+  }, [params]);
 
   return (
     <KeyboardAwareScrollView extraScrollHeight={30}>
       <Container>
-        <Slide img={[]} edit />
+        <Slide imgList={imgList} setImgList={setImgList} edit />
         <Inputs>
           <InputTitle placeholder="제품명" />
           <InputContent
@@ -100,18 +133,44 @@ function Enroll({
             numberOfLines={10}
             style={{ textAlignVertical: 'top' }}
           />
+          <CategoryBtn onPress={() => {
+            navigation.navigate('Item', {
+              screen: 'SelectOption',
+              params: { itemList: category, check: categoryCheck, type: 'category' },
+            });
+          }}
+          >
+            <InputColumn style={{ marginTop: 20 }}>
+              <CommonText>{categoryCheck ? category[categoryCheck - 1].name : '카테고리 선택'}</CommonText>
+
+              <Ionicons size={20} name="chevron-forward-outline" color="black" />
+            </InputColumn>
+          </CategoryBtn>
+          <CategoryBtn onPress={() => {
+            navigation.navigate('Item', {
+              screen: 'SelectOption',
+              params: { itemList: paymentOption, check: paymentCheck, type: 'payment' },
+            });
+          }}
+          >
+            <InputColumn style={{ marginTop: 20 }}>
+              <CommonText>{paymentCheck ? paymentOption[paymentCheck - 1].name : '결제수단 선택'}</CommonText>
+
+              <Ionicons size={20} name="chevron-forward-outline" color="black" />
+            </InputColumn>
+          </CategoryBtn>
           <InputColumn>
-            <ImageText>보증금</ImageText>
-            <InputMoney />
+            <CommonText>보증금</CommonText>
+            <InputValue />
           </InputColumn>
           <StatusText>
             <Ionicons size={20} name="warning" color="#ffe222" />
             계좌번호 0000-000-00000에 계좌이체 하셔야 등록이 완료됩니다.
           </StatusText>
           <InputColumn>
-            <ImageText>계약명세서 (더보기)</ImageText>
+            <CommonText>계약명세서 (더보기)</CommonText>
             <View style={{ flexDirection: 'row' }}>
-              <ImageText>동의</ImageText>
+              <CommonText>동의</CommonText>
               <Checkbox
                 style={{ marginLeft: 10 }}
                 value={isChecked}
@@ -119,7 +178,7 @@ function Enroll({
               />
             </View>
           </InputColumn>
-          <Button style={{ marginBottom: 20 }}>
+          <Button style={{ marginBottom: 20 }} onPress={() => { saveItem(); }}>
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 20 }}>
               등록완료
             </Text>

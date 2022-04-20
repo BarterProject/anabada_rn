@@ -193,7 +193,12 @@ export default function Card({ item }:{item:Item}) {
             onPress={
               () => {
                 // alert('test');
-                navigation.navigate('ItemDetail');
+                navigation.navigate('Item', {
+                  screen: 'Detail',
+                  params: {
+                    readOnly: true,
+                  },
+                });
               }
           }
           >

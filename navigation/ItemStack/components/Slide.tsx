@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import styled from 'styled-components/native';
 
@@ -50,12 +50,9 @@ const DelBtn = styled.TouchableOpacity`
   box-shadow: 1px 1px 5px lightgray;
 `;
 
-function Slide({ img, edit }:{img:Array<Img>, edit:boolean}) {
-  const [imgList, setImgList] = useState([]);
-  useEffect(() => {
-    setImgList(img);
-  }, [img]);
-
+function Slide({ imgList, edit, setImgList }:{imgList:Array<Img>,
+  edit:boolean,
+  setImgList:Function}) {
   const upload = async () => {
     try {
       ImagePicker.openPicker({

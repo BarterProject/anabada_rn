@@ -1,7 +1,22 @@
+// eslint-disable-next-line import/no-unresolved
 import { BASE_URL } from '@env';
+import axios, { AxiosResponse } from 'axios';
 
-import axios from 'axios';
-import { testItem, Item } from './types';
+import {
+  itemType, imageType,
+} from './types';
+
+// const {
+//   accessToken,
+// } = useSelector(
+//   (state:initialStateProps) => ({
+//     accessToken: state.userState.accessToken,
+//   }),
+// );
+const api = axios.create({
+  baseURL: BASE_URL as string,
+  // headers: { Authorization: `Bearer ${accessToken}` },
+});
 
 export async function postLogin({ id, password }) {
   // const url = 'http://146.56.36.179:8080/api/user/authentication';
@@ -16,7 +31,7 @@ export async function postLogin({ id, password }) {
     body: JSON.stringify({ email: id, password }),
   }).then((res) => (res.json()))
     .catch((err) => {
-      console.log(err.response);
+      console.log(err);
       return { jwt: 'err' };
     });
   return data;
@@ -105,3 +120,36 @@ export async function sendReport({ accessToken, title, content }) {
   console.log(data);
   // return data;
 }
+
+export const itemApi = {
+  getCategories: (accessToken:string) :Promise<AxiosResponse<any>> => api.get('/api/items/categories', { headers: { Authorization: `Bearer ${accessToken}` } }),
+  getPaymentOptions: (accessToken:string):Promise<AxiosResponse<any>> => api.get('/api/items/payments/options', { headers: { Authorization: `Bearer ${accessToken}` } }),
+  saveItem: (accessToken:string, item: itemType, images:imageType[]):
+  Promise<AxiosResponse<any>> => {
+    const formData = new FormData();
+    // const jsonItemBlob = new Blob([JSON.stringify({ ...item, type: 'application/json' })]);
+    console.log(item);
+
+    images.forEach((image) => {
+      console.log(image);
+      const ext = image.sourceURL.split('.').pop();
+      const filename = image.sourceURL.split('/').pop();
+      // const imageContents = {
+      //   uri: image.sourceURL,
+      //   name: filename,
+      // };
+
+      console.log(ext, filename);
+      formData.append('img', new Blob([image.sourceURL], { type: 'image/png' }));
+    });
+    formData.append('item', JSON.stringify({ ...item, type: 'application/json' }));
+
+    return api.post('/api/user/items', formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken},`,
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data; boundary=--------287032381131322',
+      },
+    });
+  },
+};

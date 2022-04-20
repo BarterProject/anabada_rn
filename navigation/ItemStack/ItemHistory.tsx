@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   TouchableOpacity, Text, Animated,
-  Platform,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -92,6 +91,8 @@ function ItemHistory({
       width: 4288,
     },
   ]);
+
+  
 
   const [nowImage, setNowImage] = useState(null);
 

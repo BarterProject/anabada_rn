@@ -214,7 +214,7 @@ export function requestLogin() {
     try {
       console.log(id, password);
       const data = await postLogin({ id, password });
-
+      console.log(data);
       const { message, jwt } = data;
       if (message !== undefined) {
         console.log(message);
@@ -223,7 +223,7 @@ export function requestLogin() {
         dispatch(setAccessToken(jwt));
       }
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
       dispatch(setAccessToken(''));
     }
   };
