@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
 import { initialStateProps, removeARandomItem, requestRandomItems } from '../../slice';
-import { Item, testItem } from '../../types';
+import { Item } from '../../types';
 import Card from './components/Card';
 
 const Container = styled.View`
@@ -20,12 +20,11 @@ const Container = styled.View`
 
 const Body = styled.View`
   flex:10;
-  background-color:skyblue;
+  background-color:lightgray;
 `;
 
 const NavBar = styled.View`
   flex:2;
-  background-color:pink;
 `;
 
 const CircleButton = styled.TouchableOpacity`
@@ -41,7 +40,7 @@ const CenterButton = styled.TouchableOpacity`
   border-radius:50px;
   background-color:white;
   border:5px;
-  top:10px;
+  top:0px;
 `;
 const NavBarButtonsConatainer = styled.View`
   flex-direction:row;
@@ -92,10 +91,11 @@ function Main({ navigation }) {
   const scale = useRef(new Animated.Value(1)).current;
   const POSITION = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
-  const { accessToken, randomItems }:
+  const { accessToken, randomItems, chosenItem }:
   {accessToken:String, randomItems:Item[]} = useSelector((state:initialStateProps) => ({
     accessToken: state.userState.accessToken,
     randomItems: state.randomItems,
+    chosenItem: state.chosenItem,
   }));
 
   useEffect(() => {
@@ -146,6 +146,9 @@ function Main({ navigation }) {
       restDisplacementThreshold: 100,
       restSpeedThreshold: 100,
     }).start(() => {
+      if (chosenItem === '') {
+        alert('교환요청을 실패했습니다. \n교환할 자신의 아이템을 선택해주세요');
+      }
       next();
       POSITION.setValue(0);
     });

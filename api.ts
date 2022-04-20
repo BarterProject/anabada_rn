@@ -6,23 +6,13 @@ import {
   itemType, imageType,
 } from './types';
 
-// const {
-//   accessToken,
-// } = useSelector(
-//   (state:initialStateProps) => ({
-//     accessToken: state.userState.accessToken,
-//   }),
-// );
 const api = axios.create({
   baseURL: BASE_URL as string,
-  // headers: { Authorization: `Bearer ${accessToken}` },
+
 });
 
 export async function postLogin({ id, password }) {
-  // const url = 'http://146.56.36.179:8080/api/user/authentication';
-  console.log(BASE_URL);
   const url = `${BASE_URL}/api/user/authentication`;
-  console.log('postLogin진입');
   const data = await fetch(url, {
     method: 'POST',
     headers: {
@@ -37,7 +27,21 @@ export async function postLogin({ id, password }) {
   return data;
 }
 
-//   export async function postSignup({ email, username, password }) {
+export async function getMyInfo(accessToken) {
+  const url = `${BASE_URL}/api/user`;
+  const data = await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((res) => (res.json()))
+    .catch((err) => {
+      console.log(err);
+      return { jwt: 'err' };
+    });
+  return data;
+}
+
 export async function postSignup(userInfo) {
   const url = `${BASE_URL}/api/user`;
   console.log('postSignup진입');
@@ -69,8 +73,6 @@ export async function postSignup(userInfo) {
       console.log(err.response);
       return { jwt: 'err' };
     });
-  // const { jwt } = data;
-  // console.log(`postSignup 아웃풋 : ${jwt}`);
 
   return data;
 }
@@ -82,12 +84,11 @@ export async function getRandomItems({ accessToken, number }) {
     { headers: { Authorization: `Bearer ${accessToken}` } },
   );
   const { data } = response;
-  // console.log('getRandomItems', data);
+
   return data;
 }
 
 export async function getTESTItems() {
-  // const response = await axios.get('http://10.0.2.2:3000/item');
   const response = await (await axios.get('http://10.0.2.2:3000/items'));
   const { data } = response;
   console.log('getTESTItems : ', data);
@@ -120,6 +121,24 @@ export async function sendReport({ accessToken, title, content }) {
   console.log(data);
   // return data;
 }
+
+export const dealApi = {
+  requestDeal: ({ requestId, resqustedId, accessToken }) => api.post('/api/user/items/requests', {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify({
+      requestItem: {
+        idx: requestId,
+      },
+      responseItem: {
+        idx: resqustedId,
+      },
+    }),
+  }),
+  getRequestDeals: ({ requestId, accessToken }) => api.get(`/api/user/items/${requestId}/requests`, { headers: { Authorization: `Bearer ${accessToken}` } }),
+  getRequestedDeals: ({ resqustedId, accessToken }) => api.get(`/api/user/items/${resqustedId}/requests`, { headers: { Authorization: `Bearer ${accessToken}` } }),
+  acceptDealRequested: ({ requesedtId, accessToken }) => api.put(`/api/user/items/requests/${requesedtId}/accept`, { headers: { Authorization: `Bearer ${accessToken}` } }),
+  declineDealRequested: ({ requesedtId, accessToken }) => api.put(`/api/user/items/requests/${requesedtId}/decline`, { headers: { Authorization: `Bearer ${accessToken}` } }),
+};
 
 export const itemApi = {
   getCategories: (accessToken:string) :Promise<AxiosResponse<any>> => api.get('/api/items/categories', { headers: { Authorization: `Bearer ${accessToken}` } }),

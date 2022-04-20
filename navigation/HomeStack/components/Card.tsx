@@ -3,7 +3,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
-  Image, View,
+  Image, Text, View,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
@@ -17,28 +17,18 @@ const Container = styled.View`
   height:100%;
 `;
 
-const NumberContainer = styled.View`
-  flex:1;
-  justify-content:center;
-  align-items:center;
-  /* background-color:red; */
-`;
-
-const NumberText = styled.Text`
-  font-size:80px;
-  font-weight:900;
-`;
 const InfoContainer = styled.View`
   z-index:1;
   position:absolute;
-  flex-direction:row;
+  /* flex-direction:row; */
   width:100%;
   height:30%;
 `;
 
 const InfoText = styled.Text`
-  color:white;
-  font-size:80px;
+  padding: 8px;
+  color: white;
+  font-size:40px;
   font-weight:900;
 `;
 
@@ -48,7 +38,7 @@ const InfoContainerBackground = styled.View`
   /* flex:1; */
   width:100%;
   height:30%;
-  opacity:0.5;
+  opacity:0.2;
   background-color:black;
   
 `;
@@ -62,7 +52,8 @@ const DetailButton = styled.Pressable`
 `;
 
 const DetailButtonText = styled.Text`
-  
+  left:0;
+  padding-top: 15px;
 `;
 const ChangeImageContainer = styled.View`
   position:absolute;
@@ -70,6 +61,22 @@ const ChangeImageContainer = styled.View`
   width:100%;
   height:100%;
   opacity:0.5;
+`;
+
+const InfoTitle = styled.View`
+  flex-direction:row;
+`;
+
+const DepositContainer = styled.View`
+  display:flex;
+  flex-direction:row;
+  padding: 10px;
+  top:-10px;
+`;
+
+const Deposit = styled.Text`
+  background-color:gray;
+  font-size: 20px;
 `;
 
 export default function Card({ item }:{item:Item}) {
@@ -126,7 +133,6 @@ export default function Card({ item }:{item:Item}) {
       <ChangeImageContainer>
         <View
           style={{
-
             backgroundColor: 'yellow',
             opacity: 0,
             flex: 1,
@@ -178,35 +184,36 @@ export default function Card({ item }:{item:Item}) {
         />
 
       </ChangeImageContainer>
-      {/* <NumberContainer>
-        <NumberText>
-          {index}
-        </NumberText>
-      </NumberContainer> */}
       <InfoContainerBackground />
       <InfoContainer>
-        <InfoText>
-          {name}
-        </InfoText>
-        <DetailButtonContainer>
-          <DetailButton
-            onPress={
+        <InfoTitle>
+          <InfoText>
+            {name}
+          </InfoText>
+          <DetailButtonContainer>
+            <DetailButton
+              onPress={
               () => {
                 // alert('test');
-                navigation.navigate('Item', {
-                  screen: 'Detail',
-                  params: {
-                    readOnly: true,
-                  },
+                navigation.navigate('ItemDetail', {
+                  item,
+                  accessToken,
                 });
               }
           }
-          >
-            <DetailButtonText>
-              <AntDesign name="infocirlceo" size={50} />
-            </DetailButtonText>
-          </DetailButton>
-        </DetailButtonContainer>
+            >
+              <DetailButtonText>
+                <AntDesign name="infocirlceo" color="white" size={20} />
+              </DetailButtonText>
+            </DetailButton>
+          </DetailButtonContainer>
+        </InfoTitle>
+        <DepositContainer>
+          <Deposit>
+            {deposit}
+            원
+          </Deposit>
+        </DepositContainer>
       </InfoContainer>
     </Container>
   );

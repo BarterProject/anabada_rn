@@ -4,6 +4,7 @@ import { getRandomItems, postLogin, postSignup } from './api';
 import { Item } from './types';
 
 export type initialStateProps ={
+
     signInField:{
       id:string,
       password:string,
@@ -24,6 +25,7 @@ export type initialStateProps ={
     userState:{
       accessToken:string
     }
+    chosenItem:string,
     randomItems:Item[]
 }
 
@@ -55,6 +57,7 @@ const { actions, reducer } = createSlice({
     userState: {
       accessToken: '',
     },
+    chosenItem: '',
     randomItems: [],
   },
   reducers: {
