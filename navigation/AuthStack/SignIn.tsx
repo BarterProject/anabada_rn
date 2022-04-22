@@ -70,6 +70,7 @@ const Body = styled.View`
 type SignInProps = NativeStackScreenProps<AuthStackParamList, 'PhoneAuth'>
 
 export default function SignIn({ navigation }: SignInProps) {
+
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);

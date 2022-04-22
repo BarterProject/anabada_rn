@@ -285,7 +285,7 @@ function Main({ navigation }) {
           >
             <CircleButton
               onPress={() => {
-                navigation.navigate('Item', { screen: 'Main' });
+                navigation.navigate('Item', { screen: 'Main', params: { getNewData: false } });
               }}
             >
               <ButtonTextContainer>

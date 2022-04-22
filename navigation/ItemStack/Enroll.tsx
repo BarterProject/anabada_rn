@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { Text, View } from 'react-native';
 import Checkbox from 'expo-checkbox';
@@ -18,6 +18,8 @@ import {
 
 import { itemApi } from '../../api';
 import { initialStateProps } from '../../slice';
+import { itemType } from '../../types';
+// import { imageToSendType } from '../../types';
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -36,7 +38,7 @@ const StatusText = styled.Text`
   font-size: 20px;
 `;
 
-const Button = styled.TouchableOpacity`
+const Button = styled.TouchableOpacity<{dis:boolean}>`
   width: 100%;
   height: 50px;
   padding: 5px;
@@ -45,26 +47,36 @@ const Button = styled.TouchableOpacity`
   color: white;
   justify-content: center;
   align-items: center;
+  opacity:${(props) => (props.dis ? 0.3 : 1)};
 `;
 
 const CategoryBtn = styled.Pressable`
   
 `;
 function Enroll({
-  navigation: { setOptions },
+  navigation: { setOptions, navigate },
   route: { params },
 }: {
-  navigation: { setOptions: Function },
+  navigation: { setOptions: Function, navigate:Function },
   route:{params:{idx:number, type:string}}
 }) {
   const navigation = useNavigation();
-  const [isChecked, setChecked] = useState(false);
   const [category, setCategory] = useState(null);
   const [paymentOption, setPaymentOption] = useState(null);
   const [imgList, setImgList] = useState([]);
   const [categoryCheck, setCategoryCheck] = useState(null);
   const [paymentCheck, setPaymentCheck] = useState(null);
 
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [agree, setAgree] = useState(false);
+  const [amount, setAmount] = useState('');
+
+  useEffect(() => {
+    console.log(imgList.length);
+  }, [imgList]);
+
+  const [send, setSend] = useState(false);
   const {
     accessToken,
   } = useSelector(
@@ -72,28 +84,53 @@ function Enroll({
       accessToken: state.userState.accessToken,
     }),
   );
-  const getCategories = async () => {
-    const { data } = await itemApi.getCategories(accessToken);
-    // const newData = data.map((e:categoryType) => ({ ...e, check: false }));
-    setCategory(data);
-  };
 
-  const getPaymentOptions = async () => {
+  useEffect(() => {
+    if (categoryCheck && paymentCheck && imgList.length && name.length && description.length
+      && amount.length && agree) {
+      if (!send) {
+        setSend(true);
+      }
+    } else
+    if (send) {
+      setSend(false);
+      console.log('send-false 리렌더!');
+    }
+  }, [categoryCheck, paymentCheck, imgList, name, description, amount, agree]);
+
+  const getCategories = useCallback(async () => {
+    const { data } = await itemApi.getCategories(accessToken);
+    setCategory(data);
+  }, []);
+
+  const getPaymentOptions = useCallback(async () => {
     const { data } = await itemApi.getPaymentOptions(accessToken);
     setPaymentOption(data);
-  };
+  }, []);
 
-  const saveItem = async () => {
+  // eslint-disable-next-line no-shadow
+  const saveItem = useCallback(async () => {
     const item = {
-      name: 'test!!!', description: '배성연화이팅22', clause_agree: true, payment: { amount: 30000, paymentOption: { idx: 3 } }, itemCategory: { idx: 3 },
+      name,
+      description,
+      clause_agree: agree,
+      payment: { amount: parseInt(amount, 10), paymentOption: { idx: paymentCheck } },
+      itemCategory: { idx: categoryCheck },
     };
     try {
-      const { data } = await itemApi.saveItem(accessToken, item, imgList);
-      console.log(data);
+      const data:itemType = await itemApi.saveItem(accessToken, item, imgList);
+      navigate('Item', {
+        screen: 'Detail',
+        params: {
+          readOnly: false,
+          itemIdx: data.idx,
+          enrollMode: true,
+        },
+      });
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [name, description, agree, imgList, amount, paymentCheck, categoryCheck]);
   useEffect(() => {
     setOptions({
       headerBackTitleVisible: false,
@@ -126,11 +163,17 @@ function Enroll({
       <Container>
         <Slide imgList={imgList} setImgList={setImgList} edit />
         <Inputs>
-          <InputTitle placeholder="제품명" />
+          <InputTitle
+            placeholder="제품명"
+            onChangeText={(text:string) => { setName(text); }}
+            value={name}
+          />
           <InputContent
             placeholder="설명"
             multiline
             numberOfLines={10}
+            onChangeText={(text:string) => { setDescription(text); }}
+            value={description}
             style={{ textAlignVertical: 'top' }}
           />
           <CategoryBtn onPress={() => {
@@ -161,7 +204,11 @@ function Enroll({
           </CategoryBtn>
           <InputColumn>
             <CommonText>보증금</CommonText>
-            <InputValue />
+            <InputValue
+              textAlign="center"
+              onChangeText={(text:string) => { setAmount(text); }}
+              value={amount}
+            />
           </InputColumn>
           <StatusText>
             <Ionicons size={20} name="warning" color="#ffe222" />
@@ -173,12 +220,17 @@ function Enroll({
               <CommonText>동의</CommonText>
               <Checkbox
                 style={{ marginLeft: 10 }}
-                value={isChecked}
-                onValueChange={setChecked}
+                value={agree}
+                onValueChange={setAgree}
               />
             </View>
           </InputColumn>
-          <Button style={{ marginBottom: 20 }} onPress={() => { saveItem(); }}>
+          <Button
+            style={{ marginBottom: 20 }}
+            onPress={() => { saveItem(imgList); }}
+            disabled={!send}
+            dis={!send}
+          >
             <Text style={{ color: 'white', fontWeight: '600', fontSize: 20 }}>
               등록완료
             </Text>

@@ -2,7 +2,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import {
-  TouchableOpacity, Text, Platform,
+  Text, Platform, TouchableOpacity,
 } from 'react-native';
 
 import styled from 'styled-components/native';
@@ -12,6 +12,8 @@ import DropShadow from 'react-native-drop-shadow';
 import { useNavigation } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons';
+
+import { BASE_URL } from '@env';
 
 const Container = styled.View<{ width: number }>`
   width: ${(props) => `${props.width}%`};
@@ -56,6 +58,7 @@ function ItemInstance({
   clickable,
   width,
   passport,
+  idx,
 }: {
   uri: string;
   connectedUser: number;
@@ -63,9 +66,9 @@ function ItemInstance({
   clickable: boolean;
   width: number;
   passport: boolean;
+  idx:number;
 }) {
   const { navigate } = useNavigation();
-
   return (
     <Container width={width}>
       <TouchableOpacity
@@ -75,6 +78,7 @@ function ItemInstance({
               screen: 'Detail',
               params: {
                 readOnly: false,
+                itemIdx: idx,
               },
             });
         }}
@@ -89,7 +93,7 @@ function ItemInstance({
         >
           <Item
             source={{
-              uri,
+              uri: `${BASE_URL}/api/items/images/${uri}`,
             }}
             resizeMode="cover"
             imageStyle={{ borderRadius: 25 }}
@@ -111,7 +115,7 @@ function ItemInstance({
             )}
             {status === 'normal' ? null : Platform.OS === 'ios' ? (
               <BlurView
-                intensity={20}
+                intensity={50}
                 style={{
                   height: 30,
                   justifyContent: 'center',

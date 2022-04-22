@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import styled from 'styled-components/native';
 
@@ -7,7 +7,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 import ImagePicker from 'react-native-image-crop-picker';
 
-import { Img } from '../../../types';
+import { BASE_URL } from '@env';
+
+import { imageType } from '../../../types';
 
 const Container = styled.View`
   width: 100%;
@@ -21,7 +23,7 @@ const Scroll = styled.ScrollView`
   flex: 1;
 `;
 
-const ImageItem = styled.TouchableOpacity`
+const ImageItem = styled.Pressable`
   width: 250px;
   height: 100%;
   background-color: #f2f2f2;
@@ -50,7 +52,7 @@ const DelBtn = styled.TouchableOpacity`
   box-shadow: 1px 1px 5px lightgray;
 `;
 
-function Slide({ imgList, edit, setImgList }:{imgList:Array<Img>,
+function Slide({ imgList, edit, setImgList }:{imgList:Array<imageType>,
   edit:boolean,
   setImgList:Function}) {
   const upload = async () => {
@@ -76,9 +78,32 @@ function Slide({ imgList, edit, setImgList }:{imgList:Array<Img>,
       console.log(e);
     }
   };
+
   const removeImage = (index: number) => {
     setImgList(imgList.filter((e, idx) => index !== idx));
   };
+
+  const imageFetch = useMemo(() => imgList.map((e, idx: number) => (
+    <ImageItem key={e.name}>
+      <ImageInstance
+        source={{
+          uri: edit ? e.path : `${BASE_URL}/api/items/images/${e.name}`,
+        }}
+        resizeMode="cover"
+        imageStyle={{ borderRadius: 25 }}
+      />
+      {edit ? (
+        <DelBtn
+          onPress={() => {
+            removeImage(idx);
+          }}
+        >
+          <Ionicons size={30} color="black" name="close-circle" />
+        </DelBtn>
+      ) : null}
+
+    </ImageItem>
+  )), [imgList]);
   return (
     <Container>
       {imgList && imgList.length === 0 ? (
@@ -88,42 +113,38 @@ function Slide({ imgList, edit, setImgList }:{imgList:Array<Img>,
           </ImageItem>
         ) : null
       ) : (
-        <Scroll
-          contentContainerStyle={{ paddingHorizontal: 15 }}
-          horizontal
-          // onContentSizeChange={() => {
-          //   // 여기다가 어떤 경우에 스크롤을 하면 될지에 대한 조건문을 추가하면 된다.
-          //   scrollViewRef.current.scrollTo(0);
-          // }}
-        >
-          {imgList.map((e: any, idx: number) => (
-            <ImageItem key={e.path}>
-              <ImageInstance
-                source={{
-                  uri: e.path,
-                }}
-                resizeMode="cover"
-                imageStyle={{ borderRadius: 25 }}
-              />
-              {edit ? (
-                <DelBtn
-                  onPress={() => {
-                    removeImage(idx);
-                  }}
-                >
-                  <Ionicons size={30} color="black" name="close-circle" />
-                </DelBtn>
-              ) : null}
+        imgList.length !== 1 ? (
+          <Scroll
+            contentContainerStyle={{ paddingHorizontal: 15 }}
+            horizontal
+          >
 
-            </ImageItem>
-          ))}
-          {edit ? (
-            <ImageItem onPress={upload}>
-              <ImageText>사진을 추가하세요.</ImageText>
-            </ImageItem>
-          ) : null}
+            {imageFetch}
+            {edit ? (
+              <ImageItem onPress={upload}>
+                <ImageText>사진을 추가하세요.</ImageText>
+              </ImageItem>
+            ) : null}
 
-        </Scroll>
+          </Scroll>
+        ) : (
+          !edit
+            ? imageFetch : (
+              <Scroll
+                contentContainerStyle={{ paddingHorizontal: 15 }}
+                horizontal
+              >
+
+                {imageFetch}
+                {edit ? (
+                  <ImageItem onPress={upload}>
+                    <ImageText>사진을 추가하세요.</ImageText>
+                  </ImageItem>
+                ) : null}
+
+              </Scroll>
+            )
+        )
       )}
     </Container>
   );

@@ -1,20 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components/native';
 
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+import { useSelector } from 'react-redux';
+
 import Slide from './components/Slide';
+import Popup from './components/Popup';
 
 import {
   InputContent, Inputs, InputTitle, Button, ButtonText, InputColumn, CommonText, InputValue,
 } from './utils';
 
-const Container = styled.ScrollView``;
+import { itemApi } from '../../api';
+import { initialStateProps } from '../../slice';
+import { itemType } from '../../types';
+
+const Container = styled.ScrollView`
+    position: relative;
+`;
 
 const StatusContainer = styled.View`
   justify-content: space-evenly;
@@ -43,25 +52,39 @@ const HistoryBtn = styled.TouchableOpacity`
 `;
 
 function ItemDetail({
-  route: { params: { readOnly } },
+  route: { params: { readOnly, itemIdx, enrollMode } },
   navigation: { setOptions, goBack, navigate },
 }: {
-  route: { params: {readOnly:boolean} };
+  route: { params: {readOnly:boolean, itemIdx:number, enrollMode:boolean} };
   navigation: { setOptions: Function; goBack: Function, navigate:Function };
 }) {
+  const {
+    accessToken,
+  } = useSelector(
+    (state:initialStateProps) => ({
+      accessToken: state.userState.accessToken,
+    }),
+  );
+
+  const [itemInfo, setItemInfo] = useState<itemType>(null);
+
+  const go = (enroll:boolean) => {
+    if (enroll) {
+      navigate('Main', { screen: '아이템', params: { getNewData: true } });
+    } else { goBack(); }
+  };
+
+  const getItemInfo = useCallback(async () => {
+    try {
+      const { data }:{data:itemType} = await itemApi.geyItemInfo(accessToken, itemIdx);
+      setItemInfo(data);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [itemInfo]);
+
   useEffect(() => {
     setOptions({
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => {
-            goBack();
-          }}
-        >
-          <Text>
-            <Ionicons size={30} name="chevron-back-outline" />
-          </Text>
-        </TouchableOpacity>
-      ),
       headerRight: () => (!readOnly
         ? (
           <HistoryBtn
@@ -79,10 +102,25 @@ function ItemDetail({
           </HistoryBtn>
         ) : null
       ),
-      title: '물건 디테일',
     });
+    getItemInfo();
   }, []);
-
+  useEffect(() => {
+    setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            go(enrollMode);
+          }}
+        >
+          <Text>
+            <Ionicons size={30} name="chevron-back-outline" />
+          </Text>
+        </TouchableOpacity>
+      ),
+    });
+    console.log(enrollMode);
+  }, [enrollMode]);
   const images = [
     {
       cancelled: false,
@@ -146,11 +184,15 @@ function ItemDetail({
   // }
 
   return (
-    <KeyboardAwareScrollView extraScrollHeight={30}>
-      <Container>
-        <Slide imgList={images} edit={false} />
+    itemInfo ? (
+      <>
+        <KeyboardAwareScrollView extraScrollHeight={30}>
 
-        {/* <View style={{ height: 150, marginVertical: 20 }}>
+          <Container>
+
+            <Slide imgList={itemInfo.images} edit={false} setImgList={() => {}} />
+
+            {/* <View style={{ height: 150, marginVertical: 20 }}>
           <Carousel
             layout="default"
             data={images}
@@ -161,51 +203,61 @@ function ItemDetail({
             firstItem={4}
           />
         </View> */}
-        {!readOnly ? (
-          <StatusContainer>
-            <Status color="green">
-              <Text style={{ color: 'green' }}>거래 완료</Text>
-            </Status>
-            <Status color="red">
-              <Text style={{ color: 'red' }}>배송기간 만료</Text>
-            </Status>
-            <Status color="blue">
-              <Text style={{ color: 'blue' }}>배송중</Text>
-            </Status>
-          </StatusContainer>
-        ) : null}
+            {!readOnly ? (
+              <StatusContainer>
+                {/* <Status color="green">
+                <Text style={{ color: 'green' }}>거래 완료</Text>
+              </Status>
+              <Status color="red">
+                <Text style={{ color: 'red' }}>배송기간 만료</Text>
+              </Status> */}
+                <Status color="blue">
+                  <Text style={{ color: 'blue' }}>거래중</Text>
+                </Status>
+              </StatusContainer>
+            ) : null}
 
-        <Inputs>
-          <InputTitle placeholder="제품명" />
-          <InputContent
-            placeholder="설명"
-            multiline
-            numberOfLines={15}
-            style={{ textAlignVertical: 'top' }}
-          />
+            <Inputs>
+              <InputTitle placeholder="제품명" editable={false} value={itemInfo.name} />
+              <InputContent
+                placeholder="설명"
+                multiline
+                numberOfLines={15}
+                style={{ textAlignVertical: 'top' }}
+                editable={false}
+                value={itemInfo.description}
+              />
 
-          <InputColumn style={{ marginTop: 30 }}>
-            <CommonText>카테고리</CommonText>
-            <InputValue textAlign="center" value="휴대전화" editable={false} />
-          </InputColumn>
-          <InputColumn style={{ marginTop: 15 }}>
-            <CommonText>보증금</CommonText>
-            <InputValue textAlign="center" value="1000000" editable={false} />
-          </InputColumn>
-          {!readOnly ? (
-            <>
-              <Button style={{ marginTop: 15 }}>
-                <ButtonText>배송 신청</ButtonText>
-              </Button>
-              <Button style={{ marginTop: 15 }}>
-                <ButtonText>배송 상태 보기</ButtonText>
-              </Button>
-            </>
-          ) : null}
+              <InputColumn style={{ marginTop: 30 }}>
+                <CommonText>카테고리</CommonText>
+                <InputValue textAlign="center" value={itemInfo.itemCategory.name} editable={false} />
+              </InputColumn>
+              <InputColumn style={{ marginTop: 15 }}>
+                <CommonText>보증금</CommonText>
+                <InputValue textAlign="center" value={String(itemInfo.deposit)} editable={false} />
+              </InputColumn>
+              {!readOnly ? (
+                <>
+                  <Button style={{ marginTop: 15 }}>
+                    <ButtonText>배송 신청</ButtonText>
+                  </Button>
+                  <Button style={{ marginTop: 15 }}>
+                    <ButtonText>배송 상태 보기</ButtonText>
+                  </Button>
+                </>
+              ) : null}
 
-        </Inputs>
-      </Container>
-    </KeyboardAwareScrollView>
+            </Inputs>
+
+          </Container>
+
+        </KeyboardAwareScrollView>
+        { enrollMode
+          ? <Popup />
+          : null}
+      </>
+    )
+      : <View><Text>Loading</Text></View>
   );
 }
 

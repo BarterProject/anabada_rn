@@ -1,4 +1,4 @@
-export type imageType = {
+export type imageToSendType = {
     cancelled: boolean;
     height: number;
     type: string;
@@ -20,7 +20,7 @@ export type paymentOptionType = {
     description:string
 }
 
-export type itemType = {
+export type itemToSendType = {
     name: string,
     description: string,
     clause_agree: boolean,
@@ -28,54 +28,57 @@ export type itemType = {
     itemCategory: { idx: number }
 }
 
-export type testItem={
-    id:number;
-    clause_agree:boolean;
-    deposit:string;
-    description:string;
-    imgName:string;
-    name:string;
+export type imageType = {
+    createdAt: Date,
+    extension: string,
+    idx: number,
+    name: string,
+    number: number,
+    originalName: string,
+    saveName: string,
+    size: number,
+    uploadPath: string,
 }
 
-export type ItemImage={
-    idx: number;
-    name: string;
-    createdAt: string;
-    number: number;
-    originalName: string;
-    saveName: string;
-    size: number;
-    uploadPath: string;
-    extension: string;
+export type userType = {
+    activated: true,
+    address: string,
+    auth: string,
+    bankAccount: string,
+    bankKind: string,
+    createdAt: Date,
+    email: string,
+    idx: number,
+    oauth: string,
+    password: string,
+    phone: string,
 }
 
-export type User = {
-    idx: null;
-    email: string;
-    password: string;
-    phone: string;
-    address:string;
-    bankAccount: string;
-    bankKind: string;
-    createdAt: string;
-    oauth: string;
-    activated: true;
-    auth: string;
-}
-
-export type Item={
-    idx:number;
-    name:string;
-    description:string;
-    createdAt:string;
-    endAt:string|null;
-    deposit:number;
-    clause_agree:boolean;
-    payment:string|null;
-    itemCategory:any;
-    images : ItemImage[];
-    registrant:User;
-    owner:User;
-    state:number;
-    delivery:null;
-}
+export type itemType = {
+    clause_agree:boolean,
+    createdAt:Date,
+    delivery:string,
+    deposit:number,
+    description:string,
+    endAt:Date,
+    idx:number,
+    images: imageType[]
+    itemCategory:{
+        idx:number,
+        name:string
+    },
+    name:string,
+    owner:userType,
+    payment:{
+        amount: number,
+        createdAt: Date,
+        idx: number,
+        paymentOption: {
+            description: string,
+            idx: number,
+            name: string,
+          },
+        state: number,
+    },
+    registrant:userType,
+    state:number
