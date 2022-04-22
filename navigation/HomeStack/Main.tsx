@@ -1,13 +1,17 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
+  ActivityIndicator,
   Animated, PanResponder, View,
 } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
+import { initialStateProps, removeARandomItem, requestRandomItems } from '../../slice';
+import { Item } from '../../types';
 import Card from './components/Card';
 
 const Container = styled.View`
@@ -16,12 +20,11 @@ const Container = styled.View`
 
 const Body = styled.View`
   flex:10;
-  background-color:skyblue;
+  background-color:lightgray;
 `;
 
 const NavBar = styled.View`
   flex:2;
-  background-color:pink;
 `;
 
 const CircleButton = styled.TouchableOpacity`
@@ -37,7 +40,7 @@ const CenterButton = styled.TouchableOpacity`
   border-radius:50px;
   background-color:white;
   border:5px;
-  top:10px;
+  top:0px;
 `;
 const NavBarButtonsConatainer = styled.View`
   flex-direction:row;
@@ -76,12 +79,35 @@ const AnimatedCard = styled(Animated.createAnimatedComponent(View))`
   border-radius:12px;
 `;
 
+const ActivityIndicatorContainer = styled.View`
+  flex:1;
+  justify-content:center;
+  align-items: center;
+`;
+
 function Main({ navigation }) {
   // const navigation = useNavigation();
 
   const scale = useRef(new Animated.Value(1)).current;
   const POSITION = useRef(new Animated.Value(0)).current;
-  // const checkButtonPosition = useRef(new Animated.Value(0)).current;
+  const dispatch = useDispatch();
+  const { accessToken, randomItems, chosenItem }:
+  {accessToken:String, randomItems:Item[]} = useSelector((state:initialStateProps) => ({
+    accessToken: state.userState.accessToken,
+    randomItems: state.randomItems,
+    chosenItem: state.chosenItem,
+  }));
+
+  useEffect(() => {
+    console.log(`randomItems.length값이 ${randomItems.length}입니다. `);
+    // console.log('값이 0입니다. ');
+    if (randomItems.length === 0) {
+      dispatch(requestRandomItems(10));
+    } else if (randomItems.length === 5) {
+      dispatch(requestRandomItems(5));
+    }
+    return () => {};
+  }, [randomItems]);
 
   const secondScale = POSITION.interpolate({
     inputRange: [-250, 0, 250],
@@ -94,11 +120,12 @@ function Main({ navigation }) {
     outputRange: ['-30deg', '30deg'],
     extrapolate: 'clamp',
   });
-  const [index, setIndex] = useState(0);
-  const onDismiss = () => {
-    setIndex((prev) => 1 + prev);
-    POSITION.setValue(0);
+
+  const next = () => {
+    dispatch(removeARandomItem());
+    console.log('next');
   };
+
   const bounceTotheLeftOut = () => {
     Animated.spring(POSITION, {
       toValue: -400,
@@ -106,38 +133,33 @@ function Main({ navigation }) {
       restDisplacementThreshold: 100,
       restSpeedThreshold: 100,
     }).start(() => {
-      // POSITION.setValue(-400)
-      // POSITION.flattenOffset()
-      onDismiss();
-      // POSITION.flattenOffset()
+      next();
+
+      POSITION.setValue(0);
     });
   };
 
   const bounceTotheRightOut = () => {
-    // console.log('bounceTotheRightOut start POSITION', POSITION)
     Animated.spring(POSITION, {
       toValue: 400,
       useNativeDriver: true,
       restDisplacementThreshold: 100,
       restSpeedThreshold: 100,
     }).start(() => {
-      // console.log('bounceTotheRightOut end POSITION', POSITION)
-      // console.log('bounceTotheRightOut POSITION', POSITION)
-      // POSITION.setValue(400)
-      // POSITION.flattenOffset()
-      onDismiss();
+      if (chosenItem === '') {
+        alert('교환요청을 실패했습니다. \n교환할 자신의 아이템을 선택해주세요');
+      }
+      next();
+      POSITION.setValue(0);
     });
   };
 
   const bounceBack = () => {
-    // console.log('bounceBack start POSITION', POSITION)
-
     Animated.spring(POSITION, {
       toValue: 0,
       bounciness: 10,
       useNativeDriver: true,
     }).start(() => {
-      console.log('bounceBack end POSITION', POSITION);
       POSITION.setValue(0);
       POSITION.flattenOffset();
     });
@@ -165,25 +187,12 @@ function Main({ navigation }) {
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onPanResponderGrant: (_, test) => {
-        console.log('POSITION', POSITION);
-        console.log('POSITION.setOffset(POSITION._value)', POSITION._value);
-        // POSITION.setOffset(POSITION._value);
-        // POSITION.setValue(0)
-        console.log('POSITION', POSITION);
-        console.log('POSITION.setOffset(POSITION._value)', POSITION._value);
         onPressIn();
-        // console.log("grant\tPOSITION\t", POSITION)
-        // console.log("grant\tPOSITION._value\t", POSITION._value)
       },
       onPanResponderMove: (_, { dx }) => {
         POSITION.setValue(dx);
-        // console.log('setValue(dx)\t\t', dx)
-        // console.log('Move\tPOSITION\t', POSITION)
-        // console.log('Move\tPOSITION.value\t', POSITION._value)
       },
       onPanResponderRelease: (_, { dx }) => {
-        console.log('Release POSITION', typeof POSITION);
-        console.log('Release POSITION._value', POSITION._value);
         POSITION.flattenOffset();
         if (POSITION._value > 150) {
           bounceTotheRightOut();
@@ -199,29 +208,37 @@ function Main({ navigation }) {
   return (
     <Container>
       <Body>
-        <CardContainer>
-          <AnimatedCard
-            style={{
-              transform: [{ scale: secondScale }],
-            }}
-          >
-            <Card
-              index={index + 1}
-              text="이름"
-            />
-          </AnimatedCard>
-          <AnimatedCard
-            {...panResponder.panHandlers}
-            style={{
-              transform: [{ scale }, { translateX: POSITION }, { rotateZ: rotation }],
-            }}
-          >
-            <Card
-              index={index}
-              text="이름"
-            />
-          </AnimatedCard>
-        </CardContainer>
+        {randomItems.length > 0
+          ? (
+            <CardContainer>
+              <AnimatedCard
+                style={{
+                  transform: [{ scale: secondScale }],
+                }}
+              >
+                <Card
+                  item={randomItems[1]}
+                />
+              </AnimatedCard>
+              <AnimatedCard
+                {...panResponder.panHandlers}
+                style={{
+                  transform: [{ scale }, { translateX: POSITION }, { rotateZ: rotation }],
+                }}
+              >
+                <Card
+                  item={randomItems[0]}
+                />
+              </AnimatedCard>
+            </CardContainer>
+          )
+          : (
+            <ActivityIndicatorContainer>
+              <ActivityIndicator
+                color="black"
+              />
+            </ActivityIndicatorContainer>
+          )}
       </Body>
       <NavBar>
         <NavBarButtonsConatainer>
@@ -253,7 +270,10 @@ function Main({ navigation }) {
               shadowRadius: 2,
             }}
           >
-            <CenterButton />
+            <CenterButton onPress={() => {
+              navigation.navigate('Requested');
+            }}
+            />
           </DropShadow>
           <DropShadow
             style={{

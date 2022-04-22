@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { postLogin, postSignup } from './api';
+import { getRandomItems, postLogin, postSignup } from './api';
+import { Item } from './types';
 
 export type initialStateProps ={
+
     signInField:{
       id:string,
       password:string,
@@ -23,6 +25,8 @@ export type initialStateProps ={
     userState:{
       accessToken:string
     }
+    chosenItem:string,
+    randomItems:Item[]
 }
 
 export type stateProps= {
@@ -53,7 +57,8 @@ const { actions, reducer } = createSlice({
     userState: {
       accessToken: '',
     },
-
+    chosenItem: '',
+    randomItems: [],
   },
   reducers: {
     setIdForSigningIn: (state, { payload: id }: PayloadAction<string>) => ({
@@ -140,6 +145,14 @@ const { actions, reducer } = createSlice({
         accessToken: '',
       },
     }),
+    addRandomItems: (state, { payload: randomItems }) => ({
+      ...state,
+      randomItems: [...state.randomItems, ...randomItems],
+    }),
+    removeARandomItem: (state) => ({
+      ...state,
+      randomItems: [...state.randomItems.slice(1)],
+    }),
   },
 });
 
@@ -155,6 +168,8 @@ export const {
   setAccountNumber,
   setAccessToken,
   deleteAccessToken,
+  addRandomItems,
+  removeARandomItem,
 } = actions;
 
 export function requestSignUp() {
@@ -206,12 +221,26 @@ export function requestLogin() {
       const { message, jwt } = data;
       if (message !== undefined) {
         console.log(message);
+        dispatch(setAccessToken('err'));
       } else {
         dispatch(setAccessToken(jwt));
       }
     } catch (error) {
       console.log(error);
       dispatch(setAccessToken(''));
+    }
+  };
+}
+
+export function requestRandomItems(number :number) {
+  return async (dispatch, getState) => {
+    const { userState: { accessToken } } = getState();
+
+    try {
+      const data:Item[] = await getRandomItems({ accessToken, number });
+      dispatch(addRandomItems(data));
+    } catch (e) {
+      console.log(e);
     }
   };
 }
