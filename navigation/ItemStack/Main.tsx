@@ -1,54 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import styled from 'styled-components/native';
 
-import { Text, TouchableOpacity } from 'react-native';
+import {
+  Dimensions, Text,
+} from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
 import DropShadow from 'react-native-drop-shadow';
-import ItemList from './components/ItemList';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
+import MyItem from './Stack/MyItem';
+import Inventory from './Stack/Inventory';
 
 const Container = styled.View`
   flex: 1;
 `;
 
-const Navigation = styled.View`
-  width: 100%;
-  height: 60px;
-  flex-direction: row;
-  border-bottom-color: #f2f2f2;
-  border-bottom-width: 2px;
-`;
-
-const NavigationItem = styled.View`
-  flex: 1;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-`;
-
-const NavigationTitle = styled.Text<{ show: boolean }>`
-  font-weight: 400;
-  font-size: 20px;
-  opacity: ${(props) => (props.show ? 1 : 0.3)};
-`;
-
-const NavigationTab = styled.View<{ show: boolean }>`
-  background: #e94057;
-  border-radius: 10px;
-  position: absolute;
-  width: 100px;
-  height: 4px;
-  bottom: 0px;
-  opacity: ${(props) => (props.show ? 1 : 0)};
-`;
-
 const Btn = styled.TouchableOpacity`
   position: absolute;
-  width: 100px;
-  height: 100px;
+  width: 85px;
+  height: 85px;
   right: 30px;
   bottom: 50px;
   border-radius: 80px;
@@ -65,11 +38,11 @@ const BtnInstance = styled.View`
 
 function Main() {
   const navigation = useNavigation();
-  const [nav, setNav] = useState([true, false]);
+  const Tab = createMaterialTopTabNavigator();
 
   return (
     <Container>
-      <Navigation>
+      {/* <Navigation>
         <NavigationItem>
           <TouchableOpacity
             onPress={() => {
@@ -94,8 +67,29 @@ function Main() {
           </TouchableOpacity>
           <NavigationTab show={nav[1]} />
         </NavigationItem>
-      </Navigation>
-      <ItemList />
+      </Navigation> */}
+      <Tab.Navigator
+        screenOptions={{
+          tabBarLabelStyle: { fontSize: 16 },
+          tabBarIndicatorStyle: {
+            height: 5, borderRadius: 20, width: Dimensions.get('window').width / 4, left: Dimensions.get('window').width / 8, backgroundColor: '#e94057',
+          },
+        }}
+      >
+        <Tab.Screen
+          name="인벤토리"
+          component={Inventory}
+          options={{ params: { getNewData: false } }}
+          // options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="아이템"
+          component={MyItem}
+          // options={{ title: '오더 목록' }}
+        />
+
+      </Tab.Navigator>
+      {/* <ItemList /> */}
 
       <Btn
         onPress={() => {

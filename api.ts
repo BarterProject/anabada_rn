@@ -2,14 +2,8 @@
 import { BASE_URL } from '@env';
 import axios, { AxiosResponse } from 'axios';
 
-import { itemType, imageType } from './types';
-// const {
-//   accessToken,
-// } = useSelector(
-//   (state:initialStateProps) => ({
-//     accessToken: state.userState.accessToken,
-//   }),
-// );
+import { itemToSendType, imageToSendType } from './types';
+
 const api = axios.create({
   baseURL: BASE_URL as string,
   // headers: { Authorization: `Bearer ${accessToken}` },
@@ -77,32 +71,38 @@ export async function postSignup(userInfo) {
 export const itemApi = {
   getCategories: (accessToken:string) :Promise<AxiosResponse<any>> => api.get('/api/items/categories', { headers: { Authorization: `Bearer ${accessToken}` } }),
   getPaymentOptions: (accessToken:string):Promise<AxiosResponse<any>> => api.get('/api/items/payments/options', { headers: { Authorization: `Bearer ${accessToken}` } }),
-  saveItem: (accessToken:string, item: itemType, images:imageType[]):
-  Promise<AxiosResponse<any>> => {
+  saveItem: async (accessToken:string, item: itemToSendType, images:imageToSendType[]):
+  Promise<any> => {
     const formData = new FormData();
     // const jsonItemBlob = new Blob([JSON.stringify({ ...item, type: 'application/json' })]);
-    console.log(item);
-
+    console.log(images);
     images.forEach((image) => {
-      console.log(image);
-      const ext = image.sourceURL.split('.').pop();
       const filename = image.sourceURL.split('/').pop();
-      // const imageContents = {
-      //   uri: image.sourceURL,
-      //   name: filename,
-      // };
-
-      console.log(ext, filename);
-      formData.append('img', new Blob([image.sourceURL], { type: 'image/png' }));
+      formData.append('img', {
+        uri: image.sourceURL,
+        name: filename,
+        type: 'image/png',
+      });
     });
-    formData.append('item', JSON.stringify({ ...item, type: 'application/json' }));
 
-    return api.post('/api/user/items', formData, {
+    formData.append('item', JSON.stringify(item));
+
+    const data = await fetch(`${BASE_URL}/api/user/items`, {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken},`,
         Accept: 'application/json',
-        'Content-Type': 'multipart/form-data; boundary=--------287032381131322',
+        'Content-Type': 'multipart/form-data',
       },
-    });
+      body: formData,
+    }).then((res) => res.json()).catch((e) => { console.log(e); });
+    console.log(data);
+    return data;
+    // return api.post('/api/user/items', formData, {
+    //   ,
+    // });
   },
+
+  getMyItem: (accessToken:string):Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner', { headers: { Authorization: `Bearer ${accessToken}` } }),
+  geyItemInfo: (accessToken:string, idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`, { headers: { Authorization: `Bearer ${accessToken}` } }),
 };
