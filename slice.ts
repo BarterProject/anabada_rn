@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { getRandomItems, postLogin, postSignup } from './api';
-import { Item } from './types';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import {
+  getRandomItems, postLogin, postSignup, setToken,
+} from './api';
+import { itemType } from './types';
 
 export type initialStateProps ={
-
     signInField:{
       id:string,
       password:string,
@@ -26,7 +28,7 @@ export type initialStateProps ={
       accessToken:string
     }
     chosenItem:string,
-    randomItems:Item[]
+    randomItems:itemType[]
 }
 
 export type stateProps= {
@@ -219,6 +221,8 @@ export function requestLogin() {
       const data = await postLogin({ id, password });
       console.log(data);
       const { message, jwt } = data;
+      await EncryptedStorage.setItem('accessToken', jwt);
+      await setToken();
       if (message !== undefined) {
         console.log(message);
         dispatch(setAccessToken('err'));
@@ -237,7 +241,7 @@ export function requestRandomItems(number :number) {
     const { userState: { accessToken } } = getState();
 
     try {
-      const data:Item[] = await getRandomItems({ accessToken, number });
+      const data:itemType[] = await getRandomItems({ accessToken, number });
       dispatch(addRandomItems(data));
     } catch (e) {
       console.log(e);

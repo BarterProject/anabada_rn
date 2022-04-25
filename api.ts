@@ -2,13 +2,20 @@
 import { BASE_URL } from '@env';
 import axios, { AxiosResponse } from 'axios';
 
+import EncryptedStorage from 'react-native-encrypted-storage';
+
 import { itemToSendType, imageToSendType } from './types';
 
+// accessToken
 
 const api = axios.create({
   baseURL: BASE_URL as string,
-
 });
+
+export const setToken = async () => {
+  const accessToken = await EncryptedStorage.getItem('accessToken');
+  api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+};
 
 export async function postLogin({ id, password }) {
   const url = `${BASE_URL}/api/user/authentication`;
@@ -174,6 +181,6 @@ export const itemApi = {
     // });
   },
 
-  getMyItem: (accessToken:string):Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner', { headers: { Authorization: `Bearer ${accessToken}` } }),
+  getMyItem: async ():Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner'),
   geyItemInfo: (accessToken:string, idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`, { headers: { Authorization: `Bearer ${accessToken}` } }),
 };
