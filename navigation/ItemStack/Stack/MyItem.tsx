@@ -17,9 +17,14 @@ function MyItem({ route: { params } }:{route:{params:{getNewData:boolean}}}) {
     }),
   );
   const getMyItem = useCallback(async () => {
-    const { data } = await itemApi.getMyItem(accessToken);
-    setItems(data);
-    console.log('렌더가 다시되싸!');
+    try {
+      const { data } = await itemApi.getMyItem();
+      setItems(data);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      console.log('렌더가 다시되싸!');
+    }
   }, []);
   useEffect(() => {
     getMyItem();
