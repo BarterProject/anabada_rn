@@ -76,7 +76,7 @@ function ItemDetail({
 
   const getItemInfo = useCallback(async () => {
     try {
-      const { data }:{data:itemType} = await itemApi.geyItemInfo(accessToken, itemIdx);
+      const { data }:{data:itemType} = await itemApi.getItemInfo(accessToken, itemIdx);
       setItemInfo(data);
     } catch (e) {
       console.log(e);

@@ -82,3 +82,4 @@ export type itemType = {
     },
     registrant:userType,
     state:number
+}
