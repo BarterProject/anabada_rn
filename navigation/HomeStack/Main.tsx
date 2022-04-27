@@ -12,7 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
 import { dealApi, itemApi } from '../../api';
-import { initialStateProps, removeARandomItem, requestRandomItems } from '../../slice';
+import {
+  initialStateProps, removeARandomItem, requestDeal, requestRandomItems,
+} from '../../slice';
 import { Item } from '../../types';
 import Card from './components/Card';
 
@@ -160,16 +162,7 @@ function Main({ navigation }) {
       restSpeedThreshold: 100,
     }).start(() => {
       console.log('bounceTotheRightOut chosenItemId:', chosenItemId);
-      if (chosenItemId === 0) {
-        alert('교환요청을 실패했습니다. \n교환할 자신의 아이템을 선택해주세요');
-      } else {
-        console.log('교환요청 완료');
-        dealApi.requestDeal({
-          requestId: chosenItemId,
-          resqustedId: randomItems[0].idx,
-          accessToken,
-        });
-      }
+      dispatch(requestDeal());
       next();
       POSITION.setValue(0);
     });

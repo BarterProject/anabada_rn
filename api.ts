@@ -4,10 +4,8 @@ import axios, { AxiosResponse } from 'axios';
 
 import { itemToSendType, imageToSendType } from './types';
 
-
 const api = axios.create({
   baseURL: BASE_URL as string,
-
 });
 
 export async function postLogin({ id, password }) {
@@ -123,15 +121,17 @@ export async function sendReport({ accessToken, title, content }) {
 
 export const dealApi = {
   requestDeal: ({ requestId, resqustedId, accessToken }) => api.post('/api/user/items/requests', {
-    headers: { Authorization: `Bearer ${accessToken}` },
-    body: JSON.stringify({
-      requestItem: {
-        idx: requestId,
-      },
-      responseItem: {
-        idx: resqustedId,
-      },
-    }),
+    requestItem: {
+      idx: requestId,
+    },
+    responseItem: {
+      idx: resqustedId,
+    },
+  }, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
   }),
   getRequestDeals: ({ requestId, accessToken }) => api.get(`/api/user/items/${requestId}/requests`, { headers: { Authorization: `Bearer ${accessToken}` } }),
   getRequestedDeals: ({ resqustedId, accessToken }) => api.get(`/api/user/items/${resqustedId}/requests`, { headers: { Authorization: `Bearer ${accessToken}` } }),
@@ -173,7 +173,7 @@ export const itemApi = {
     //   ,
     // });
   },
-
+  getMyInvetory: (accessToken: string):Promise<AxiosResponse<any>> => api.get('/api/user/items', { headers: { Authorization: `Bearer ${accessToken}` } }),
   getMyItem: (accessToken:string):Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner', { headers: { Authorization: `Bearer ${accessToken}` } }),
-  geyItemInfo: (accessToken:string, idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`, { headers: { Authorization: `Bearer ${accessToken}` } }),
+  getItemInfo: (accessToken:string, idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`, { headers: { Authorization: `Bearer ${accessToken}` } }),
 };
