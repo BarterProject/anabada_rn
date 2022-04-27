@@ -27,7 +27,7 @@ const ButtonContainer = styled.View`
 `;
 
 const Text = styled.Text`
-  font-size:40px;
+  font-size:20px;
 `;
 
 const Button = styled.TouchableOpacity`
