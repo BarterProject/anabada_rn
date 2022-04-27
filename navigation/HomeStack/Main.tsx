@@ -1,15 +1,17 @@
+import { BASE_URL } from '@env';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 import React, { useEffect, useRef, useState } from 'react';
 
 import {
   ActivityIndicator,
-  Animated, PanResponder, View,
+  Animated, Image, PanResponder, View,
 } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
+import { dealApi, itemApi } from '../../api';
 import { initialStateProps, removeARandomItem, requestRandomItems } from '../../slice';
 import { Item } from '../../types';
 import Card from './components/Card';
@@ -91,12 +93,24 @@ function Main({ navigation }) {
   const scale = useRef(new Animated.Value(1)).current;
   const POSITION = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
-  const { accessToken, randomItems, chosenItem }:
-  {accessToken:String, randomItems:Item[]} = useSelector((state:initialStateProps) => ({
-    accessToken: state.userState.accessToken,
-    randomItems: state.randomItems,
-    chosenItem: state.chosenItem,
-  }));
+  const [chosenItemIamgeName, setChosenItemIamgeName] = useState('');
+  const { accessToken, randomItems, chosenItemId }:
+  {accessToken:string, randomItems:Item[],
+    chosenItemId:number} = useSelector((state:initialStateProps) => ({
+      accessToken: state.userState.accessToken,
+      randomItems: state.randomItems,
+      chosenItemId: state.chosenItemId,
+    }));
+
+  useEffect(() => {
+    console.log('chosenItemId', chosenItemId);
+    itemApi.getItemInfo(accessToken, chosenItemId).then((itemInfo) => {
+      setChosenItemIamgeName(itemInfo.data.images[0].name);
+      console.log('itemInfo');
+      console.log(itemInfo.data.images[0].name);
+    });
+    // console.log('chosenItemInfo', data);
+  }, [chosenItemId]);
 
   useEffect(() => {
     console.log(`randomItems.length값이 ${randomItems.length}입니다. `);
@@ -106,7 +120,7 @@ function Main({ navigation }) {
     } else if (randomItems.length === 5) {
       dispatch(requestRandomItems(5));
     }
-    return () => {};
+    // return () => {};
   }, [randomItems]);
 
   const secondScale = POSITION.interpolate({
@@ -134,7 +148,6 @@ function Main({ navigation }) {
       restSpeedThreshold: 100,
     }).start(() => {
       next();
-
       POSITION.setValue(0);
     });
   };
@@ -146,8 +159,16 @@ function Main({ navigation }) {
       restDisplacementThreshold: 100,
       restSpeedThreshold: 100,
     }).start(() => {
-      if (chosenItem === '') {
+      console.log('bounceTotheRightOut chosenItemId:', chosenItemId);
+      if (chosenItemId === 0) {
         alert('교환요청을 실패했습니다. \n교환할 자신의 아이템을 선택해주세요');
+      } else {
+        console.log('교환요청 완료');
+        dealApi.requestDeal({
+          requestId: chosenItemId,
+          resqustedId: randomItems[0].idx,
+          accessToken,
+        });
       }
       next();
       POSITION.setValue(0);
@@ -273,7 +294,21 @@ function Main({ navigation }) {
             <CenterButton onPress={() => {
               navigation.navigate('Requested');
             }}
-            />
+            >
+              <Image
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: 50,
+                }}
+                source={{
+                  uri: `${BASE_URL}/api/items/images/${chosenItemIamgeName}`,
+                  headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                  },
+                }}
+              />
+            </CenterButton>
           </DropShadow>
           <DropShadow
             style={{
