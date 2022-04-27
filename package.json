@@ -36,6 +36,7 @@
     "react-native-dotenv": "^3.3.1",
     "react-native-drop-shadow": "^0.0.4",
     "react-native-elements": "^3.0.0",
+    "react-native-encrypted-storage": "^4.0.2",
     "react-native-gesture-handler": "^2.3.2",
     "react-native-image-crop-picker": "^0.37.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",

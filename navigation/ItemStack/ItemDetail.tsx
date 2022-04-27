@@ -230,7 +230,7 @@ function ItemDetail({
 
               <InputColumn style={{ marginTop: 30 }}>
                 <CommonText>카테고리</CommonText>
-                <InputValue textAlign="center" value={itemInfo.itemCategory.name} editable={false} />
+                <InputValue textAlign="center" value={itemInfo.itemCategory ? itemInfo.itemCategory.name : 'null'} editable={false} />
               </InputColumn>
               <InputColumn style={{ marginTop: 15 }}>
                 <CommonText>보증금</CommonText>

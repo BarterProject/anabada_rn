@@ -2,11 +2,18 @@
 import { BASE_URL } from '@env';
 import axios, { AxiosResponse } from 'axios';
 
+import EncryptedStorage from 'react-native-encrypted-storage';
+
 import { itemToSendType, imageToSendType } from './types';
 
 const api = axios.create({
   baseURL: BASE_URL as string,
 });
+
+export const setToken = async () => {
+  const accessToken = await EncryptedStorage.getItem('accessToken');
+  api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+};
 
 export async function postLogin({ id, password }) {
   const url = `${BASE_URL}/api/user/authentication`;

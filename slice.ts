@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import EncryptedStorage from 'react-native-encrypted-storage';
 import {
-  dealApi, getRandomItems, postLogin, postSignup,
+  dealApi,
+  getRandomItems, postLogin, postSignup, setToken,
 } from './api';
 import { itemType } from './types';
 
 export type initialStateProps ={
-
     signInField:{
       id:string,
       password:string,
@@ -226,6 +227,8 @@ export function requestLogin() {
       const data = await postLogin({ id, password });
       console.log(data);
       const { message, jwt } = data;
+      await EncryptedStorage.setItem('accessToken', jwt);
+      await setToken();
       if (message !== undefined) {
         console.log(message);
         dispatch(setAccessToken('err'));
