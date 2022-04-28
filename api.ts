@@ -148,3 +148,10 @@ export const itemApi = {
   getMyItem: ():Promise<AxiosResponse<any>> => api.get('/api/user/items'),
   getItemInfo: (idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`),
 };
+
+export const socketApi = {
+  connectSocket: async ():Promise<AxiosResponse<any>> => {
+    const accessToken = await EncryptedStorage.getItem('accessToken');
+    return api.get(`/socket?jwt=${accessToken}`);
+  },
+};

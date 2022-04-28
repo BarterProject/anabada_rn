@@ -18,6 +18,8 @@ import {
 import { itemType } from '../../types';
 import Card from './components/Card';
 
+import useSocket from '../../hooks/useSocket';
+
 const Container = styled.View`
   flex:1;
 `;
