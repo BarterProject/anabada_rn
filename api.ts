@@ -92,40 +92,6 @@ export async function getRandomItems({ accessToken, number }) {
   return data;
 }
 
-export async function getTESTItems() {
-  const response = await (await axios.get('http://10.0.2.2:3000/items'));
-  const { data } = response;
-  console.log('getTESTItems : ', data);
-
-  return data;
-}
-
-// export async function getMyItems(accessToken) {
-//   const response = await (await axios.get(
-//     `${BASE_URL}/api/user/items?option=owner`,
-//     { headers: { Authorization: `Bearer ${accessToken}` } },
-//   ));
-//   const { data } = response;
-//   console.log(data);
-//   // return data;
-// }
-
-export async function sendReport({ accessToken, title, content }) {
-  const response = await (await axios.get(
-    `${BASE_URL}/api/items/1/reports`,
-    {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      data: {
-        title, content,
-      },
-    },
-
-  ));
-  const { data } = response;
-  console.log(data);
-  // return data;
-}
-
 export const dealApi = {
   requestDeal: ({ requestId, resqustedId }) => api.post('/api/user/items/requests', {
     requestItem: {
@@ -144,6 +110,7 @@ export const dealApi = {
   getRequestedDeals: ({ resqustedId }) => api.get(`/api/user/items/${resqustedId}/responses`),
   acceptDealRequested: (dealIdx) => api.put(`/api/user/items/requests/${dealIdx}/accept`),
   declineDealRequested: (dealIdx) => api.put(`/api/user/items/requests/${dealIdx}/decline`),
+  sendReport: ({ title, content }) => api.post('/api/items/1/reports', { title, content }),
 };
 
 export const itemApi = {
