@@ -84,7 +84,7 @@ export default function SignIn({ navigation }: SignInProps) {
 
   useEffect(() => {
     console.log('로그인 스크린 리렌더 accessToken', accessToken);
-    if (accessToken === '' || accessToken === undefined) {
+    if (accessToken === null) {
       console.log('accessToken의 값이 없습니다.');
       return;
     }
