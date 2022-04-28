@@ -100,15 +100,15 @@ export async function getTESTItems() {
   return data;
 }
 
-export async function getMyItems(accessToken) {
-  const response = await (await axios.get(
-    `${BASE_URL}/api/user/items?option=owner`,
-    { headers: { Authorization: `Bearer ${accessToken}` } },
-  ));
-  const { data } = response;
-  console.log(data);
-  // return data;
-}
+// export async function getMyItems(accessToken) {
+//   const response = await (await axios.get(
+//     `${BASE_URL}/api/user/items?option=owner`,
+//     { headers: { Authorization: `Bearer ${accessToken}` } },
+//   ));
+//   const { data } = response;
+//   console.log(data);
+//   // return data;
+// }
 
 export async function sendReport({ accessToken, title, content }) {
   const response = await (await axios.get(
@@ -127,7 +127,7 @@ export async function sendReport({ accessToken, title, content }) {
 }
 
 export const dealApi = {
-  requestDeal: ({ requestId, resqustedId, accessToken }) => api.post('/api/user/items/requests', {
+  requestDeal: ({ requestId, resqustedId }) => api.post('/api/user/items/requests', {
     requestItem: {
       idx: requestId,
     },
@@ -136,19 +136,19 @@ export const dealApi = {
     },
   }, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      // Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
   }),
-  getRequestDeals: ({ requestId, accessToken }) => api.get(`/api/user/items/${requestId}/requests`, { headers: { Authorization: `Bearer ${accessToken}` } }),
-  getRequestedDeals: ({ resqustedId, accessToken }) => api.get(`/api/user/items/${resqustedId}/requests`, { headers: { Authorization: `Bearer ${accessToken}` } }),
-  acceptDealRequested: ({ requesedtId, accessToken }) => api.put(`/api/user/items/requests/${requesedtId}/accept`, { headers: { Authorization: `Bearer ${accessToken}` } }),
-  declineDealRequested: ({ requesedtId, accessToken }) => api.put(`/api/user/items/requests/${requesedtId}/decline`, { headers: { Authorization: `Bearer ${accessToken}` } }),
+  getRequestDeals: ({ requestId }) => api.get(`/api/user/items/${requestId}/requests`),
+  getRequestedDeals: ({ resqustedId }) => api.get(`/api/user/items/${resqustedId}/responses`),
+  acceptDealRequested: (dealIdx) => api.put(`/api/user/items/requests/${dealIdx}/accept`),
+  declineDealRequested: (dealIdx) => api.put(`/api/user/items/requests/${dealIdx}/decline`),
 };
 
 export const itemApi = {
-  getCategories: (accessToken:string) :Promise<AxiosResponse<any>> => api.get('/api/items/categories', { headers: { Authorization: `Bearer ${accessToken}` } }),
-  getPaymentOptions: (accessToken:string):Promise<AxiosResponse<any>> => api.get('/api/items/payments/options', { headers: { Authorization: `Bearer ${accessToken}` } }),
+  getCategories: () :Promise<AxiosResponse<any>> => api.get('/api/items/categories'),
+  getPaymentOptions: ():Promise<AxiosResponse<any>> => api.get('/api/items/payments/options'),
   saveItem: async (accessToken:string, item: itemToSendType, images:imageToSendType[]):
   Promise<any> => {
     const formData = new FormData();
@@ -176,11 +176,8 @@ export const itemApi = {
     }).then((res) => res.json()).catch((e) => { console.log(e); });
     console.log(data);
     return data;
-    // return api.post('/api/user/items', formData, {
-    //   ,
-    // });
   },
-  getMyInvetory: (accessToken: string):Promise<AxiosResponse<any>> => api.get('/api/user/items', { headers: { Authorization: `Bearer ${accessToken}` } }),
-  getMyItem: (accessToken:string):Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner', { headers: { Authorization: `Bearer ${accessToken}` } }),
-  getItemInfo: (accessToken:string, idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`, { headers: { Authorization: `Bearer ${accessToken}` } }),
+  getMyInvetory: ():Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner'),
+  getMyItem: ():Promise<AxiosResponse<any>> => api.get('/api/user/items'),
+  getItemInfo: (idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`),
 };
