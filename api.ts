@@ -6,8 +6,6 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 
 import { itemToSendType, imageToSendType } from './types';
 
-// accessToken
-
 const api = axios.create({
   baseURL: BASE_URL as string,
 });
@@ -94,61 +92,30 @@ export async function getRandomItems({ accessToken, number }) {
   return data;
 }
 
-export async function getTESTItems() {
-  const response = await (await axios.get('http://10.0.2.2:3000/items'));
-  const { data } = response;
-  console.log('getTESTItems : ', data);
-
-  return data;
-}
-
-export async function getMyItems(accessToken) {
-  const response = await (await axios.get(
-    `${BASE_URL}/api/user/items?option=owner`,
-    { headers: { Authorization: `Bearer ${accessToken}` } },
-  ));
-  const { data } = response;
-  console.log(data);
-  // return data;
-}
-
-export async function sendReport({ accessToken, title, content }) {
-  const response = await (await axios.get(
-    `${BASE_URL}/api/items/1/reports`,
-    {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      data: {
-        title, content,
-      },
-    },
-
-  ));
-  const { data } = response;
-  console.log(data);
-  // return data;
-}
-
 export const dealApi = {
-  requestDeal: ({ requestId, resqustedId, accessToken }) => api.post('/api/user/items/requests', {
-    headers: { Authorization: `Bearer ${accessToken}` },
-    body: JSON.stringify({
-      requestItem: {
-        idx: requestId,
-      },
-      responseItem: {
-        idx: resqustedId,
-      },
-    }),
+  requestDeal: ({ requestId, resqustedId }) => api.post('/api/user/items/requests', {
+    requestItem: {
+      idx: requestId,
+    },
+    responseItem: {
+      idx: resqustedId,
+    },
+  }, {
+    headers: {
+      // Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
   }),
-  getRequestDeals: ({ requestId, accessToken }) => api.get(`/api/user/items/${requestId}/requests`, { headers: { Authorization: `Bearer ${accessToken}` } }),
-  getRequestedDeals: ({ resqustedId, accessToken }) => api.get(`/api/user/items/${resqustedId}/requests`, { headers: { Authorization: `Bearer ${accessToken}` } }),
-  acceptDealRequested: ({ requesedtId, accessToken }) => api.put(`/api/user/items/requests/${requesedtId}/accept`, { headers: { Authorization: `Bearer ${accessToken}` } }),
-  declineDealRequested: ({ requesedtId, accessToken }) => api.put(`/api/user/items/requests/${requesedtId}/decline`, { headers: { Authorization: `Bearer ${accessToken}` } }),
+  getRequestDeals: ({ requestId }) => api.get(`/api/user/items/${requestId}/requests`),
+  getRequestedDeals: ({ resqustedId }) => api.get(`/api/user/items/${resqustedId}/responses`),
+  acceptDealRequested: (dealIdx) => api.put(`/api/user/items/requests/${dealIdx}/accept`),
+  declineDealRequested: (dealIdx) => api.put(`/api/user/items/requests/${dealIdx}/decline`),
+  sendReport: ({ title, content }) => api.post('/api/items/1/reports', { title, content }),
 };
 
 export const itemApi = {
-  getCategories: (accessToken:string) :Promise<AxiosResponse<any>> => api.get('/api/items/categories', { headers: { Authorization: `Bearer ${accessToken}` } }),
-  getPaymentOptions: (accessToken:string):Promise<AxiosResponse<any>> => api.get('/api/items/payments/options', { headers: { Authorization: `Bearer ${accessToken}` } }),
+  getCategories: () :Promise<AxiosResponse<any>> => api.get('/api/items/categories'),
+  getPaymentOptions: ():Promise<AxiosResponse<any>> => api.get('/api/items/payments/options'),
   saveItem: async (accessToken:string, item: itemToSendType, images:imageToSendType[]):
   Promise<any> => {
     const formData = new FormData();
@@ -176,12 +143,10 @@ export const itemApi = {
     }).then((res) => res.json()).catch((e) => { console.log(e); });
     console.log(data);
     return data;
-    // return api.post('/api/user/items', formData, {
-    //   ,
-    // });
   },
-  getMyItem: async ():Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner'),
-  geyItemInfo: (accessToken:string, idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`, { headers: { Authorization: `Bearer ${accessToken}` } }),
+  getMyInvetory: ():Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner'),
+  getMyItem: ():Promise<AxiosResponse<any>> => api.get('/api/user/items'),
+  getItemInfo: (idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`),
 };
 
 export const socketApi = {

@@ -3,34 +3,23 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import styled from 'styled-components/native';
 import Slide from './components/Slide';
 import {
-  CommonText, InputColumn, InputContent, Inputs, InputTitle, InputValue,
+  CommonText, InputColumn, Inputs, InputValue,
 } from '../ItemStack/utils';
-
-// const Container = styled.View`
-//     flex: 1;
-//     justify-content:center;
-//     align-items:center;
-// `;
-
-const Text = styled.Text`
-    flex: 1;
-    justify-content:center;
-    align-items:center;
-
-`;
+import { itemType } from '../../types';
 
 const Container = styled.ScrollView``;
 
 const ItemName = styled.Text`
   font-size: 36;
   font-weight:600;
-  padding-bottom: 20px;
-  padding-left:10px;
+
 `;
 const ItemNameContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  align-items: flex-start;
+  padding-bottom: 20px;
+  /* padding-left:10px; */
 `;
 
 const Deposit = styled.Text`
@@ -51,7 +40,7 @@ const DescriptionContainer = styled.View`
 
 export default function ItemDetail({ route }) {
   console.log(route.params);
-  const { item, accessToken } = route.params;
+  const { item } : {item:itemType} = route.params;
   const {
     name,
     description,
@@ -63,7 +52,7 @@ export default function ItemDetail({ route }) {
   return (
     <KeyboardAwareScrollView extraScrollHeight={30}>
       <Container>
-        <Slide imgList={images} accessToken={accessToken} />
+        <Slide imgList={images} />
         <Inputs>
           <ItemNameContainer>
             <ItemName>
@@ -79,18 +68,6 @@ export default function ItemDetail({ route }) {
               {description}
             </Description>
           </DescriptionContainer>
-
-          {/* <InputContent
-            placeholder="설명"
-            multiline
-            numberOfLines={15}
-            value={description}
-            editable={false}
-            style={{
-              textAlignVertical: 'top',
-              color: 'black',
-            }}
-          /> */}
           <InputColumn style={{ marginTop: 30 }}>
             <CommonText>카테고리</CommonText>
             <InputValue

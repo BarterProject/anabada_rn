@@ -27,7 +27,7 @@ export default function Configure({ navigation }) {
       screenOptions={{
         headerTransparent: true,
         headerTitle: '',
-        // headerBackTitleVisible: false,
+        headerBackTitleVisible: false,
         headerBackButtonMenuEnabled: true,
         headerTintColor: '#E94057',
       }}

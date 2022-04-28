@@ -12,7 +12,10 @@ import Main from './HomeStack/Main';
 import Item from './Item';
 import Configure from './Configure';
 import ItemDetail from './HomeStack/ItemDetail';
-import Requested from './HomeStack/Requested';
+import Request from './HomeStack/Request';
+import ItemDeals from './ItemDeals';
+import ItemRequestDetail from './HomeStack/ItemRequestDetail';
+import ItemReceiveDetail from './HomeStack/ItemReceiveDetail';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +64,7 @@ export default function Home({ navigation }:HomeScreenProps) {
       <Stack.Screen
         options={{
           headerTransparent: true,
+          headerShown: false,
         }}
         name="Configure"
         component={Configure}
@@ -69,8 +73,15 @@ export default function Home({ navigation }:HomeScreenProps) {
         options={{
           headerShown: true,
         }}
-        name="Requested"
-        component={Requested}
+        name="Request"
+        component={Request}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="ItemDeals"
+        component={ItemDeals}
       />
       <Stack.Screen name="ItemDetail" component={ItemDetail} />
       <Stack.Screen
@@ -80,6 +91,8 @@ export default function Home({ navigation }:HomeScreenProps) {
         name="Item"
         component={Item}
       />
+      <Stack.Screen name="ItemRequestDetail" component={ItemRequestDetail} />
+      <Stack.Screen name="ItemReceiveDetail" component={ItemReceiveDetail} />
 
     </Stack.Navigator>
   );

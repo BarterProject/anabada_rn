@@ -58,14 +58,6 @@ function ItemDetail({
   route: { params: {readOnly:boolean, itemIdx:number, enrollMode:boolean} };
   navigation: { setOptions: Function; goBack: Function, navigate:Function };
 }) {
-  const {
-    accessToken,
-  } = useSelector(
-    (state:initialStateProps) => ({
-      accessToken: state.userState.accessToken,
-    }),
-  );
-
   const [itemInfo, setItemInfo] = useState<itemType>(null);
 
   const go = (enroll:boolean) => {
@@ -76,7 +68,7 @@ function ItemDetail({
 
   const getItemInfo = useCallback(async () => {
     try {
-      const { data }:{data:itemType} = await itemApi.geyItemInfo(accessToken, itemIdx);
+      const { data }:{data:itemType} = await itemApi.getItemInfo(itemIdx);
       setItemInfo(data);
     } catch (e) {
       console.log(e);
@@ -121,67 +113,6 @@ function ItemDetail({
     });
     console.log(enrollMode);
   }, [enrollMode]);
-  const images = [
-    {
-      cancelled: false,
-      height: 2848,
-      type: 'image',
-      path: 'https://dnvefa72aowie.cloudfront.net/origin/article/202203/AE33A8E09508FEFBAF957FA1EB33D022CB04A3219085AB886B0BD2C4B04A2EC5.jpg?q=95&s=1440x1440&t=inside',
-      width: 4288,
-    },
-    {
-      cancelled: false,
-      height: 2848,
-      type: 'image',
-      path: 'https://dnvefa72aowie.cloudfront.net/origin/article/202203/36615BB020E805847B3D4098BA9CE4B59158D0EABBBAD7FD84159C79D64026C0.jpg?q=95&s=1440x1440&t=inside',
-      width: 4288,
-    },
-    {
-      cancelled: false,
-      height: 2848,
-      type: 'image',
-      path: 'https://dnvefa72aowie.cloudfront.net/origin/article/202203/7418001DFC185E78F4F07ADE9D995A27DECB4319679C8F3668F489F07B246AF4.jpg?q=95&s=1440x1440&t=inside',
-      width: 4288,
-    },
-    {
-      cancelled: false,
-      height: 2848,
-      type: 'image',
-      path: 'https://dnvefa72aowie.cloudfront.net/origin/article/202203/8A31CEA154298AC393568A6553615F882B0BBEB9C4DF343AD5984BE244E32423.jpg?q=95&s=1440x1440&t=inside',
-      width: 4288,
-    },
-
-  ];
-  // function renderItem({ item, index }) {
-  //   return (
-  //     <View
-  //       style={{
-  //         position: 'relative',
-  //       }}
-  //     >
-  //       <ItemInstance
-  //         uri={item.uri}
-  //         connectedUser={item.connectedUser}
-  //         status={item.status}
-  //         clickable={false}
-  //         width={100}
-  //         passport={false}
-  //       />
-  //       {index === 4 ? (
-  //         <View
-  //           style={{
-  //             position: 'absolute',
-  //             bottom: -20,
-  //             width: '100%',
-  //             alignItems: 'center',
-  //           }}
-  //         >
-  //           <Ionicons size={30} name="checkmark-outline" color="green" />
-  //         </View>
-  //       ) : null}
-  //     </View>
-  //   );
-  // }
 
   return (
     itemInfo ? (

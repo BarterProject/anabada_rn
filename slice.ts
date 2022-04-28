@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {
+  dealApi,
   getRandomItems, postLogin, postSignup, setToken,
 } from './api';
 import { itemType } from './types';
@@ -27,7 +28,7 @@ export type initialStateProps ={
     userState:{
       accessToken:string
     }
-    chosenItem:string,
+    chosenItemId:number,
     randomItems:itemType[]
 }
 
@@ -59,7 +60,7 @@ const { actions, reducer } = createSlice({
     userState: {
       accessToken: null,
     },
-    chosenItem: '',
+    chosenItemId: 0,
     randomItems: [],
   },
   reducers: {
@@ -134,6 +135,10 @@ const { actions, reducer } = createSlice({
     }),
     setAccessToken: (state, { payload: accessToken }) => ({
       ...state,
+      signInField: {
+        id: '',
+        password: '',
+      },
       userState: {
         ...state.userState,
         accessToken,
@@ -146,6 +151,8 @@ const { actions, reducer } = createSlice({
         ...state.userState,
         accessToken: null,
       },
+      chosenItemId: 0,
+      randomItems: [],
     }),
     addRandomItems: (state, { payload: randomItems }) => ({
       ...state,
@@ -154,6 +161,10 @@ const { actions, reducer } = createSlice({
     removeARandomItem: (state) => ({
       ...state,
       randomItems: [...state.randomItems.slice(1)],
+    }),
+    setItemToDeal: (state, { payload: itemId }) => ({
+      ...state,
+      chosenItemId: itemId,
     }),
   },
 });
@@ -172,6 +183,7 @@ export const {
   deleteAccessToken,
   addRandomItems,
   removeARandomItem,
+  setItemToDeal,
 } = actions;
 
 export function requestSignUp() {
@@ -249,4 +261,43 @@ export function requestRandomItems(number :number) {
   };
 }
 
+export function requestDeal() {
+  return async (dispatch, getState) => {
+    const {
+      chosenItemId,
+      randomItems,
+    } = getState();
+    try {
+      console.log('requestDeal: chosenItemId', chosenItemId);
+      console.log('requestDeal: randomItems[0].idx', randomItems[0].idx);
+
+      if (chosenItemId === 0) {
+        return alert('교환요청을 실패했습니다. \n교환할 자신의 아이템을 선택해주세요');
+      }
+      await dealApi.requestDeal({
+        requestId: chosenItemId,
+        resqustedId: randomItems[0].idx,
+      });
+
+      // const data:itemType[] = await getRandomItems({ accessToken, number });
+      // dispatch(addRandomItems(data));
+    } catch (e) {
+      console.log('requestDeal 에러시작');
+      console.log(...e);
+      console.log('requestDeal 에러끝');
+    }
+    return null;
+  };
+}
+
+export function acceptDeal({ dealIdx, itemIdx }:{dealIdx:number, itemIdx:number}) {
+  return async (dispatch, getState) => {
+    try {
+      dealApi.acceptDealRequested(dealIdx);
+      dispatch(setItemToDeal(itemIdx));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+}
 export default reducer;

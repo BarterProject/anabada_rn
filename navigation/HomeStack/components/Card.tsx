@@ -83,7 +83,6 @@ export default function Card({ item }:{item:Item}) {
   // console.log(item);
   const {
     name,
-    description,
     deposit,
     images,
   } = item;
@@ -197,7 +196,7 @@ export default function Card({ item }:{item:Item}) {
                 // alert('test');
                 navigation.navigate('ItemDetail', {
                   item,
-                  accessToken,
+                  // accessToken,
                 });
               }
           }

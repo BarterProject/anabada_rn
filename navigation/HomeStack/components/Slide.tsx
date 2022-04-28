@@ -4,7 +4,9 @@ import React from 'react';
 import styled from 'styled-components/native';
 
 import { BASE_URL } from '@env';
+import { useSelector } from 'react-redux';
 import { ItemImage } from '../../../types';
+import { initialStateProps } from '../../../slice';
 
 const Container = styled.View`
   width: 100%;
@@ -33,7 +35,12 @@ const ImageInstance = styled.ImageBackground`
   width: 100%;
 `;
 
-function Slide({ imgList, accessToken }:{imgList:ItemImage[], accessToken:string}) {
+function Slide({ imgList }:{imgList:ItemImage[]}) {
+  const { accessToken }:
+  {accessToken:string} = useSelector((state:initialStateProps) => ({
+    accessToken: state.userState.accessToken,
+  }));
+
   return (
     <Container>
       { imgList.length === 0
