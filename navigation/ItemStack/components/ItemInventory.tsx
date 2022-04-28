@@ -18,18 +18,6 @@ const GridItem = styled.View`
   margin: 10px 0;
 `;
 function ItemInventory({ items }:{items: itemType[]}) {
-  // const renderItem = useCallback(({ item }:{item:itemType}) => (
-  //   <ItemInstance
-  //     key={item.idx}
-  //     uri={item.images[0].saveName}
-  //     connectedUser={1}
-  //     status=""
-  //     clickable
-  //     width={33}
-  //     passport={item.delivery.length !== 0}
-  //   />
-  // ), []);
-
   return (
     (
       <Container
