@@ -135,6 +135,10 @@ const { actions, reducer } = createSlice({
     }),
     setAccessToken: (state, { payload: accessToken }) => ({
       ...state,
+      signInField: {
+        id: '',
+        password: '',
+      },
       userState: {
         ...state.userState,
         accessToken,
@@ -147,6 +151,8 @@ const { actions, reducer } = createSlice({
         ...state.userState,
         accessToken: '',
       },
+      chosenItemId: 0,
+      randomItems: [],
     }),
     addRandomItems: (state, { payload: randomItems }) => ({
       ...state,
@@ -258,7 +264,6 @@ export function requestRandomItems(number :number) {
 export function requestDeal() {
   return async (dispatch, getState) => {
     const {
-      userState: { accessToken },
       chosenItemId,
       randomItems,
     } = getState();
@@ -272,7 +277,6 @@ export function requestDeal() {
       await dealApi.requestDeal({
         requestId: chosenItemId,
         resqustedId: randomItems[0].idx,
-        accessToken,
       });
 
       // const data:itemType[] = await getRandomItems({ accessToken, number });
@@ -282,8 +286,18 @@ export function requestDeal() {
       console.log(...e);
       console.log('requestDeal 에러끝');
     }
-    return alert('요청 완료');
+    return null;
   };
 }
 
+export function acceptDeal({ dealIdx, itemIdx }:{dealIdx:number, itemIdx:number}) {
+  return async (dispatch, getState) => {
+    try {
+      dealApi.acceptDealRequested(dealIdx);
+      dispatch(setItemToDeal(itemIdx));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+}
 export default reducer;
