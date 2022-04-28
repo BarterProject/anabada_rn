@@ -99,12 +99,12 @@ function Enroll({
   }, [categoryCheck, paymentCheck, imgList, name, description, amount, agree]);
 
   const getCategories = useCallback(async () => {
-    const { data } = await itemApi.getCategories(accessToken);
+    const { data } = await itemApi.getCategories();
     setCategory(data);
   }, []);
 
   const getPaymentOptions = useCallback(async () => {
-    const { data } = await itemApi.getPaymentOptions(accessToken);
+    const { data } = await itemApi.getPaymentOptions();
     setPaymentOption(data);
   }, []);
 
