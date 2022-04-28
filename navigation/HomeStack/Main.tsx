@@ -11,11 +11,11 @@ import DropShadow from 'react-native-drop-shadow';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
-import { dealApi, itemApi } from '../../api';
+import { itemApi } from '../../api';
 import {
   initialStateProps, removeARandomItem, requestDeal, requestRandomItems,
 } from '../../slice';
-import { Item } from '../../types';
+import { itemType } from '../../types';
 import Card from './components/Card';
 
 const Container = styled.View`
@@ -97,7 +97,7 @@ function Main({ navigation }) {
   const dispatch = useDispatch();
   const [chosenItemIamgeName, setChosenItemIamgeName] = useState('');
   const { accessToken, randomItems, chosenItemId }:
-  {accessToken:string, randomItems:Item[],
+  {accessToken:string, randomItems:itemType[],
     chosenItemId:number} = useSelector((state:initialStateProps) => ({
       accessToken: state.userState.accessToken,
       randomItems: state.randomItems,
@@ -106,7 +106,7 @@ function Main({ navigation }) {
 
   useEffect(() => {
     console.log('chosenItemId', chosenItemId);
-    itemApi.getItemInfo(accessToken, chosenItemId).then((itemInfo) => {
+    itemApi.getItemInfo(chosenItemId).then((itemInfo) => {
       setChosenItemIamgeName(itemInfo.data.images[0].name);
       console.log('itemInfo');
       console.log(itemInfo.data.images[0].name);
@@ -285,7 +285,8 @@ function Main({ navigation }) {
             }}
           >
             <CenterButton onPress={() => {
-              navigation.navigate('Requested');
+              // navigation.navigate('Requested');
+              navigation.navigate('ItemDeals');
             }}
             >
               <Image
@@ -295,7 +296,8 @@ function Main({ navigation }) {
                   borderRadius: 50,
                 }}
                 source={{
-                  uri: `${BASE_URL}/api/items/images/${chosenItemIamgeName}`,
+                  uri: chosenItemId === 0 ? '#'
+                    : `${BASE_URL}/api/items/images/${chosenItemIamgeName}`,
                   headers: {
                     Authorization: `Bearer ${accessToken}`,
                   },

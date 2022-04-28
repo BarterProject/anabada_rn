@@ -9,14 +9,13 @@ import styled from 'styled-components/native';
 
 import { BlurView } from 'expo-blur';
 import DropShadow from 'react-native-drop-shadow';
-import { useNavigation } from '@react-navigation/native';
 
 import { Ionicons } from '@expo/vector-icons';
 
 import { BASE_URL } from '@env';
-import { useDispatch, useSelector } from 'react-redux';
-import { initialStateProps, setItemToDeal } from '../../../slice';
-import { itemApi } from '../../../api';
+
+import { useNavigation } from '@react-navigation/native';
+import { itemApi } from '../../api';
 
 const Container = styled.View<{ width: number }>`
   width: ${(props) => `${props.width}%`};
@@ -54,31 +53,31 @@ const AndroidStatus = styled.View`
   opacity: 0.8;
 `;
 
-function ItemInventoryInstance({
+function ItemRequestInstance({
   passport,
   connectedUser,
   idx,
+  dealIdx,
   status,
   clickable,
   width,
+
 }: {
   connectedUser: number,
   passport: boolean,
   status: string,
   clickable:boolean,
-  width: number
-  idx:number;
+  width: number,
+  idx:number,
+  dealIdx: number
 }) {
-  const { navigate, goBack } = useNavigation();
-  const dispatch = useDispatch();
+  // const { navigate, goBack } = useNavigation();
+  // const dispatch = useDispatch();
   const [item, setItem] = useState(null);
-
-  const { accessToken } = useSelector((state : initialStateProps) => ({
-    accessToken: state.userState.accessToken,
-  }));
+  const navigation = useNavigation();
 
   useEffect(() => {
-    itemApi.getItemInfo(accessToken, idx).then(({ data }) => {
+    itemApi.getItemInfo(idx).then(({ data }) => {
       // console.log(data);
       setItem(data);
     });
@@ -89,8 +88,9 @@ function ItemInventoryInstance({
       {item ? (
         <TouchableOpacity
           onPress={() => {
-            // clickable && goBack();
+            clickable;
             // dispatch(setItemToDeal(idx));
+            navigation.navigate('ItemRequestDetail', { item, dealIdx });
             console.log(`${idx}선택완료`);
           }}
         >
@@ -155,4 +155,4 @@ function ItemInventoryInstance({
   );
 }
 
-export default ItemInventoryInstance;
+export default ItemRequestInstance;

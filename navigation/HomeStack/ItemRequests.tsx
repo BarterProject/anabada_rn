@@ -2,7 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components/native';
 
-import { itemType } from '../../../types';
 import ItemRequestInstance from './ItemRequestInstance';
 
 const Container = styled.ScrollView`
@@ -17,18 +16,10 @@ const GridItem = styled.View`
   flex-direction: row;
   margin: 10px 0;
 `;
-function ItemRequests({ itemIdxs }:{itemIdxs: number[]}) {
-  // const renderItem = useCallback(({ item }:{item:itemType}) => (
-  //   <ItemInstance
-  //     key={item.idx}
-  //     uri={item.images[0].saveName}
-  //     connectedUser={1}
-  //     status=""
-  //     clickable
-  //     width={33}
-  //     passport={item.delivery.length !== 0}
-  //   />
-  // ), []);
+function ItemRequests({ itemIdxs }:{itemIdxs: {
+  reqeustIdxs:number,
+  dealIdx:number
+}[]}) {
   console.log('ItemRequests', itemIdxs.length);
   return (
     (
@@ -40,8 +31,9 @@ function ItemRequests({ itemIdxs }:{itemIdxs: number[]}) {
         <GridItem>
           {itemIdxs.map((idx) => (
             <ItemRequestInstance
-              key={idx}
-              idx={idx}
+              key={idx.reqeustIdxs}
+              idx={idx.reqeustIdxs}
+              dealIdx={idx.dealIdx}
               // uri={item.images[0].name}
               connectedUser={1}
               status="배송중"
