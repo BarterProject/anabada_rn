@@ -57,7 +57,7 @@ const { actions, reducer } = createSlice({
       accountNumber: '',
     },
     userState: {
-      accessToken: '',
+      accessToken: null,
     },
     chosenItem: '',
     randomItems: [],
@@ -144,7 +144,7 @@ const { actions, reducer } = createSlice({
       ...state,
       userState: {
         ...state.userState,
-        accessToken: '',
+        accessToken: null,
       },
     }),
     addRandomItems: (state, { payload: randomItems }) => ({

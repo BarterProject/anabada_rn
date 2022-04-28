@@ -180,7 +180,13 @@ export const itemApi = {
     //   ,
     // });
   },
-
   getMyItem: async ():Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner'),
   geyItemInfo: (accessToken:string, idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`, { headers: { Authorization: `Bearer ${accessToken}` } }),
+};
+
+export const socketApi = {
+  connectSocket: async ():Promise<AxiosResponse<any>> => {
+    const accessToken = await EncryptedStorage.getItem('accessToken');
+    return api.get(`/socket?jwt=${accessToken}`);
+  },
 };
