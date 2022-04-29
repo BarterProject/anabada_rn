@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { initialStateProps } from '../../../slice';
 import { Item } from '../../../types';
+import { Mark, MarkProps } from './MainComponents';
 
 const Container = styled.View`
   position:absolute;
@@ -78,8 +79,14 @@ const Deposit = styled.Text`
   background-color:gray;
   font-size: 20px;
 `;
+type CardProps = MarkProps&{
+  item:Item
+}
 
-export default function Card({ item }:{item:Item}) {
+export default function Card({
+  item,
+  declineOpacity, acceptOpacity,
+}:CardProps) {
   // console.log(item);
   const {
     name,
@@ -128,6 +135,10 @@ export default function Card({ item }:{item:Item}) {
             Authorization: `Bearer ${accessToken}`,
           },
         }}
+      />
+      <Mark
+        declineOpacity={declineOpacity}
+        acceptOpacity={acceptOpacity}
       />
       <ChangeImageContainer>
         <View
@@ -181,7 +192,6 @@ export default function Card({ item }:{item:Item}) {
             console.log('right and index : ', index);
           }}
         />
-
       </ChangeImageContainer>
       <InfoContainerBackground />
       <InfoContainer>
