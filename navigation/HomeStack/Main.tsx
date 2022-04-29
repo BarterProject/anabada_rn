@@ -1,120 +1,40 @@
-import { BASE_URL } from '@env';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import {
-  ActivityIndicator,
-  Animated, Image, PanResponder, View,
+  Animated, PanResponder,
 } from 'react-native';
-import DropShadow from 'react-native-drop-shadow';
 import { useDispatch, useSelector } from 'react-redux';
 
-import styled from 'styled-components/native';
-import { itemApi } from '../../api';
 import {
   initialStateProps, removeARandomItem, requestDeal, requestRandomItems,
 } from '../../slice';
 import { itemType } from '../../types';
+import BackCard from './components/BackCard';
 import Card from './components/Card';
 
-import useSocket from '../../hooks/useSocket';
+import {
+  AnimatedCard,
+  Body,
+  CardActivityIndicator,
+  CardContainer,
+  ConfigureButton,
+  Container,
+  DealsButton,
+  ItemBoxButton,
+  NavBar,
+  NavBarButtonsConatainer,
+} from './components/MainComponents';
 
-const Container = styled.View`
-  flex:1;
-`;
-
-const Body = styled.View`
-  flex:10;
-  background-color:lightgray;
-`;
-
-const NavBar = styled.View`
-  flex:2;
-`;
-
-const CircleButton = styled.TouchableOpacity`
-  width:70px;
-  height:70px;
-  border-radius:35px;
-  background-color:white;
-`;
-
-const CenterButton = styled.TouchableOpacity`
-  width:100px;
-  height:100px;
-  border-radius:50px;
-  background-color:white;
-  border:5px;
-  top:0px;
-`;
-const NavBarButtonsConatainer = styled.View`
-  flex-direction:row;
-  justify-content:space-around;
-  align-items:flex-end;
-  padding-top:10px;
-  padding-left:20px;
-  padding-right:20px;
-  top:-30px;
-`;
-
-const ButtonText = styled.Text`
-  justify-content:center;
-  align-items:center;
-`;
-
-const ButtonTextContainer = styled.View`
-  flex:1;
-  justify-content:center;
-  align-items:center;
-`;
-
-const CardContainer = styled.View`
-  flex:1;
-  /* background-color:red; */
-  justify-content:center;
-  align-items:center;
-`;
-
-const AnimatedCard = styled(Animated.createAnimatedComponent(View))`
-  background-color:white;
-  position:absolute;
-  width:100%;
-  height:100%;
-  box-shadow: 1px 1px 5px rgba(0,0,0,0.2); 
-  border-radius:12px;
-`;
-
-const ActivityIndicatorContainer = styled.View`
-  flex:1;
-  justify-content:center;
-  align-items: center;
-`;
-
-function Main({ navigation }) {
-  // const navigation = useNavigation();
-
+function Main() {
   const scale = useRef(new Animated.Value(1)).current;
   const POSITION = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
-  const [chosenItemIamgeName, setChosenItemIamgeName] = useState('');
-  const { accessToken, randomItems, chosenItemId }:
-  {accessToken:string, randomItems:itemType[],
+  const { randomItems, chosenItemId }:
+  { randomItems:itemType[],
     chosenItemId:number} = useSelector((state:initialStateProps) => ({
-      accessToken: state.userState.accessToken,
       randomItems: state.randomItems,
       chosenItemId: state.chosenItemId,
     }));
-
-  useEffect(() => {
-    console.log('chosenItemId', chosenItemId);
-    itemApi.getItemInfo(chosenItemId).then((itemInfo) => {
-      setChosenItemIamgeName(itemInfo.data.images[0].name);
-      console.log('itemInfo');
-      console.log(itemInfo.data.images[0].name);
-    });
-    // console.log('chosenItemInfo', data);
-  }, [chosenItemId]);
 
   useEffect(() => {
     console.log(`randomItems.length값이 ${randomItems.length}입니다. `);
@@ -126,6 +46,18 @@ function Main({ navigation }) {
     }
     // return () => {};
   }, [randomItems]);
+
+  const declineOpacity = POSITION.interpolate({
+    inputRange: [-100, 0],
+    outputRange: [1, 0],
+    extrapolate: 'clamp',
+  });
+
+  const acceptOpacity = POSITION.interpolate({
+    inputRange: [0, 100],
+    outputRange: [0, 1],
+    extrapolate: 'clamp',
+  });
 
   const secondScale = POSITION.interpolate({
     inputRange: [-250, 0, 250],
@@ -180,6 +112,7 @@ function Main({ navigation }) {
       POSITION.flattenOffset();
     });
   };
+
   const onPressIn = () => {
     Animated.spring(
       scale,
@@ -189,6 +122,7 @@ function Main({ navigation }) {
       },
     ).start();
   };
+
   const onPressOut = () => {
     Animated.spring(
       scale,
@@ -221,6 +155,7 @@ function Main({ navigation }) {
       },
     }),
   ).current;
+
   return (
     <Container>
       <Body>
@@ -232,7 +167,7 @@ function Main({ navigation }) {
                   transform: [{ scale: secondScale }],
                 }}
               >
-                <Card
+                <BackCard
                   item={randomItems[1]}
                 />
               </AnimatedCard>
@@ -244,89 +179,21 @@ function Main({ navigation }) {
               >
                 <Card
                   item={randomItems[0]}
+                  declineOpacity={declineOpacity}
+                  acceptOpacity={acceptOpacity}
                 />
               </AnimatedCard>
             </CardContainer>
           )
           : (
-            <ActivityIndicatorContainer>
-              <ActivityIndicator
-                color="black"
-              />
-            </ActivityIndicatorContainer>
+            <CardActivityIndicator />
           )}
       </Body>
       <NavBar>
         <NavBarButtonsConatainer>
-          <DropShadow
-            style={{
-              shadowColor: '#171717',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.5,
-              shadowRadius: 2,
-            }}
-          >
-            <CircleButton
-              onPress={() => {
-                navigation.navigate('Configure');
-              }}
-            >
-              <ButtonTextContainer>
-                <ButtonText>
-                  <Ionicons name="ios-settings-outline" size={45} />
-                </ButtonText>
-              </ButtonTextContainer>
-            </CircleButton>
-          </DropShadow>
-          <DropShadow
-            style={{
-              shadowColor: '#171717',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.5,
-              shadowRadius: 2,
-            }}
-          >
-            <CenterButton onPress={() => {
-              // navigation.navigate('Requested');
-              navigation.navigate('ItemDeals');
-            }}
-            >
-              <Image
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: 50,
-                }}
-                source={{
-                  uri: chosenItemId === 0 ? '#'
-                    : `${BASE_URL}/api/items/images/${chosenItemIamgeName}`,
-                  headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                  },
-                }}
-              />
-            </CenterButton>
-          </DropShadow>
-          <DropShadow
-            style={{
-              shadowColor: '#171717',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.5,
-              shadowRadius: 2,
-            }}
-          >
-            <CircleButton
-              onPress={() => {
-                navigation.navigate('Item', { screen: 'Main', params: { getNewData: false } });
-              }}
-            >
-              <ButtonTextContainer>
-                <ButtonText>
-                  <AntDesign name="inbox" size={50} />
-                </ButtonText>
-              </ButtonTextContainer>
-            </CircleButton>
-          </DropShadow>
+          <ConfigureButton />
+          <DealsButton />
+          <ItemBoxButton />
         </NavBarButtonsConatainer>
       </NavBar>
     </Container>
