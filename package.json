@@ -6,7 +6,14 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
   },
   "dependencies": {
     "@actbase/react-daum-postcode": "^1.0.4",
@@ -20,6 +27,7 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "@reduxjs/toolkit": "^1.8.0",
+    "@testing-library/react-native": "^9.1.0",
     "@types/react-native-dotenv": "^0.2.0",
     "@types/react-redux": "^7.1.23",
     "axios": "^0.26.1",
@@ -51,12 +59,13 @@
     "react-native-webview": "^11.17.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
+    "save": "^2.5.0",
     "socket.io-client": "^4.5.0",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@types/jest": "^27.4.1",
+    "@types/jest": "^27.5.0",
     "@types/react": "^17.0.39",
     "@types/react-native": "^0.67.2",
     "@types/react-test-renderer": "^17.0.1",
@@ -69,6 +78,8 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.3",
     "eslint-plugin-react-hooks": "^4.3.0",
+    "jest": "^28.0.3",
+    "ts-jest": "^28.0.1",
     "typescript": "^4.6.2"
   },
   "private": true
