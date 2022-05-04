@@ -75,16 +75,6 @@ export default function Main({ navigation }:MainInProps) {
         <Line />
         <Button
           onPress={() => {
-            navigation.navigate('Report');
-          }}
-        >
-          <Text>
-            문의사항
-          </Text>
-        </Button>
-        <Line />
-        <Button
-          onPress={() => {
             dispatch(deleteAccessToken());
             navigation.dispatch(
               CommonActions.reset({

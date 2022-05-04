@@ -111,15 +111,18 @@ export default function Card({
       setIndex(index + 1);
     }
   };
+
   const prevImg = () => {
     if (index - 1 >= 0) {
       setIndex(index - 1);
     }
   };
+
   useEffect(() => {
     setIndex(0);
     return () => setShortTouch(false);
   }, [images]);
+
   return (
     <Container>
       <Image
@@ -147,7 +150,7 @@ export default function Card({
             opacity: 0,
             flex: 1,
           }}
-          onTouchStart={() => {
+          onTouchStart={() => { // 0.5초 넘게 누르거나 움직이면 이미지 넘기기 취소
             setShortTouch(true);
             setTimeout(
               () => {
@@ -203,13 +206,11 @@ export default function Card({
             <DetailButton
               onPress={
               () => {
-                // alert('test');
                 navigation.navigate('ItemDetail', {
                   item,
-                  // accessToken,
                 });
               }
-          }
+              }
             >
               <DetailButtonText>
                 <AntDesign name="infocirlceo" color="white" size={20} />

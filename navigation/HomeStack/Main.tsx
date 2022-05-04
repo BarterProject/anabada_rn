@@ -72,7 +72,7 @@ function Main() {
   });
 
   const next = () => {
-    dispatch(removeARandomItem());
+    dispatch(removeARandomItem()); // 카드 한장 넘기기
     console.log('next');
   };
 
@@ -96,7 +96,7 @@ function Main() {
       restSpeedThreshold: 100,
     }).start(() => {
       console.log('bounceTotheRightOut chosenItemId:', chosenItemId);
-      dispatch(requestDeal());
+      dispatch(requestDeal()); // 교환 신청하기
       next();
       POSITION.setValue(0);
     });
