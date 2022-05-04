@@ -1,4 +1,4 @@
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert } from 'react-native';
@@ -69,7 +69,9 @@ const Body = styled.View`
 `;
 type SignInProps = NativeStackScreenProps<AuthStackParamList, 'PhoneAuth'>
 
-export default function SignIn({ navigation }: SignInProps) {
+// export default function SignIn({ navigation }: SignInProps) {
+export default function SignIn() {
+  const navigation = useNavigation();
   const [id, setId] = useState('bsy111');
   const [password, setPassword] = useState('bsy111');
   const [loading, setLoading] = useState(false);
@@ -91,7 +93,7 @@ export default function SignIn({ navigation }: SignInProps) {
     if (accessToken === 'err') {
       console.log('accessToken의 값이 에러가 뜹니다..');
       dispatch(setAccessToken(''));
-      alert('아이디/비밀번호를 다시 확인해주세요');
+      Alert.alert('아이디/비밀번호를 다시 확인해주세요');
     } else {
       console.log('accessToken의 값이 감지가 되어 로그인됩니다.');
       navigation.dispatch(
