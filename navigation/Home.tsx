@@ -8,6 +8,7 @@ import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navig
 
 import { Ionicons } from '@expo/vector-icons';
 import { NavigatorScreenParams } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 import Main from './HomeStack/Main';
 import Item from './Item';
 import Configure from './Configure';
@@ -16,11 +17,20 @@ import Request from './HomeStack/Request';
 import ItemDeals from './ItemDeals';
 import ItemRequestDetail from './HomeStack/ItemRequestDetail';
 import ItemReceiveDetail from './HomeStack/ItemReceiveDetail';
+import { initialStateProps, setNoticeAlarm } from '../slice';
 
 const Stack = createNativeStackNavigator();
 
 const Btn = styled.TouchableOpacity``;
 
+const Badge = styled.View`
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: #e94057;
+  justify-content: center;
+  align-items: center;
+`;
 type AlarmStackParamList={
   Main:undefined,
 }
@@ -35,6 +45,15 @@ export type RootStackParamList = {
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
 
 export default function Home({ navigation }:HomeScreenProps) {
+  const {
+    noticeAlarm,
+  } = useSelector(
+    (state:initialStateProps) => ({
+      noticeAlarm: state.noticeAlarm,
+    }),
+  );
+  const dispatch = useDispatch();
+
   return (
     <Stack.Navigator
       initialRouteName="Main"
@@ -45,11 +64,17 @@ export default function Home({ navigation }:HomeScreenProps) {
           <Btn
             onPress={() => {
               navigation.navigate('Alarm', { screen: 'Main' });
+              if (noticeAlarm) {
+                dispatch(setNoticeAlarm(false));
+              }
             }}
           >
             <Text>
               <View>
                 <Ionicons size={30} name="notifications" />
+                {noticeAlarm ? (
+                  <Badge style={{ position: 'absolute', top: -3, left: 15 }} />
+                ) : null}
               </View>
             </Text>
           </Btn>

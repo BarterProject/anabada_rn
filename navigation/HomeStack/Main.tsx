@@ -11,14 +11,12 @@ import DropShadow from 'react-native-drop-shadow';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
-import { itemApi } from '../../api';
+import { itemApi, userApi } from '../../api';
 import {
-  initialStateProps, removeARandomItem, requestDeal, requestRandomItems,
+  initialStateProps, removeARandomItem, requestDeal, requestRandomItems, setNotice,
 } from '../../slice';
 import { itemType } from '../../types';
 import Card from './components/Card';
-
-import useSocket from '../../hooks/useSocket';
 
 const Container = styled.View`
   flex:1;
@@ -105,6 +103,20 @@ function Main({ navigation }) {
       randomItems: state.randomItems,
       chosenItemId: state.chosenItemId,
     }));
+
+  const getNotice = async () => {
+    try {
+      const { data } = await userApi.getNotice();
+      console.log(data);
+      dispatch(setNotice(data));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getNotice();
+  }, []);
 
   useEffect(() => {
     console.log('chosenItemId', chosenItemId);
