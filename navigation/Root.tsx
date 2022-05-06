@@ -3,14 +3,14 @@ import React, { useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { NavigatorScreenParams } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Auth, { AuthStackParamList } from './Auth';
 import Home from './Home';
 import Alarm from './Alarm';
 import Item from './Item';
 
 import useSocket from '../hooks/useSocket';
-import { initialStateProps } from '../slice';
+import { addNotice, initialStateProps, setNoticeAlarm } from '../slice';
 
 export type RootStackParamList = {
   Auth: NavigatorScreenParams<AuthStackParamList>;
@@ -23,6 +23,8 @@ const Nav = createNativeStackNavigator<RootStackParamList>();
 
 function Root() {
   const [socket, disconnect] = useSocket();
+  const dispatch = useDispatch();
+
   const {
     accessToken: isLoggedIn,
   } = useSelector(
@@ -30,13 +32,16 @@ function Root() {
       accessToken: state.userState.accessToken,
     }),
   );
-
   useEffect(() => {
     if (socket && isLoggedIn) {
       socket.on('connect', () => {
         console.log('socket connected');
       });
-      socket.on('notice', (what) => { console.log(what); });
+      socket.on('notice', (noticeMessage) => {
+        console.log(noticeMessage);
+        dispatch(addNotice(noticeMessage));
+        dispatch(setNoticeAlarm(true));
+      });
       socket.on('message', (what) => { console.log(what); });
     }
     return () => {

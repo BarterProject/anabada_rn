@@ -78,6 +78,10 @@ export async function getRandomItems({ accessToken, number }) {
   return data;
 }
 
+export const userApi = {
+  getNotice: () => api.get('/api/users/notices'),
+};
+
 export const dealApi = {
   requestDeal: ({ requestId, resqustedId }) => api.post('/api/user/items/requests', {
     requestItem: {

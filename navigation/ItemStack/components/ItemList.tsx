@@ -42,7 +42,7 @@ function ItemList({ items }:{items: itemType[]}) {
           {items.map((item) => (
             <ItemInstance
               key={item.idx}
-              uri={item.images[0].name}
+              uri={item.images !== null ? item.images[0].name : null}
               connectedUser={1}
               status="배송중"
               clickable

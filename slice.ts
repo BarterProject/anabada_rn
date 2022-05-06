@@ -5,7 +5,7 @@ import {
   dealApi,
   getRandomItems, postLogin, postSignup, setToken,
 } from './api';
-import { itemType } from './types';
+import { itemType, noticeType } from './types';
 
 export type initialStateProps ={
     signInField:{
@@ -29,7 +29,10 @@ export type initialStateProps ={
       accessToken:string
     }
     chosenItemId:number,
-    randomItems:itemType[]
+    randomItems:itemType[],
+    notice:noticeType[],
+    noticeAlarm:boolean
+
 }
 
 export type stateProps= {
@@ -62,6 +65,8 @@ const { actions, reducer } = createSlice({
     },
     chosenItemId: 0,
     randomItems: [],
+    notice: [],
+    noticeAlarm: false,
   },
   reducers: {
     setIdForSigningIn: (state, { payload: id }: PayloadAction<string>) => ({
@@ -166,6 +171,18 @@ const { actions, reducer } = createSlice({
       ...state,
       chosenItemId: itemId,
     }),
+    setNotice: (state, { payload: notice }) => ({
+      ...state,
+      notice,
+    }),
+    addNotice: (state, { payload: addingNotice }) => ({
+      ...state,
+      notice: [...state.notice, addingNotice],
+    }),
+    setNoticeAlarm: (state, { payload }) => ({
+      ...state,
+      noticeAlarm: payload,
+    }),
   },
 });
 
@@ -184,6 +201,9 @@ export const {
   addRandomItems,
   removeARandomItem,
   setItemToDeal,
+  setNotice,
+  addNotice,
+  setNoticeAlarm,
 } = actions;
 
 export function requestSignUp() {

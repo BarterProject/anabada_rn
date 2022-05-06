@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Slide from './components/Slide';
 import Popup from './components/Popup';
@@ -18,7 +18,7 @@ import {
 } from './utils';
 
 import { itemApi } from '../../api';
-import { initialStateProps } from '../../slice';
+import { initialStateProps, setItemToDeal } from '../../slice';
 import { itemType } from '../../types';
 
 const Container = styled.ScrollView`
@@ -52,13 +52,18 @@ const HistoryBtn = styled.TouchableOpacity`
 `;
 
 function ItemDetail({
-  route: { params: { readOnly, itemIdx, enrollMode } },
+  route: {
+    params: {
+      readOnly, itemIdx, enrollMode, inventoryMode,
+    },
+  },
   navigation: { setOptions, goBack, navigate },
 }: {
-  route: { params: {readOnly:boolean, itemIdx:number, enrollMode:boolean} };
+  route: { params: {readOnly:boolean, itemIdx:number, enrollMode:boolean, inventoryMode:boolean} };
   navigation: { setOptions: Function; goBack: Function, navigate:Function };
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
+  const dispatch = useDispatch();
 
   const go = (enroll:boolean) => {
     if (enroll) {
@@ -177,6 +182,20 @@ function ItemDetail({
                   </Button>
                 </>
               ) : null}
+              {
+                inventoryMode ? (
+                  <Button
+                    style={{ marginTop: 15 }}
+                    onPress={() => {
+                      dispatch(setItemToDeal(itemIdx));
+                      console.log(`${itemIdx}선택완료`);
+                      navigate('Home', { screen: 'Main' });
+                    }}
+                  >
+                    <ButtonText>선택하기</ButtonText>
+                  </Button>
+                ) : null
+              }
 
             </Inputs>
 

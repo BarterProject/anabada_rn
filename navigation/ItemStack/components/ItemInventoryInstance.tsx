@@ -70,15 +70,19 @@ function ItemInventoryInstance({
   passport: boolean;
   idx:number;
 }) {
-  const { navigate, goBack } = useNavigation();
-  const dispatch = useDispatch();
+  const { navigate } = useNavigation();
   return (
     <Container width={width}>
       <TouchableOpacity
         onPress={() => {
-          clickable && goBack();
-          dispatch(setItemToDeal(idx));
-          console.log(`${idx}선택완료`);
+          clickable && navigate('Item', {
+            screen: 'Detail',
+            params: {
+              readOnly: true,
+              itemIdx: idx,
+              inventoryMode: true,
+            },
+          });
         }}
       >
         <DropShadow
