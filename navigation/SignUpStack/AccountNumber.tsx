@@ -54,7 +54,6 @@ const TouchableButton = styled.TouchableOpacity`
   justify-content:center;
   align-items:center;
   color: white;
-  /* margin:5px; */
   margin-top:30px;
 `;
 

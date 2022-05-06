@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { initialStateProps } from '../../../slice';
 import { Item } from '../../../types';
+import { Mark, MarkProps } from './MainComponents';
 
 const Container = styled.View`
   position:absolute;
@@ -78,8 +79,14 @@ const Deposit = styled.Text`
   background-color:gray;
   font-size: 20px;
 `;
+type CardProps = MarkProps&{
+  item:Item
+}
 
-export default function Card({ item }:{item:Item}) {
+export default function Card({
+  item,
+  declineOpacity, acceptOpacity,
+}:CardProps) {
   // console.log(item);
   const {
     name,
@@ -104,15 +111,18 @@ export default function Card({ item }:{item:Item}) {
       setIndex(index + 1);
     }
   };
+
   const prevImg = () => {
     if (index - 1 >= 0) {
       setIndex(index - 1);
     }
   };
+
   useEffect(() => {
     setIndex(0);
     return () => setShortTouch(false);
   }, [images]);
+
   return (
     <Container>
       <Image
@@ -129,6 +139,10 @@ export default function Card({ item }:{item:Item}) {
           },
         }}
       />
+      <Mark
+        declineOpacity={declineOpacity}
+        acceptOpacity={acceptOpacity}
+      />
       <ChangeImageContainer>
         <View
           style={{
@@ -136,7 +150,7 @@ export default function Card({ item }:{item:Item}) {
             opacity: 0,
             flex: 1,
           }}
-          onTouchStart={() => {
+          onTouchStart={() => { // 0.5초 넘게 누르거나 움직이면 이미지 넘기기 취소
             setShortTouch(true);
             setTimeout(
               () => {
@@ -181,7 +195,6 @@ export default function Card({ item }:{item:Item}) {
             console.log('right and index : ', index);
           }}
         />
-
       </ChangeImageContainer>
       <InfoContainerBackground />
       <InfoContainer>
@@ -193,13 +206,11 @@ export default function Card({ item }:{item:Item}) {
             <DetailButton
               onPress={
               () => {
-                // alert('test');
                 navigation.navigate('ItemDetail', {
                   item,
-                  // accessToken,
                 });
               }
-          }
+              }
             >
               <DetailButtonText>
                 <AntDesign name="infocirlceo" color="white" size={20} />

@@ -15,9 +15,12 @@ import Configure from './Configure';
 import ItemDetail from './HomeStack/ItemDetail';
 import Request from './HomeStack/Request';
 import ItemDeals from './ItemDeals';
+import Report from './HomeStack/Report';
 import ItemRequestDetail from './HomeStack/ItemRequestDetail';
 import ItemReceiveDetail from './HomeStack/ItemReceiveDetail';
+
 import { initialStateProps, setNoticeAlarm } from '../slice';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -118,6 +121,14 @@ export default function Home({ navigation }:HomeScreenProps) {
       />
       <Stack.Screen name="ItemRequestDetail" component={ItemRequestDetail} />
       <Stack.Screen name="ItemReceiveDetail" component={ItemReceiveDetail} />
+      <Stack.Screen
+        name="Report"
+        component={Report}
+        options={{
+        //   headerShown: false,
+          headerTitle: '문의하기',
+        }}
+      />
 
     </Stack.Navigator>
   );

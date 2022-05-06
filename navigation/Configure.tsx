@@ -7,7 +7,6 @@ import { Ionicons } from '@expo/vector-icons';
 import AppInfo from './ConfigureStack/AppInfo';
 import Main from './ConfigureStack/Main';
 import MyInfo from './ConfigureStack/Myinfo';
-import Report from './ConfigureStack/Report';
 
 export type ConfigureStackParamList = {
     Main: undefined;
@@ -65,14 +64,6 @@ export default function Configure({ navigation }) {
         //   headerShown: false,
           headerTitle: '앱 정보',
 
-        }}
-      />
-      <Stack.Screen
-        name="Report"
-        component={Report}
-        options={{
-        //   headerShown: false,
-          headerTitle: '문의하기',
         }}
       />
     </Stack.Navigator>

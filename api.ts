@@ -31,21 +31,7 @@ export async function postLogin({ id, password }) {
   return data;
 }
 
-export async function getMyInfo(accessToken) {
-  const url = `${BASE_URL}/api/user`;
-  const data = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-  }).then((res) => (res.json()))
-    .catch((err) => {
-      console.log(err);
-      return { jwt: 'err' };
-    });
-  return data;
-}
-
+export const getMyInfo = (): Promise<AxiosResponse<any>> => api.get('/api/user');
 export async function postSignup(userInfo) {
   const url = `${BASE_URL}/api/user`;
   console.log('postSignup진입');
@@ -114,14 +100,14 @@ export const dealApi = {
   getRequestedDeals: ({ resqustedId }) => api.get(`/api/user/items/${resqustedId}/responses`),
   acceptDealRequested: (dealIdx) => api.put(`/api/user/items/requests/${dealIdx}/accept`),
   declineDealRequested: (dealIdx) => api.put(`/api/user/items/requests/${dealIdx}/decline`),
-  sendReport: ({ title, content }) => api.post('/api/items/1/reports', { title, content }),
+  sendReport: ({ title, content, idx }) => api.post(`/api/items/${idx}/reports`, { title, content }),
 };
 
 export const itemApi = {
-  getCategories: () :Promise<AxiosResponse<any>> => api.get('/api/items/categories'),
-  getPaymentOptions: ():Promise<AxiosResponse<any>> => api.get('/api/items/payments/options'),
-  saveItem: async (accessToken:string, item: itemToSendType, images:imageToSendType[]):
-  Promise<any> => {
+  getCategories: (): Promise<AxiosResponse<any>> => api.get('/api/items/categories'),
+  getPaymentOptions: (): Promise<AxiosResponse<any>> => api.get('/api/items/payments/options'),
+  saveItem: async (accessToken: string, item: itemToSendType, images: imageToSendType[]):
+    Promise<any> => {
     const formData = new FormData();
     // const jsonItemBlob = new Blob([JSON.stringify({ ...item, type: 'application/json' })]);
     console.log(images);
@@ -148,13 +134,13 @@ export const itemApi = {
     console.log(data);
     return data;
   },
-  getMyInvetory: ():Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner'),
-  getMyItem: ():Promise<AxiosResponse<any>> => api.get('/api/user/items'),
-  getItemInfo: (idx:number):Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`),
+  getMyInvetory: (): Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner'),
+  getMyItem: (): Promise<AxiosResponse<any>> => api.get('/api/user/items'),
+  getItemInfo: (idx: number): Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`),
 };
 
 export const socketApi = {
-  connectSocket: async ():Promise<AxiosResponse<any>> => {
+  connectSocket: async (): Promise<AxiosResponse<any>> => {
     const accessToken = await EncryptedStorage.getItem('accessToken');
     return api.get(`/socket?jwt=${accessToken}`);
   },
