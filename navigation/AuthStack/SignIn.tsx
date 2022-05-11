@@ -1,7 +1,7 @@
 import { CommonActions } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -109,6 +109,8 @@ export default function SignIn({ navigation }: SignInProps) {
     dispatch(setIdForSigningIn(id));
     dispatch(setPasswordForSigingIn(password));
     dispatch(requestLogin());
+    dispatch();
+
     // alert(`accessToken${accessToken}`);
   };
   return (

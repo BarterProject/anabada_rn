@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import EncryptedStorage from 'react-native-encrypted-storage';
 import {
-  dealApi,
+  dealApi, userApi,
   getRandomItems, postLogin, postSignup, setToken,
 } from './api';
 import { itemType, noticeType } from './types';
@@ -26,7 +26,18 @@ export type initialStateProps ={
       accountNumber:string
     },
     userState:{
-      accessToken:string
+      accessToken:string,
+      activated: boolean,
+      address: string,
+      auth: string,
+      bankAccount: string,
+      bankKind: string,
+      createdAt: Date,
+      email: string,
+      idx: number | null,
+      oauth: string,
+      password: string,
+      phone: string,
     }
     chosenItemId:number,
     randomItems:itemType[],
@@ -62,6 +73,17 @@ const { actions, reducer } = createSlice({
     },
     userState: {
       accessToken: null,
+      activated: null,
+      address: null,
+      auth: null,
+      bankAccount: null,
+      bankKind: null,
+      createdAt: null,
+      email: null,
+      idx: null,
+      oauth: null,
+      password: null,
+      phone: null,
     },
     chosenItemId: 0,
     randomItems: [],
@@ -183,6 +205,10 @@ const { actions, reducer } = createSlice({
       ...state,
       noticeAlarm: payload,
     }),
+    setUserInfo: (state, { payload }) => ({
+      ...state,
+      userState: { accessToken: state.userState.accessToken, ...payload },
+    }),
   },
 });
 
@@ -204,6 +230,7 @@ export const {
   setNotice,
   addNotice,
   setNoticeAlarm,
+  setUserInfo,
 } = actions;
 
 export function requestSignUp() {
@@ -261,6 +288,8 @@ export function requestLogin() {
       } else {
         dispatch(setAccessToken(jwt));
       }
+      const { data: userInfo } = await userApi.getUserInfo();
+      dispatch(setUserInfo(userInfo));
     } catch (error) {
       console.log(error);
       dispatch(setAccessToken(''));
@@ -320,4 +349,16 @@ export function acceptDeal({ dealIdx, itemIdx }:{dealIdx:number, itemIdx:number}
     }
   };
 }
+
+// export function getUserInfo() {
+//   return async (dispatch:any) => {
+//     try {
+//       const { data } = await userApi.getUserInfo();
+//       dispatch(setUserInfo(data));
+//     } catch (e) {
+//       console.log(e);
+//     }
+//   };
+// }
+
 export default reducer;

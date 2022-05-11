@@ -58,7 +58,7 @@ const Btn = styled.TouchableOpacity`
   background-color: #f3f3f3;
 `;
 
-function Popup() {
+function Popup({ message, header }:{message:string, header:string}) {
   const [display, setDisplay] = useState(true);
 
   return (
@@ -83,13 +83,19 @@ function Popup() {
               }}
             >
               <Header style={{ borderTopLeftRadius: 7, borderTopRightRadius: 7 }}>
-                <HeaderText>Congratulations 🎉 </HeaderText>
+                <HeaderText>
+                  {/* Congratulations 🎉 */}
+                  {header}
+                </HeaderText>
               </Header>
 
             </DropShadow>
 
             <Body>
-              <BodyText>아이템 등록이 완료되었습니다.</BodyText>
+              <BodyText>
+                {message}
+                {/* 등록이 완료되었습니다. */}
+              </BodyText>
               <BodyBtnColumn>
                 <Btn onPress={() => { setDisplay(false); }}>
                   <Text style={{ fontSize: 10, fontWeight: '600' }}>

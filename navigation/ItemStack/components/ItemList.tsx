@@ -42,7 +42,7 @@ function ItemList({ items }:{items: itemType[]}) {
           {items.map((item) => (
             <ItemInstance
               key={item.idx}
-              uri={item.images !== null ? item.images[0].name : null}
+              uri={item.images.length !== 0 ? item.images[0].name : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcuwX7lcqhAjm-fqpG8KKoNL84ldCGKt9Ugg&usqp=CAU'}
               connectedUser={1}
               status="배송중"
               clickable

@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import Main from './ItemStack/Main';
 import ItemDetail from './ItemStack/ItemDetail';
+import ItemDelivery from './ItemStack/ItemDelivery';
 import Enroll from './ItemStack/Enroll';
 import ItemHistory from './ItemStack/ItemHistory';
 import SelectOption from './ItemStack/SelectOption';
@@ -72,6 +73,7 @@ export default function Item() {
       <Stack.Screen name="Detail" component={ItemDetail} />
       <Stack.Screen name="History" component={ItemHistory} />
       <Stack.Screen name="SelectOption" component={SelectOption} />
+      <Stack.Screen name="ItemDelivery" component={ItemDelivery} />
 
     </Stack.Navigator>
   );
