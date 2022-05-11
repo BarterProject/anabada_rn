@@ -41,7 +41,7 @@ export type imageType = {
 }
 
 export type userType = {
-    activated: true,
+    activated: boolean,
     address: string,
     auth: string,
     bankAccount: string,
@@ -82,4 +82,14 @@ export type itemType = {
     },
     registrant:userType,
     state:number
+}
+
+export type noticeType = {
+    content: string,
+    createdAt: Date,
+    idx: number,
+    kind: string,
+    route: string,
+    state: number,
+    user: userType,
 }

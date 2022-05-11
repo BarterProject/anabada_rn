@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Slide from './components/Slide';
 import Popup from './components/Popup';
@@ -18,7 +18,7 @@ import {
 } from './utils';
 
 import { itemApi } from '../../api';
-import { initialStateProps } from '../../slice';
+import { setItemToDeal } from '../../slice';
 import { itemType } from '../../types';
 
 const Container = styled.ScrollView`
@@ -52,17 +52,37 @@ const HistoryBtn = styled.TouchableOpacity`
 `;
 
 function ItemDetail({
-  route: { params: { readOnly, itemIdx, enrollMode } },
+  route: {
+    params: {
+      readOnly, itemIdx, enrollMode, inventoryMode, deliveryMode,
+    },
+  },
   navigation: { setOptions, goBack, navigate },
 }: {
-  route: { params: {readOnly:boolean, itemIdx:number, enrollMode:boolean} };
+  route: { params: {
+    readOnly:boolean,
+    itemIdx:number,
+    enrollMode:boolean,
+    deliveryMode:boolean,
+    inventoryMode:boolean} };
   navigation: { setOptions: Function; goBack: Function, navigate:Function };
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
+  const dispatch = useDispatch();
 
-  const go = (enroll:boolean) => {
+  // const {
+  //   userInfo,
+  // } = useSelector(
+  //   (state:initialStateProps) => ({
+  //     userInfo: state.userState,
+  //   }),
+  // );
+
+  const go = (enroll:boolean, delivery:boolean) => {
     if (enroll) {
       navigate('Main', { screen: '아이템', params: { getNewData: true } });
+    } else if (delivery) {
+      navigate('Main', { screen: '인벤토리', params: { getNewData: true } });
     } else { goBack(); }
   };
 
@@ -70,6 +90,7 @@ function ItemDetail({
     try {
       const { data }:{data:itemType} = await itemApi.getItemInfo(itemIdx);
       setItemInfo(data);
+      console.log(data);
     } catch (e) {
       console.log(e);
     }
@@ -102,7 +123,7 @@ function ItemDetail({
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => {
-            go(enrollMode);
+            go(enrollMode, deliveryMode);
           }}
         >
           <Text>
@@ -112,7 +133,7 @@ function ItemDetail({
       ),
     });
     console.log(enrollMode);
-  }, [enrollMode]);
+  }, [enrollMode, deliveryMode]);
 
   return (
     itemInfo ? (
@@ -177,6 +198,38 @@ function ItemDetail({
                   </Button>
                 </>
               ) : null}
+              {
+                inventoryMode ? (
+                  <Button
+                    style={{ marginTop: 15 }}
+                    onPress={() => {
+                      dispatch(setItemToDeal(itemIdx));
+                      console.log(`${itemIdx}선택완료`);
+                      navigate('Home', { screen: 'Main' });
+                    }}
+                  >
+                    <ButtonText>선택하기</ButtonText>
+                  </Button>
+                ) : null
+              }
+              {deliveryMode ? null : (
+                <Button
+                  style={{ marginVertical: 15 }}
+                  onPress={async () => {
+                    navigate('Item', {
+                      screen: 'ItemDelivery',
+                      params: {
+                        itemUrl: itemInfo.images[0].name,
+                        itemName: itemInfo.name,
+                        itemDescription: itemInfo.description,
+                        itemIdx,
+                      },
+                    });
+                  }}
+                >
+                  <ButtonText>배송신청</ButtonText>
+                </Button>
+              )}
 
             </Inputs>
 
@@ -184,8 +237,12 @@ function ItemDetail({
 
         </KeyboardAwareScrollView>
         { enrollMode
-          ? <Popup />
+          ? <Popup header="Congratulations 🎉" message="등록이 완료되었습니다." />
           : null}
+        { deliveryMode
+          ? <Popup header="Delivery request 🚚" message="배송신청이 완료되었습니다." />
+          : null}
+
       </>
     )
       : <View><Text>Loading</Text></View>

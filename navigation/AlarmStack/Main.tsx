@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { FlatList, Dimensions } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
+import { initialStateProps } from '../../slice';
 
 import AlarmColumn from './components/AlarmColumn';
 
@@ -22,22 +24,26 @@ function Main() {
     <AlarmColumn key={item.idx} content={item.content} />
   );
 
-  const DATA = [
-    { idx: 1, id: 1, content: '‘유리잔’의 배송이 신청돠었습니다.' },
-    {
-      idx: 2,
-      id: 2,
-      content: '배송기한을 넘겼으므로 보증금 300,000원이 00님에게 ...',
-    },
-  ];
+  const {
+    notice,
+  } = useSelector(
+    (state:initialStateProps) => ({
+      notice: state.notice,
+    }),
+  );
+
+  useEffect(() => {
+    console.log(notice);
+  }, []);
+ 
 
   return (
     <Container>
       <FlatList
-        data={DATA}
+        data={notice}
         renderItem={renderItem}
         ItemSeparatorComponent={Height}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.idx}
       />
     </Container>
   );

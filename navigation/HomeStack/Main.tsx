@@ -4,9 +4,11 @@ import {
   Animated, PanResponder,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components/native';
+import { itemApi, userApi } from '../../api';
 
 import {
-  initialStateProps, removeARandomItem, requestDeal, requestRandomItems,
+  initialStateProps, removeARandomItem, requestDeal, requestRandomItems, setNotice,
 } from '../../slice';
 import { itemType } from '../../types';
 import BackCard from './components/BackCard';
@@ -35,6 +37,20 @@ function Main() {
       randomItems: state.randomItems,
       chosenItemId: state.chosenItemId,
     }));
+
+  const getNotice = async () => {
+    try {
+      const { data } = await userApi.getNotice();
+      console.log(data);
+      dispatch(setNotice(data));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getNotice();
+  }, []);
 
   useEffect(() => {
     console.log(`randomItems.length값이 ${randomItems.length}입니다. `);

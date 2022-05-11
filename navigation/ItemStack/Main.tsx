@@ -66,7 +66,6 @@ function Main() {
         />
 
       </Tab.Navigator>
-      {/* <ItemList /> */}
 
       <Btn
         onPress={() => {
