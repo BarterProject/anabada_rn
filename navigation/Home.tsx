@@ -22,20 +22,20 @@ const Stack = createNativeStackNavigator();
 
 const Btn = styled.TouchableOpacity``;
 
-type AlarmStackParamList={
-  Main:undefined,
+type AlarmStackParamList = {
+  Main: undefined,
 }
 
 export type RootStackParamList = {
   Main: undefined;
   Item: undefined;
   Alarm: NavigatorScreenParams<AlarmStackParamList>
-  ItemDetail:undefined;
+  ItemDetail: undefined;
 };
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
 
-export default function Home({ navigation }:HomeScreenProps) {
+export default function Home({ navigation }: HomeScreenProps) {
   return (
     <Stack.Navigator
       initialRouteName="Main"
@@ -98,7 +98,7 @@ export default function Home({ navigation }:HomeScreenProps) {
         name="Report"
         component={Report}
         options={{
-        //   headerShown: false,
+          //   headerShown: false,
           headerTitle: '문의하기',
         }}
       />
