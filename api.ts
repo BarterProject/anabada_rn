@@ -32,6 +32,7 @@ export async function postLogin({ id, password }) {
 }
 
 export const getMyInfo = (): Promise<AxiosResponse<any>> => api.get('/api/user');
+
 export async function postSignup(userInfo) {
   const url = `${BASE_URL}/api/user`;
   console.log('postSignup진입');

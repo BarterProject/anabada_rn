@@ -48,7 +48,7 @@ const Body = styled.View`
 
 `;
 
-export default function Main({ navigation }:any) {
+export default function Main({ navigation }: any) {
   return (
     <Container>
       <Header>

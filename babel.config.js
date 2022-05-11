@@ -5,6 +5,7 @@ module.exports = function (api) {
     presets: [
       'babel-preset-expo',
       'module:metro-react-native-babel-preset',
+      '@babel/preset-typescript',
     ],
     plugins: [
       [
