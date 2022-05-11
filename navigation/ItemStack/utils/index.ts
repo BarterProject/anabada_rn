@@ -10,8 +10,8 @@ export const InputTitle = styled.TextInput.attrs({
   height: 50px;
   width: 100%;
   border-radius: 10px;
-  margin-bottom: 15px;
   padding: 10px 15px;
+  margin-bottom: 15px;
 `;
 
 export const InputContent = styled(InputTitle)`
@@ -57,9 +57,9 @@ export const Card = styled(Animated.createAnimatedComponent(ImageBackground))`
 export const InputColumn = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  height: 40px;
   align-items: center;
   margin: 15px 0;
+  height:50px;
 `;
 
 export const CommonText = styled.Text`

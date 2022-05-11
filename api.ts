@@ -80,6 +80,7 @@ export async function getRandomItems({ accessToken, number }) {
 
 export const userApi = {
   getNotice: () => api.get('/api/users/notices'),
+  getUserInfo: () => api.get('/api/user'),
 };
 
 export const dealApi = {
@@ -137,6 +138,10 @@ export const itemApi = {
   getMyInvetory: (): Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner'),
   getMyItem: (): Promise<AxiosResponse<any>> => api.get('/api/user/items'),
   getItemInfo: (idx: number): Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`),
+};
+
+export const deliveryApi = {
+  saveDelivery: (idx:number, body:any) :Promise<AxiosResponse<any>> => api.post(`/api/user/items/${idx}/deliveries`, { ...body }),
 };
 
 export const socketApi = {
