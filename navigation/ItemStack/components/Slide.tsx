@@ -87,7 +87,7 @@ function Slide({ imgList, edit, setImgList }:{imgList:Array<imageType>,
     <ImageItem key={e.name}>
       <ImageInstance
         source={{
-          uri: edit ? e.path : `${BASE_URL}/api/items/images/${e.name}`,
+          uri: edit ? e.path : `${BASE_URL}/api/v2/items/images/${e.name}`,
         }}
         resizeMode="cover"
         imageStyle={{ borderRadius: 25 }}

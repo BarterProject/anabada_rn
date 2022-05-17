@@ -59,6 +59,7 @@ function ItemInstance({
   width,
   passport,
   idx,
+  delivery,
 }: {
   uri: string;
   connectedUser: number;
@@ -67,8 +68,12 @@ function ItemInstance({
   width: number;
   passport: boolean;
   idx:number;
+  delivery:any
 }) {
   const { navigate } = useNavigation();
+
+  console.log(delivery);
+
   return (
     <Container width={width}>
       <TouchableOpacity
@@ -79,6 +84,7 @@ function ItemInstance({
               params: {
                 readOnly: false,
                 itemIdx: idx,
+                isItItem: true,
               },
             });
         }}
@@ -93,7 +99,7 @@ function ItemInstance({
         >
           <Item
             source={{
-              uri: `${BASE_URL}/api/items/images/${uri}`,
+              uri: `${BASE_URL}/api/v2/items/images/${uri}`,
             }}
             resizeMode="cover"
             imageStyle={{ borderRadius: 25 }}

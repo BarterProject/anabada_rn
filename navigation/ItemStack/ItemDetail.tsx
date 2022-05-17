@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components/native';
@@ -55,6 +56,7 @@ function ItemDetail({
   route: {
     params: {
       readOnly, itemIdx, enrollMode, inventoryMode, deliveryMode,
+      isItItem,
     },
   },
   navigation: { setOptions, goBack, navigate },
@@ -64,7 +66,9 @@ function ItemDetail({
     itemIdx:number,
     enrollMode:boolean,
     deliveryMode:boolean,
-    inventoryMode:boolean} };
+    inventoryMode:boolean
+    isItItem:boolean
+  } };
   navigation: { setOptions: Function; goBack: Function, navigate:Function };
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
@@ -188,16 +192,15 @@ function ItemDetail({
                 <CommonText>보증금</CommonText>
                 <InputValue textAlign="center" value={String(itemInfo.deposit)} editable={false} />
               </InputColumn>
-              {!readOnly ? (
-                <>
-                  <Button style={{ marginTop: 15 }}>
-                    <ButtonText>배송 신청</ButtonText>
-                  </Button>
-                  <Button style={{ marginTop: 15 }}>
-                    <ButtonText>배송 상태 보기</ButtonText>
-                  </Button>
-                </>
-              ) : null}
+              {/* {!readOnly ? (
+                isItItem && itemInfo.delivery
+                  ? (
+                    <Button style={{ marginTop: 15 }}>
+                      <ButtonText>배송 상태 보기</ButtonText>
+                    </Button>
+                  )
+                  : null
+              ) : null} */}
               {
                 inventoryMode ? (
                   <Button
@@ -212,24 +215,30 @@ function ItemDetail({
                   </Button>
                 ) : null
               }
-              {deliveryMode ? null : (
-                <Button
-                  style={{ marginVertical: 15 }}
-                  onPress={async () => {
-                    navigate('Item', {
-                      screen: 'ItemDelivery',
-                      params: {
-                        itemUrl: itemInfo.images[0].name,
-                        itemName: itemInfo.name,
-                        itemDescription: itemInfo.description,
-                        itemIdx,
-                      },
-                    });
-                  }}
-                >
-                  <ButtonText>배송신청</ButtonText>
-                </Button>
-              )}
+              {deliveryMode || itemInfo.delivery
+                ? (
+                  <Button style={{ marginVertical: 15 }}>
+                    <ButtonText>배송 상태 보기</ButtonText>
+                  </Button>
+                )
+                : (
+                  <Button
+                    style={{ marginVertical: 15 }}
+                    onPress={async () => {
+                      navigate('Item', {
+                        screen: 'ItemDelivery',
+                        params: {
+                          itemUrl: itemInfo.images[0].name,
+                          itemName: itemInfo.name,
+                          itemDescription: itemInfo.description,
+                          itemIdx,
+                        },
+                      });
+                    }}
+                  >
+                    <ButtonText>배송신청</ButtonText>
+                  </Button>
+                )}
 
             </Inputs>
 

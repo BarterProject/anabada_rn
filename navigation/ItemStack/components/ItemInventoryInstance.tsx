@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { BASE_URL } from '@env';
 import { useDispatch } from 'react-redux';
 import { setItemToDeal } from '../../../slice';
+import { deliveryType } from '../../../types';
 
 const Container = styled.View<{ width: number }>`
   width: ${(props) => `${props.width}%`};
@@ -61,6 +62,7 @@ function ItemInventoryInstance({
   width,
   passport,
   idx,
+  delivery,
 }: {
   uri: string;
   connectedUser: number;
@@ -69,8 +71,10 @@ function ItemInventoryInstance({
   width: number;
   passport: boolean;
   idx:number;
+  delivery:deliveryType
 }) {
   const { navigate } = useNavigation();
+  console.log(delivery);
   return (
     <Container width={width}>
       <TouchableOpacity
@@ -81,6 +85,7 @@ function ItemInventoryInstance({
               readOnly: true,
               itemIdx: idx,
               inventoryMode: true,
+
             },
           });
         }}
@@ -95,7 +100,7 @@ function ItemInventoryInstance({
         >
           <Item
             source={{
-              uri: `${BASE_URL}/api/items/images/${uri}`,
+              uri: `${BASE_URL}/api/v2/items/images/${uri}`,
             }}
             resizeMode="cover"
             imageStyle={{ borderRadius: 25 }}

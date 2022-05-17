@@ -36,6 +36,7 @@ function ItemInventory({ items }:{items: itemType[]}) {
               width={33}
               passport
               idx={item.idx}
+              delivery={item.delivery}
             />
           ))}
         </GridItem>

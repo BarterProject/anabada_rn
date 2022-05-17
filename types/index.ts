@@ -54,10 +54,24 @@ export type userType = {
     phone: string,
 }
 
+export type deliveryType = {
+    address: string,
+    clauseAgree: boolean,
+    company: string | null,
+    createdAt: Date,
+    dueAt: Date,
+    idx: number,
+    item: any,
+    phone: string,
+    receiverName: string,
+    state: number,
+    trackingNumber: number,
+}
+
 export type itemType = {
     clause_agree:boolean,
     createdAt:Date,
-    delivery:string,
+    delivery:deliveryType,
     deposit:number,
     description:string,
     endAt:Date,

@@ -305,7 +305,7 @@ export function requestRandomItems(number :number) {
       const data:itemType[] = await getRandomItems({ accessToken, number });
       dispatch(addRandomItems(data));
     } catch (e) {
-      console.log(e);
+      console.log({ ...e });
     }
   };
 }
