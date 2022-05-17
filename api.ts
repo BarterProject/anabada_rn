@@ -7,7 +7,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import { itemToSendType, imageToSendType } from './types';
 
 const api = axios.create({
-  baseURL: BASE_URL as string,
+  baseURL: `${BASE_URL}/api/v2` as string,
 });
 
 export const setToken = async () => {
@@ -16,7 +16,8 @@ export const setToken = async () => {
 };
 
 export async function postLogin({ id, password }) {
-  const url = `${BASE_URL}/api/user/authentication`;
+  const url = `${BASE_URL}/api/v2/user/authentication`;
+  console.log(url);
   const data = await fetch(url, {
     method: 'POST',
     headers: {
@@ -31,10 +32,10 @@ export async function postLogin({ id, password }) {
   return data;
 }
 
-export const getMyInfo = (): Promise<AxiosResponse<any>> => api.get('/api/user');
+export const getMyInfo = (): Promise<AxiosResponse<any>> => api.get('/user');
 
 export async function postSignup(userInfo) {
-  const url = `${BASE_URL}/api/user`;
+  const url = `${BASE_URL}/api/v2/user`;
   console.log('postSignup진입');
 
   const {
@@ -70,22 +71,21 @@ export async function postSignup(userInfo) {
 
 export async function getRandomItems({ accessToken, number }) {
   console.log('getRandomItems');
-  const response = await axios.get(
-    `${BASE_URL}/api/items?size=${number}`,
+  const { data } = await api.get(
+    `/items?size=${number}`,
     { headers: { Authorization: `Bearer ${accessToken}` } },
   );
-  const { data } = response;
 
   return data;
 }
 
 export const userApi = {
-  getNotice: () => api.get('/api/users/notices'),
-  getUserInfo: () => api.get('/api/user'),
+  getNotice: () => api.get('/notices'),
+  getUserInfo: () => api.get('/user'),
 };
 
 export const dealApi = {
-  requestDeal: ({ requestId, resqustedId }) => api.post('/api/user/items/requests', {
+  requestDeal: ({ requestId, resqustedId }) => api.post('/user/items/requests', {
     requestItem: {
       idx: requestId,
     },
@@ -98,16 +98,16 @@ export const dealApi = {
       'Content-Type': 'application/json',
     },
   }),
-  getRequestDeals: ({ requestId }) => api.get(`/api/user/items/${requestId}/requests`),
-  getRequestedDeals: ({ resqustedId }) => api.get(`/api/user/items/${resqustedId}/responses`),
-  acceptDealRequested: (dealIdx) => api.put(`/api/user/items/requests/${dealIdx}/accept`),
-  declineDealRequested: (dealIdx) => api.put(`/api/user/items/requests/${dealIdx}/decline`),
-  sendReport: ({ title, content, idx }) => api.post(`/api/items/${idx}/reports`, { title, content }),
+  getRequestDeals: ({ requestId }) => api.get(`/user/items/${requestId}/requests`),
+  getRequestedDeals: ({ resqustedId }) => api.get(`/user/items/${resqustedId}/responses`),
+  acceptDealRequested: (dealIdx) => api.put(`/user/items/requests/${dealIdx}/accept`),
+  declineDealRequested: (dealIdx) => api.put(`/user/items/requests/${dealIdx}/decline`),
+  sendReport: ({ title, content, idx }) => api.post(`/items/${idx}/reports`, { title, content }),
 };
 
 export const itemApi = {
-  getCategories: (): Promise<AxiosResponse<any>> => api.get('/api/items/categories'),
-  getPaymentOptions: (): Promise<AxiosResponse<any>> => api.get('/api/items/payments/options'),
+  getCategories: (): Promise<AxiosResponse<any>> => api.get('/items/categories'),
+  getPaymentOptions: (): Promise<AxiosResponse<any>> => api.get('/items/payments/options'),
   saveItem: async (accessToken: string, item: itemToSendType, images: imageToSendType[]):
     Promise<any> => {
     const formData = new FormData();
@@ -124,7 +124,7 @@ export const itemApi = {
 
     formData.append('item', JSON.stringify(item));
 
-    const data = await fetch(`${BASE_URL}/api/user/items`, {
+    const data = await fetch(`${BASE_URL}/api/v2/user/items`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken},`,
@@ -136,13 +136,13 @@ export const itemApi = {
     console.log(data);
     return data;
   },
-  getMyInvetory: (): Promise<AxiosResponse<any>> => api.get('/api/user/items?option=owner'),
-  getMyItem: (): Promise<AxiosResponse<any>> => api.get('/api/user/items'),
-  getItemInfo: (idx: number): Promise<AxiosResponse<any>> => api.get(`/api/items/${idx}`),
+  getMyInvetory: (): Promise<AxiosResponse<any>> => api.get('/user/items?option=owner'),
+  getMyItem: (): Promise<AxiosResponse<any>> => api.get('/user/items'),
+  getItemInfo: (idx: number): Promise<AxiosResponse<any>> => api.get(`/items/${idx}`),
 };
 
 export const deliveryApi = {
-  saveDelivery: (idx:number, body:any) :Promise<AxiosResponse<any>> => api.post(`/api/user/items/${idx}/deliveries`, { ...body }),
+  saveDelivery: (idx:number, body:any) :Promise<AxiosResponse<any>> => api.post(`/user/items/${idx}/deliveries`, { ...body }),
 };
 
 export const socketApi = {

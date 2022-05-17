@@ -48,6 +48,7 @@ function ItemList({ items }:{items: itemType[]}) {
               clickable
               width={33}
               passport
+              delivery={item.delivery}
               idx={item.idx}
             />
           ))}
