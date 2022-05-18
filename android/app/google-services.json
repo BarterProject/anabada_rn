@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "374306540056-0cu3ro1u65nmcegtaphb57ng9jrg24f6.apps.googleusercontent.com",
+          "client_id": "374306540056-tn2qfv9kqhk87osnl8b8586m9uqet3mn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.anabada",
-            "certificate_hash": "00531f4a8f3dc4dd7f08523146de6a02e28d69f2"
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
