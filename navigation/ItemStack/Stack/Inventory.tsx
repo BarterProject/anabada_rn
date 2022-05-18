@@ -8,6 +8,7 @@ function Inventory({ route: { params } }:{route:{params:{getNewData:boolean}}}) 
     try {
       const { data } = await itemApi.getMyInvetory();
       setItems(data);
+      console.log(data);
     } catch (e) {
       console.log(e);
     }
