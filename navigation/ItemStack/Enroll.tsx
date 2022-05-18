@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { Text, View } from 'react-native';
@@ -76,6 +76,11 @@ function Enroll({
     console.log(imgList.length);
   }, [imgList]);
 
+  useEffect(() => {
+    console.log(categoryCheck, 'category');
+    console.log(paymentCheck, 'payment');
+  }, [categoryCheck, paymentCheck]);
+
   const [send, setSend] = useState(false);
   const {
     accessToken,
@@ -101,6 +106,7 @@ function Enroll({
   const getCategories = useCallback(async () => {
     const { data } = await itemApi.getCategories();
     setCategory(data);
+    console.log(data);
   }, []);
 
   const getPaymentOptions = useCallback(async () => {
@@ -114,19 +120,25 @@ function Enroll({
       name,
       description,
       clause_agree: agree,
-      payment: { amount: parseInt(amount, 10), paymentOption: { idx: paymentCheck } },
-      itemCategory: { idx: categoryCheck },
+      payment: {
+        amount: parseInt(amount, 10),
+        optionIdx: paymentOption[paymentCheck].idx,
+      },
+      categoryIdx: category[categoryCheck].idx,
     };
     try {
       const data:itemType = await itemApi.saveItem(accessToken, item, imgList);
-      navigate('Item', {
-        screen: 'Detail',
-        params: {
-          readOnly: false,
-          itemIdx: data.idx,
-          enrollMode: true,
-        },
-      });
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{
+            name: 'EnrollConfirm',
+            params: {
+              title: data.name,
+            },
+          }],
+        }),
+      );
     } catch (e) {
       console.log(e);
     }
@@ -184,7 +196,7 @@ function Enroll({
           }}
           >
             <InputColumn style={{ marginTop: 20 }}>
-              <CommonText>{categoryCheck ? category[categoryCheck - 1].name : '카테고리 선택'}</CommonText>
+              <CommonText>{categoryCheck !== null ? category[categoryCheck].name : '카테고리 선택'}</CommonText>
 
               <Ionicons size={20} name="chevron-forward-outline" color="black" />
             </InputColumn>
@@ -197,7 +209,7 @@ function Enroll({
           }}
           >
             <InputColumn style={{ marginTop: 20 }}>
-              <CommonText>{paymentCheck ? paymentOption[paymentCheck - 1].name : '결제수단 선택'}</CommonText>
+              <CommonText>{paymentCheck !== null ? paymentOption[paymentCheck].name : '결제수단 선택'}</CommonText>
 
               <Ionicons size={20} name="chevron-forward-outline" color="black" />
             </InputColumn>
@@ -237,6 +249,23 @@ function Enroll({
           </Button>
         </Inputs>
       </Container>
+      {/* <CategoryBtn onPress={() => {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{
+              name: 'EnrollConfirm',
+              params: {
+                title: 'hello jaeyoung',
+              },
+            }],
+          }),
+        );
+      }}
+      >
+        <Text>goconfirm</Text>
+
+      </CategoryBtn> */}
     </KeyboardAwareScrollView>
   );
 }

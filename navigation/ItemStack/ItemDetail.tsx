@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Slide from './components/Slide';
 import Popup from './components/Popup';
@@ -19,11 +19,12 @@ import {
 } from './utils';
 
 import { itemApi } from '../../api';
-import { setItemToDeal } from '../../slice';
+import { initialStateProps, setItemToDeal } from '../../slice';
 import { itemType } from '../../types';
 
 const Container = styled.ScrollView`
     position: relative;
+    padding-bottom:20px ;
 `;
 
 const StatusContainer = styled.View`
@@ -61,22 +62,26 @@ function ItemDetail({
   },
   navigation: { setOptions, goBack, navigate },
 }: {
+  route: { params: {
+    readOnly:boolean,
+    itemIdx:number,
+    enrollMode:boolean,
+    deliveryMode:boolean,
+    inventoryMode:boolean,
+    isItItem:boolean,
+  } };
+  navigation: { setOptions: Function; goBack: Function, navigate:Function };
 
-  route: {
-    params: {
-      readOnly: boolean,
-      itemIdx: number,
-      enrollMode: boolean,
-      deliveryMode: boolean,
-      inventoryMode: boolean
-      isItItem: boolean
-    }
-  };
-  navigation: { setOptions: Function; goBack: Function, navigate: Function };
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
   const dispatch = useDispatch();
-
+  const {
+    userIdx,
+  } = useSelector(
+    (state: initialStateProps) => ({
+      userIdx: state.userState.idx,
+    }),
+  );
   // const {
   //   userInfo,
   // } = useSelector(
@@ -205,7 +210,7 @@ function ItemDetail({
                   : null
               ) : null} */}
               {
-                inventoryMode ? (
+                !isItItem && itemInfo.state !== 4 ? (
                   <Button
                     style={{ marginTop: 15 }}
                     onPress={() => {
@@ -218,31 +223,34 @@ function ItemDetail({
                   </Button>
                 ) : null
               }
+              {
+              isItItem || itemInfo.state === 4 || itemInfo.registrant.idx === userIdx
+                ? null : deliveryMode
+                  ? (
+                    <Button style={{ marginVertical: 15 }}>
+                      <ButtonText>배송 상태 보기</ButtonText>
+                    </Button>
+                  )
+                  : (
+                    <Button
+                      style={{ marginVertical: 15 }}
+                      onPress={async () => {
+                        navigate('Item', {
+                          screen: 'ItemDelivery',
+                          params: {
+                            itemUrl: itemInfo.images[0].name,
+                            itemName: itemInfo.name,
+                            itemDescription: itemInfo.description,
+                            itemIdx,
+                          },
+                        });
+                      }}
+                    >
+                      <ButtonText>배송신청</ButtonText>
+                    </Button>
+                  )
+}
 
-              {deliveryMode || itemInfo.delivery
-                ? (
-                  <Button style={{ marginVertical: 15 }}>
-                    <ButtonText>배송 상태 보기</ButtonText>
-                  </Button>
-                )
-                : (
-                  <Button
-                    style={{ marginVertical: 15 }}
-                    onPress={async () => {
-                      navigate('Item', {
-                        screen: 'ItemDelivery',
-                        params: {
-                          itemUrl: itemInfo.images[0].name,
-                          itemName: itemInfo.name,
-                          itemDescription: itemInfo.description,
-                          itemIdx,
-                        },
-                      });
-                    }}
-                  >
-                    <ButtonText>배송신청</ButtonText>
-                  </Button>
-                )}
 
               {deliveryMode || itemInfo.delivery
                 ? (

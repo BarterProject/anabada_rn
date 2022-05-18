@@ -40,7 +40,6 @@ export default function Receives() {
       // }));
       setIdxs(receiveAndDealIdx);
     });
-    console.log('렌더가 다시되싸!');
   }, []);
 
   useEffect(() => {
