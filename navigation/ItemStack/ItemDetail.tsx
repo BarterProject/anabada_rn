@@ -59,13 +59,16 @@ function ItemDetail({
   },
   navigation: { setOptions, goBack, navigate },
 }: {
-  route: { params: {
-    readOnly:boolean,
-    itemIdx:number,
-    enrollMode:boolean,
-    deliveryMode:boolean,
-    inventoryMode:boolean} };
-  navigation: { setOptions: Function; goBack: Function, navigate:Function };
+  route: {
+    params: {
+      readOnly: boolean,
+      itemIdx: number,
+      enrollMode: boolean,
+      deliveryMode: boolean,
+      inventoryMode: boolean
+    }
+  };
+  navigation: { setOptions: Function; goBack: Function, navigate: Function };
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
   const dispatch = useDispatch();
@@ -78,7 +81,7 @@ function ItemDetail({
   //   }),
   // );
 
-  const go = (enroll:boolean, delivery:boolean) => {
+  const go = (enroll: boolean, delivery: boolean) => {
     if (enroll) {
       navigate('Main', { screen: '아이템', params: { getNewData: true } });
     } else if (delivery) {
@@ -88,7 +91,7 @@ function ItemDetail({
 
   const getItemInfo = useCallback(async () => {
     try {
-      const { data }:{data:itemType} = await itemApi.getItemInfo(itemIdx);
+      const { data }: { data: itemType } = await itemApi.getItemInfo(itemIdx);
       setItemInfo(data);
       console.log(data);
     } catch (e) {
@@ -142,7 +145,7 @@ function ItemDetail({
 
           <Container>
 
-            <Slide imgList={itemInfo.images} edit={false} setImgList={() => {}} />
+            <Slide imgList={itemInfo.images} edit={false} setImgList={() => { }} />
 
             {/* <View style={{ height: 150, marginVertical: 20 }}>
           <Carousel
@@ -230,16 +233,13 @@ function ItemDetail({
                   <ButtonText>배송신청</ButtonText>
                 </Button>
               )}
-
             </Inputs>
-
           </Container>
-
         </KeyboardAwareScrollView>
-        { enrollMode
+        {enrollMode
           ? <Popup header="Congratulations 🎉" message="등록이 완료되었습니다." />
           : null}
-        { deliveryMode
+        {deliveryMode
           ? <Popup header="Delivery request 🚚" message="배송신청이 완료되었습니다." />
           : null}
 

@@ -9,6 +9,8 @@ import com.facebook.react.ReactRootView;
 
 import expo.modules.ReactActivityDelegateWrapper;
 
+import android.content.Intent;
+
 public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,12 @@ public class MainActivity extends ReactActivity {
     setTheme(R.style.AppTheme);
     super.onCreate(null);
   }
+
+  @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
 
   /**
    * Returns the name of the main component registered from JavaScript.
