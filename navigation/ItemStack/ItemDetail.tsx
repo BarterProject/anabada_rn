@@ -71,6 +71,7 @@ function ItemDetail({
     isItItem:boolean,
   } };
   navigation: { setOptions: Function; goBack: Function, navigate:Function };
+
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
   const dispatch = useDispatch();
@@ -89,7 +90,7 @@ function ItemDetail({
   //   }),
   // );
 
-  const go = (enroll:boolean, delivery:boolean) => {
+  const go = (enroll: boolean, delivery: boolean) => {
     if (enroll) {
       navigate('Main', { screen: '아이템', params: { getNewData: true } });
     } else if (delivery) {
@@ -99,7 +100,7 @@ function ItemDetail({
 
   const getItemInfo = useCallback(async () => {
     try {
-      const { data }:{data:itemType} = await itemApi.getItemInfo(itemIdx);
+      const { data }: { data: itemType } = await itemApi.getItemInfo(itemIdx);
       setItemInfo(data);
       console.log(data);
     } catch (e) {
@@ -153,7 +154,7 @@ function ItemDetail({
 
           <Container>
 
-            <Slide imgList={itemInfo.images} edit={false} setImgList={() => {}} />
+            <Slide imgList={itemInfo.images} edit={false} setImgList={() => { }} />
 
             {/* <View style={{ height: 150, marginVertical: 20 }}>
           <Carousel
@@ -250,17 +251,44 @@ function ItemDetail({
                   )
 }
 
+
+              {deliveryMode || itemInfo.delivery
+                ? (
+                  <Button style={{ marginVertical: 15 }}>
+                    <ButtonText>배송 상태 보기</ButtonText>
+                  </Button>
+                )
+                : (
+                  <Button
+                    style={{ marginVertical: 15 }}
+                    onPress={async () => {
+                      navigate('Item', {
+                        screen: 'ItemDelivery',
+                        params: {
+                          itemUrl: itemInfo.images[0].name,
+                          itemName: itemInfo.name,
+                          itemDescription: itemInfo.description,
+                          itemIdx,
+                        },
+                      });
+                    }}
+                  >
+                    <ButtonText>배송신청</ButtonText>
+                  </Button>
+                )}
             </Inputs>
-
           </Container>
-
         </KeyboardAwareScrollView>
-        { enrollMode
-          ? <Popup header="Congratulations 🎉" message="등록이 완료되었습니다." />
-          : null}
-        { deliveryMode
-          ? <Popup header="Delivery request 🚚" message="배송신청이 완료되었습니다." />
-          : null}
+        {
+          enrollMode
+            ? <Popup header="Congratulations 🎉" message="등록이 완료되었습니다." />
+            : null
+        }
+        {
+          deliveryMode
+            ? <Popup header="Delivery request 🚚" message="배송신청이 완료되었습니다." />
+            : null
+        }
 
       </>
     )

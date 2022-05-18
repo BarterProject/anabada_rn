@@ -111,7 +111,6 @@ export default function SignIn() {
     dispatch(setIdForSigningIn(id));
     dispatch(setPasswordForSigingIn(password));
     dispatch(requestLogin());
-
     // alert(`accessToken${accessToken}`);
   };
   return (

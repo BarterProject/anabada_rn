@@ -5,10 +5,15 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+
+import messaging from '@react-native-firebase/messaging';
+
+import axios from 'axios';
+import { BASE_URL } from '@env';
 import { itemApi, userApi } from '../../api';
 
 import {
-  initialStateProps, removeARandomItem, requestDeal, requestRandomItems, setNotice,
+  initialStateProps, removeARandomItem, requestDeal, requestRandomItems, setNotice, setPhoneToken,
 } from '../../slice';
 import { itemType } from '../../types';
 import BackCard from './components/BackCard';
@@ -32,8 +37,10 @@ function Main() {
   const POSITION = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
   const { randomItems, chosenItemId }:
-  { randomItems:itemType[],
-    chosenItemId:number} = useSelector((state:initialStateProps) => ({
+    {
+      randomItems: itemType[],
+      chosenItemId: number
+    } = useSelector((state: initialStateProps) => ({
       randomItems: state.randomItems,
       chosenItemId: state.chosenItemId,
     }));
@@ -50,6 +57,22 @@ function Main() {
 
   useEffect(() => {
     getNotice();
+
+    async function getToken() {
+      try {
+        if (!messaging().isDeviceRegisteredForRemoteMessages) {
+          await messaging().registerDeviceForRemoteMessages();
+        }
+        const token = await messaging().getToken();
+        console.log('phone token', token);
+        dispatch(setPhoneToken(token));
+        return axios.post(`${BASE_URL}/phonetoken`, { token });
+      } catch (error) {
+        return console.error(error);
+      }
+    }
+
+    getToken();
   }, []);
 
   useEffect(() => {

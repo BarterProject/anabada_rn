@@ -9,11 +9,11 @@ import Main from './ConfigureStack/Main';
 import MyInfo from './ConfigureStack/Myinfo';
 
 export type ConfigureStackParamList = {
-    Main: undefined;
-    MyInfo: undefined;
-    Appinfo: undefined;
-    Report: undefined;
-  };
+  Main: undefined;
+  MyInfo: undefined;
+  Appinfo: undefined;
+  Report: undefined;
+};
 
 const Stack = createNativeStackNavigator<ConfigureStackParamList>();
 
@@ -51,7 +51,7 @@ export default function Configure({ navigation }) {
       <Stack.Screen
         name="MyInfo"
         options={{
-        //   headerShown: false,
+          //   headerShown: false,
           headerTitle: '내 정보',
 
         }}
@@ -61,7 +61,7 @@ export default function Configure({ navigation }) {
         name="Appinfo"
         component={AppInfo}
         options={{
-        //   headerShown: false,
+          //   headerShown: false,
           headerTitle: '앱 정보',
 
         }}

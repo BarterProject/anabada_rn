@@ -11,6 +11,7 @@ export type initialStateProps ={
     signInField:{
       id:string,
       password:string,
+      phoneToken:string,
     },
     signUpField: {
       id: string,
@@ -43,7 +44,6 @@ export type initialStateProps ={
     randomItems:itemType[],
     notice:noticeType[],
     noticeAlarm:boolean
-
 }
 
 export type stateProps= {
@@ -57,6 +57,7 @@ const { actions, reducer } = createSlice({
     signInField: {
       id: '',
       password: '',
+      phoneToken: '',
     },
     signUpField: {
       id: '',
@@ -163,6 +164,7 @@ const { actions, reducer } = createSlice({
     setAccessToken: (state, { payload: accessToken }) => ({
       ...state,
       signInField: {
+        ...state.signInField,
         id: '',
         password: '',
       },
@@ -170,7 +172,6 @@ const { actions, reducer } = createSlice({
         ...state.userState,
         accessToken,
       },
-
     }),
     deleteAccessToken: (state) => ({
       ...state,
@@ -209,6 +210,13 @@ const { actions, reducer } = createSlice({
       ...state,
       userState: { accessToken: state.userState.accessToken, ...payload },
     }),
+    setPhoneToken: (state, { payload }) => ({
+      ...state,
+      signInField: {
+        ...state.signInField,
+        phoneToken: payload.phoneToken,
+      },
+    }),
   },
 });
 
@@ -231,6 +239,7 @@ export const {
   addNotice,
   setNoticeAlarm,
   setUserInfo,
+  setPhoneToken,
 } = actions;
 
 export function requestSignUp() {

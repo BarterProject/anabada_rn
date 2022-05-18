@@ -4,19 +4,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
+
 import Auth, { AuthStackParamList } from './Auth';
 import Home from './Home';
 import Alarm from './Alarm';
 import Item from './Item';
 
 import useSocket from '../hooks/useSocket';
-import { addNotice, initialStateProps, setNoticeAlarm } from '../slice';
+import {
+  addNotice, initialStateProps, setNoticeAlarm,
+} from '../slice';
 
 export type RootStackParamList = {
   Auth: NavigatorScreenParams<AuthStackParamList>;
   Home: undefined;
   Alarm: undefined;
-  Item:undefined;
+  Item: undefined;
 };
 
 const Nav = createNativeStackNavigator<RootStackParamList>();
@@ -28,10 +31,11 @@ function Root() {
   const {
     accessToken: isLoggedIn,
   } = useSelector(
-    (state:initialStateProps) => ({
+    (state: initialStateProps) => ({
       accessToken: state.userState.accessToken,
     }),
   );
+
   useEffect(() => {
     if (socket && isLoggedIn) {
       socket.on('connect', () => {
