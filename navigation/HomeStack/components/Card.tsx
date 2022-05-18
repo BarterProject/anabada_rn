@@ -133,7 +133,7 @@ export default function Card({
         source={{
           uri: (images.length === 0 || images[index] === undefined
             ? '#'
-            : `${BASE_URL}/api/items/images/${images[index].name}`),
+            : `${BASE_URL}/api/v2/items/images/${images[index].name}`),
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-nested-ternary */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text, Platform, TouchableOpacity,
 } from 'react-native';
@@ -59,21 +59,35 @@ function ItemInstance({
   width,
   passport,
   idx,
-  delivery,
 }: {
   uri: string;
   connectedUser: number;
-  status: string;
+  status: number;
   clickable: boolean;
   width: number;
   passport: boolean;
   idx:number;
-  delivery:any
 }) {
   const { navigate } = useNavigation();
 
-  console.log(delivery);
+  const [text, setText] = useState<string>();
 
+  useEffect(() => {
+    console.log(status);
+    if (status === 2) {
+      setText('교환중');
+    } else if (status === 3) {
+      setText('종료');
+    } else if (status === 4) {
+      setText('등록 대기');
+    } else if (status === 5) {
+      setText('환불요청');
+    } else if (status === 6) {
+      setText('환불 완료');
+    } else if (status === 7) {
+      setText('보증금 반환요청');
+    }
+  }, [status]);
   return (
     <Container width={width}>
       <TouchableOpacity
@@ -104,7 +118,7 @@ function ItemInstance({
             resizeMode="cover"
             imageStyle={{ borderRadius: 25 }}
           >
-            {passport ? (
+            {status === 2 ? (
               <Badge style={{ position: 'absolute', top: -5, left: -5 }}>
                 <Ionicons
                   size={13}
@@ -113,13 +127,9 @@ function ItemInstance({
                 />
               </Badge>
             ) : connectedUser === 0 ? null : (
-              <Badge style={{ position: 'absolute', top: -5, left: -5 }}>
-                <Text style={{ fontSize: 13, color: 'white' }}>
-                  {connectedUser}
-                </Text>
-              </Badge>
+              null
             )}
-            {status === 'normal' ? null : Platform.OS === 'ios' ? (
+            {status === 1 ? null : Platform.OS === 'ios' ? (
               <BlurView
                 intensity={50}
                 style={{
@@ -128,11 +138,11 @@ function ItemInstance({
                   alignItems: 'center',
                 }}
               >
-                <Status>{status}</Status>
+                <Status>{text}</Status>
               </BlurView>
             ) : (
               <AndroidStatus>
-                <Status>{status}</Status>
+                <Status>{text}</Status>
               </AndroidStatus>
             )}
           </Item>

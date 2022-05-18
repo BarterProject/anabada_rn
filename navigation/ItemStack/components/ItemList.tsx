@@ -44,11 +44,10 @@ function ItemList({ items }:{items: itemType[]}) {
               key={item.idx}
               uri={item.images.length !== 0 ? item.images[0].name : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcuwX7lcqhAjm-fqpG8KKoNL84ldCGKt9Ugg&usqp=CAU'}
               connectedUser={1}
-              status="배송중"
+              status={item.state}
               clickable
               width={33}
               passport
-              delivery={item.delivery}
               idx={item.idx}
             />
           ))}
