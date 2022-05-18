@@ -243,6 +243,31 @@ function ItemDetail({
                     <ButtonText>배송신청</ButtonText>
                   </Button>
                 )}
+
+              {deliveryMode || itemInfo.delivery
+                ? (
+                  <Button style={{ marginVertical: 15 }}>
+                    <ButtonText>배송 상태 보기</ButtonText>
+                  </Button>
+                )
+                : (
+                  <Button
+                    style={{ marginVertical: 15 }}
+                    onPress={async () => {
+                      navigate('Item', {
+                        screen: 'ItemDelivery',
+                        params: {
+                          itemUrl: itemInfo.images[0].name,
+                          itemName: itemInfo.name,
+                          itemDescription: itemInfo.description,
+                          itemIdx,
+                        },
+                      });
+                    }}
+                  >
+                    <ButtonText>배송신청</ButtonText>
+                  </Button>
+                )}
             </Inputs>
           </Container>
         </KeyboardAwareScrollView>
