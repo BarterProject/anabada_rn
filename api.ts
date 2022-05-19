@@ -72,10 +72,9 @@ export async function postSignup(userInfo) {
 export async function getRandomItems({ accessToken, number }) {
   console.log('getRandomItems');
   const { data } = await api.get(
-    `/items?size=${number}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } },
+    `/items?size=${number}`
   );
-
+    console.log(data)
   return data;
 }
 
@@ -94,7 +93,7 @@ export const dealApi = {
       'Content-Type': 'application/json',
     },
   }),
-  getRequestDeals: ({ requestId }) => api.get(`/user/items/${requestId}/requests`),
+  getRequestDeals: ({ requestId }) => api.get(`/user/items/${requestId}/requests?state=1`),
   getRequestedDeals: ({ resqustedId }) => api.get(`/user/items/${resqustedId}/responses`),
   acceptDealRequested: (dealIdx) => api.put(`/user/items/requests/${dealIdx}/accept`),
   declineDealRequested: (dealIdx) => api.put(`/user/items/requests/${dealIdx}/decline`),
