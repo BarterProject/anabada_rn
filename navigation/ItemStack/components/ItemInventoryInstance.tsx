@@ -70,8 +70,8 @@ function ItemInventoryInstance({
   clickable: boolean;
   width: number;
   passport: boolean;
-  idx:number;
-  delivery:deliveryType
+  idx: number;
+  delivery: deliveryType
 }) {
   const { navigate } = useNavigation();
   console.log(delivery);

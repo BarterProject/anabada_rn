@@ -57,7 +57,6 @@ function Main() {
 
   useEffect(() => {
     getNotice();
-
     async function getToken() {
       try {
         if (!messaging().isDeviceRegisteredForRemoteMessages) {

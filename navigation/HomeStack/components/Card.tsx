@@ -79,14 +79,14 @@ const Deposit = styled.Text`
   background-color:gray;
   font-size: 20px;
 `;
-type CardProps = MarkProps&{
-  item:Item
+type CardProps = MarkProps & {
+  item: Item
 }
 
 export default function Card({
   item,
   declineOpacity, acceptOpacity,
-}:CardProps) {
+}: CardProps) {
   // console.log(item);
   const {
     name,
@@ -95,9 +95,9 @@ export default function Card({
   } = item;
 
   const { accessToken }:
-  {accessToken:String} = useSelector((state:initialStateProps) => ({
-    accessToken: state.userState.accessToken,
-  }));
+    { accessToken: String } = useSelector((state: initialStateProps) => ({
+      accessToken: state.userState.accessToken,
+    }));
 
   const [index, setIndex] = useState(0);
   const [isShortTouch, setShortTouch] = useState(false);
@@ -133,7 +133,7 @@ export default function Card({
         source={{
           uri: (images.length === 0 || images[index] === undefined
             ? '#'
-            : `${BASE_URL}/api/items/images/${images[index].name}`),
+            : `${BASE_URL}/api/v2/items/images/${images[index].name}`),
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -205,11 +205,11 @@ export default function Card({
           <DetailButtonContainer>
             <DetailButton
               onPress={
-              () => {
-                navigation.navigate('ItemDetail', {
-                  item,
-                });
-              }
+                () => {
+                  navigation.navigate('ItemDetail', {
+                    item,
+                  });
+                }
               }
             >
               <DetailButtonText>

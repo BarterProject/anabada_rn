@@ -52,9 +52,11 @@ const DelBtn = styled.TouchableOpacity`
   box-shadow: 1px 1px 5px lightgray;
 `;
 
-function Slide({ imgList, edit, setImgList }:{imgList:Array<imageType>,
-  edit:boolean,
-  setImgList:Function}) {
+function Slide({ imgList, edit, setImgList }: {
+  imgList: Array<imageType>,
+  edit: boolean,
+  setImgList: Function
+}) {
   const upload = async () => {
     try {
       ImagePicker.openPicker({

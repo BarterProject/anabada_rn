@@ -66,9 +66,9 @@ function ItemRequestInstance({
   connectedUser: number,
   passport: boolean,
   status: string,
-  clickable:boolean,
+  clickable: boolean,
   width: number,
-  idx:number,
+  idx: number,
   dealIdx: number
 }) {
   // const { navigate, goBack } = useNavigation();
@@ -104,7 +104,7 @@ function ItemRequestInstance({
           >
             <Item
               source={{
-                uri: `${BASE_URL}/api/items/images/${item.images[0].name}`,
+                uri: `${BASE_URL}/api/v2/items/images/${item.images[0].name}`,
               }}
               resizeMode="cover"
               imageStyle={{ borderRadius: 25 }}
