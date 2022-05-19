@@ -86,12 +86,8 @@ export const userApi = {
 
 export const dealApi = {
   requestDeal: ({ requestId, resqustedId }) => api.post('/user/items/requests', {
-    requestItem: {
-      idx: requestId,
-    },
-    responseItem: {
-      idx: resqustedId,
-    },
+    requestItemIdx: requestId,
+    responseItemIdx: resqustedId,
   }, {
     headers: {
       // Authorization: `Bearer ${accessToken}`,
