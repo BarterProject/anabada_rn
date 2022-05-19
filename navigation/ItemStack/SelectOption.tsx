@@ -53,18 +53,18 @@ function Category({
   }, []);
   return (
     <Container>
-      {params ? params.itemList.map((item:categoryType | paymentOptionType) => (
+      {params ? params.itemList.map((item:categoryType | paymentOptionType, idx:number) => (
         <CategoryContainer
           style={{ borderBottomColor: 'lightgray', borderBottomWidth: 1 }}
           onPress={() => {
             navigate('Item', {
               screen: 'Enroll',
-              params: { idx: item.idx, type: params.type },
+              params: { idx, type: params.type },
             });
           }}
         >
-          <CategoryTitle check={params.check === item.idx}>{item.name}</CategoryTitle>
-          {params.check === item.idx ? (
+          <CategoryTitle check={params.check === idx}>{item.name}</CategoryTitle>
+          {params.check === idx ? (
             <CategoryCheck>
               <Ionicons size={25} name="checkmark-outline" color="#e94057" />
             </CategoryCheck>
