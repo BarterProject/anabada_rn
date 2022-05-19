@@ -45,7 +45,7 @@ const Line = styled.View`
 
 type MainInProps = NativeStackScreenProps<ConfigureStackParamList, 'Main'>
 
-export default function Main({ navigation }:MainInProps) {
+export default function Main({ navigation }: MainInProps) {
   const dispatch = useDispatch();
 
   return (
@@ -75,6 +75,16 @@ export default function Main({ navigation }:MainInProps) {
         <Line />
         <Button
           onPress={() => {
+            navigation.navigate('QnAs');
+          }}
+        >
+          <Text>
+            1:1 문의
+          </Text>
+        </Button>
+        <Line />
+        <Button
+          onPress={() => {
             dispatch(deleteAccessToken());
             navigation.dispatch(
               CommonActions.reset({
@@ -89,6 +99,7 @@ export default function Main({ navigation }:MainInProps) {
           </Text>
         </Button>
         <Line />
+
       </ButtonContainer>
     </Container>
   );
