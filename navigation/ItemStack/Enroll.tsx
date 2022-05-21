@@ -1,7 +1,7 @@
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Text, View } from 'react-native';
+import { Text, View, Platform } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
 import styled from 'styled-components/native';
@@ -127,7 +127,7 @@ function Enroll({
       categoryIdx: category[categoryCheck].idx,
     };
     try {
-      const data:itemType = await itemApi.saveItem(accessToken, item, imgList);
+      const data:itemType = await itemApi.saveItem(accessToken, item, imgList, Platform.OS);
       navigation.dispatch(
         CommonActions.reset({
           index: 0,

@@ -24,8 +24,8 @@ export type itemToSendType = {
     name: string,
     description: string,
     clause_agree: boolean,
-    payment: { amount: number, paymentOption: { idx: number } },
-    itemCategory: { idx: number }
+    payment: { amount: number, optionIdx: number },
+    categoryIdx: number
 }
 
 export type imageType = {

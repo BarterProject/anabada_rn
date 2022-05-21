@@ -31,6 +31,7 @@ const ImageItem = styled.Pressable`
   margin: 0 10px;
   justify-content: center;
   align-items: center;
+  border:1px solid #e8e8e8;
 `;
 
 const ImageInstance = styled.ImageBackground`
