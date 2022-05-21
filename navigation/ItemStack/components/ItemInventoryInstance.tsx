@@ -116,7 +116,7 @@ function ItemInventoryInstance({
         >
           <Item
             source={{
-              uri: `${BASE_URL}/api/v2/items/images/${uri}`,
+              uri: uri.includes('https://') ? uri : `${BASE_URL}/api/v2/items/images/${uri}`,
             }}
             resizeMode="cover"
             imageStyle={{ borderRadius: 25 }}
