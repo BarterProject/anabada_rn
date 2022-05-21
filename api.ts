@@ -69,7 +69,7 @@ export async function postSignup(userInfo) {
   return data;
 }
 
-export async function getRandomItems({ accessToken, number }) {
+export async function getRandomItems({ number }) {
   console.log('getRandomItems');
   const { data } = await api.get(
     `/items?size=${number}`,
@@ -102,25 +102,29 @@ export const dealApi = {
 export const itemApi = {
   getCategories: (): Promise<AxiosResponse<any>> => api.get('/items/categories'),
   getPaymentOptions: (): Promise<AxiosResponse<any>> => api.get('/items/payments/options'),
-  saveItem: async (accessToken: string, item: itemToSendType, images: imageToSendType[]):
+  saveItem: async (
+    accessToken: string,
+    item: itemToSendType,
+    images: imageToSendType[],
+    osType:string,
+  ):
     Promise<any> => {
     const formData = new FormData();
     // const jsonItemBlob = new Blob([JSON.stringify({ ...item, type: 'application/json' })]);
-    console.log(images);
     images.forEach((image) => {
-      let uri : string;
-      let filename : string;
-
-      if (image.sourceURL === undefined) {
-        uri = image.path;
-        filename = image.path.split('/').pop();
-      } else {
-        uri = image.sourceURL;
+      console.log(image);
+      let filename:string;
+      let uri:string;
+      if (osType === 'ios') {
         filename = image.sourceURL.split('/').pop();
+        uri = image.sourceURL;
+      } else {
+        filename = image.path.split('/').pop();
+        uri = image.path;
       }
-      console.log(filename);
+      // = image.sourceURL.split('/').pop();
       formData.append('img', {
-        uri: image.sourceURL,
+        uri,
         name: filename,
         type: 'image/png',
       });
