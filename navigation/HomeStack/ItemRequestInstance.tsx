@@ -77,10 +77,16 @@ function ItemRequestInstance({
   const navigation = useNavigation();
 
   useEffect(() => {
+    console.log('ItemRequestInstance', idx);
     itemApi.getItemInfo(idx).then(({ data }) => {
-      // console.log(data);
+      console.log('itemApi.getItemInfo', idx);
+      console.log(data);
       setItem(data);
-    });
+    }).catch(
+      (err) => {
+        console.log(err);
+      },
+    );
   }, []);
 
   return (

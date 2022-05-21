@@ -72,7 +72,7 @@ export async function postSignup(userInfo) {
 export async function getRandomItems({ accessToken, number }) {
   console.log('getRandomItems');
   const { data } = await api.get(
-    `/items?size=${number}`
+    `/items?size=${number}`,
   );
   return data;
 }
@@ -108,9 +108,17 @@ export const itemApi = {
     // const jsonItemBlob = new Blob([JSON.stringify({ ...item, type: 'application/json' })]);
     console.log(images);
     images.forEach((image) => {
-      const filename = image.sourceURL.split('/').pop()
-      //  || image.path.split('/').pop();
-      // console.log(filename)
+      let uri : string;
+      let filename : string;
+
+      if (image.sourceURL === undefined) {
+        uri = image.path;
+        filename = image.path.split('/').pop();
+      } else {
+        uri = image.sourceURL;
+        filename = image.sourceURL.split('/').pop();
+      }
+      console.log(filename);
       formData.append('img', {
         uri: image.sourceURL,
         name: filename,
@@ -128,7 +136,7 @@ export const itemApi = {
         'Content-Type': 'multipart/form-data',
       },
       body: formData,
-    }).then((res) => res.json()).catch((e) => { console.log(e); });
+    }).then((res) => res.json()).catch((e) => { console.log('save image error'); console.log(e); });
     console.log(data);
     return data;
   },

@@ -17,7 +17,7 @@ const GridItem = styled.View`
   flex-direction: row;
   margin: 10px 0;
 `;
-function ItemInventory({ items }:{items: itemType[]}) {
+function ItemInventory({ items }: { items: itemType[] }) {
   return (
     (
       <Container
@@ -34,7 +34,6 @@ function ItemInventory({ items }:{items: itemType[]}) {
               status={item.state}
               clickable
               width={33}
-
               idx={item.idx}
               delivery={item.delivery}
             />

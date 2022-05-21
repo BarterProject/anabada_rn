@@ -16,11 +16,13 @@ const GridItem = styled.View`
   flex-direction: row;
   margin: 10px 0;
 `;
-function ItemRequests({ itemIdxs }:{itemIdxs: {
-  reqeustIdxs:number,
-  dealIdx:number
-}[]}) {
-  console.log('ItemRequests', itemIdxs.length);
+function ItemRequests({ itemIdxs }: {
+  itemIdxs: {
+    reqeustIdxs: number,
+    dealIdx: number
+  }[]
+}) {
+  console.log('ItemRequests itemIdxs.length:', itemIdxs.length);
   return (
     (
       <Container
@@ -40,7 +42,7 @@ function ItemRequests({ itemIdxs }:{itemIdxs: {
               clickable
               width={33}
               passport
-              // idx={item.idx}
+            // idx={item.idx}
             />
           ))}
         </GridItem>
