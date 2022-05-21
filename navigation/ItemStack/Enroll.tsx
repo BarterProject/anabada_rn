@@ -220,6 +220,7 @@ function Enroll({
               textAlign="center"
               onChangeText={(text: string) => { setAmount(text); }}
               value={amount}
+              keyboardType="number-pad"
             />
           </InputColumn>
           <StatusText>
