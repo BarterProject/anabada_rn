@@ -32,15 +32,15 @@ function ItemRequests({ requestDeals }: {
         }}
       >
         <GridItem>
-          {requestDeals.map((reqeustItem) => (
+          {requestDeals.map((aDeal) => (
             <ItemRequestInstance
-              item={reqeustItem.reqeustItem}
-              key={reqeustItem.reqeustItem.idx}
-              idx={reqeustItem.reqeustItem.idx}
-              dealIdx={reqeustItem.dealIdx}
+              item={aDeal.reqeustItem}
+              key={aDeal.reqeustItem.idx}
+              idx={aDeal.reqeustItem.idx}
+              dealIdx={aDeal.dealIdx}
               // uri={item.images[0].name}
               connectedUser={1}
-              status={reqeustItem.reqeustItem.state}
+              status={aDeal.reqeustItem.state}
               clickable
               width={33}
               passport

@@ -18,9 +18,9 @@ const Text = styled.Text`
 `;
 
 export default function Receives() {
-  const [idxs, setIdxs] = useState([]);
+  const [receiveDeals, setReceiveDeals] = useState([]);
 
-  const { chosenItemId } = useSelector((state : initialStateProps) => ({
+  const { chosenItemId } = useSelector((state: initialStateProps) => ({
     chosenItemId: state.chosenItemId,
   }));
 
@@ -32,13 +32,13 @@ export default function Receives() {
       console.log('getRequestedDeals', data.idx);
 
       const receiveAndDealIdx = data.map((deal) => ({
-        receiveIdxs: deal.requestItem.idx,
+        receiveItem: deal.requestItem,
         dealIdx: deal.idx,
       }));
       // const reqeustAndDealIdx = data.map((deal) => ({
       //   reqeustIdxs: deal.responseItem.idx,
       // }));
-      setIdxs(receiveAndDealIdx);
+      setReceiveDeals(receiveAndDealIdx);
     });
   }, []);
 
@@ -46,7 +46,7 @@ export default function Receives() {
     getRequestedDeals();
   }, []);
 
-  return idxs.length > 0 ? <ItemReceives itemIdxs={idxs} />
+  return receiveDeals.length > 0 ? <ItemReceives receiveDeals={receiveDeals} />
     : (
       <Text
         style={{

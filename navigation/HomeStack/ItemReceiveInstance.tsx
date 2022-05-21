@@ -15,6 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { BASE_URL } from '@env';
 import { useNavigation } from '@react-navigation/native';
 import { itemApi } from '../../api';
+import { itemType } from '../../types';
 
 const Container = styled.View<{ width: number }>`
   width: ${(props) => `${props.width}%`};
@@ -53,6 +54,7 @@ const AndroidStatus = styled.View`
 `;
 
 function ItemReceiveInstance({
+  item,
   passport,
   connectedUser,
   idx,
@@ -61,6 +63,7 @@ function ItemReceiveInstance({
   clickable,
   width,
 }: {
+  item: itemType,
   connectedUser: number,
   passport: boolean,
   status: string,
@@ -71,16 +74,16 @@ function ItemReceiveInstance({
 }) {
   // const { navigate, goBack } = useNavigation();
   // const dispatch = useDispatch();
-  const [item, setItem] = useState(null);
+  // const [item, setItem] = useState(null);
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    itemApi.getItemInfo(idx).then(({ data }) => {
-      // console.log(data);
-      setItem(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   itemApi.getItemInfo(idx).then(({ data }) => {
+  //     // console.log(data);
+  //     setItem(data);
+  //   });
+  // }, []);
 
   return (
     <Container width={width}>
