@@ -10,12 +10,9 @@ import styled from 'styled-components/native';
 import { BlurView } from 'expo-blur';
 import DropShadow from 'react-native-drop-shadow';
 
-import { Ionicons } from '@expo/vector-icons';
-
 import { BASE_URL } from '@env';
 
 import { useNavigation } from '@react-navigation/native';
-import { itemApi } from '../../api';
 import { itemType } from '../../types';
 
 const Container = styled.View<{ width: number }>`
@@ -30,15 +27,6 @@ const Item = styled.ImageBackground`
   height: 100%;
   position: relative;
   justify-content: center;
-`;
-
-const Badge = styled.View`
-  width: 25px;
-  height: 25px;
-  border-radius: 15px;
-  background-color: #e94057;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Status = styled.Text`
@@ -79,18 +67,24 @@ function ItemRequestInstance({
   // const [item, setItem] = useState(null);
   const navigation = useNavigation();
 
-  // useEffect(() => {
-  //   console.log('ItemRequestInstance', idx);
-  //   itemApi.getItemInfo(idx).then(({ data }) => {
-  //     console.log('itemApi.getItemInfo', idx);
-  //     console.log(data);
-  //     setItem(data);
-  //   }).catch(
-  //     (err) => {
-  //       console.log(err);
-  //     },
-  //   );
-  // }, []);
+  const [text, setText] = useState<string>();
+
+  useEffect(() => {
+    console.log(status);
+    if (status === 2) {
+      setText('교환중');
+    } else if (status === 3) {
+      setText('종료');
+    } else if (status === 4) {
+      setText('등록 대기');
+    } else if (status === 5) {
+      setText('환불요청');
+    } else if (status === 6) {
+      setText('환불 완료');
+    } else if (status === 7) {
+      setText('보증금 반환요청');
+    }
+  }, [status]);
 
   return (
     <Container width={width}>
@@ -118,22 +112,7 @@ function ItemRequestInstance({
               resizeMode="cover"
               imageStyle={{ borderRadius: 25 }}
             >
-              {passport ? (
-                <Badge style={{ position: 'absolute', top: -5, left: -5 }}>
-                  <Ionicons
-                    size={13}
-                    name="rocket-outline"
-                    style={{ color: 'white' }}
-                  />
-                </Badge>
-              ) : connectedUser === 0 ? null : (
-                <Badge style={{ position: 'absolute', top: -5, left: -5 }}>
-                  <Text style={{ fontSize: 13, color: 'white' }}>
-                    {connectedUser}
-                  </Text>
-                </Badge>
-              )}
-              {status === 'normal' ? null : Platform.OS === 'ios' ? (
+              {status === undefined ? null : Platform.OS === 'ios' ? (
                 <BlurView
                   intensity={50}
                   style={{
@@ -142,11 +121,11 @@ function ItemRequestInstance({
                     alignItems: 'center',
                   }}
                 >
-                  <Status>{status}</Status>
+                  <Status>{text}</Status>
                 </BlurView>
               ) : (
                 <AndroidStatus>
-                  <Status>{status}</Status>
+                  <Status>{text}</Status>
                 </AndroidStatus>
               )}
             </Item>

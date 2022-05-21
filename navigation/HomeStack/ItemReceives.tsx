@@ -39,12 +39,12 @@ function ItemReceives({ receiveDeals }: {
           {receiveDeals.map((aDeal) => (
             <ItemReceiveInstance
               item={aDeal.receiveItem}
-              key={aDeal.receiveItem.key}
+              key={aDeal.receiveItem.idx}
               idx={aDeal.receiveItem.idx}
               dealIdx={aDeal.dealIdx}
               // uri={item.images[0].name}
               connectedUser={1}
-              status="배송중"
+              status={aDeal.receiveItem.state}
               clickable
               width={33}
               passport
