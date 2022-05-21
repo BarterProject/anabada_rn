@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styled from 'styled-components/native';
+import { itemType } from '../../types';
 
 import ItemReceiveInstance from './ItemReceiveInstance';
 
@@ -20,11 +21,13 @@ const GridItem = styled.View`
   flex-direction: row;
   margin: 10px 0;
 `;
-function ItemReceives({ itemIdxs }:{itemIdxs: {
-  receiveIdxs:number,
-  dealIdx:number
-}[]}) {
-  console.log('ItemReceives', itemIdxs.length);
+function ItemReceives({ receiveDeals }: {
+  receiveDeals: {
+    receiveItem: itemType,
+    dealIdx: number
+  }[]
+}) {
+  console.log('ItemReceives', receiveDeals.length);
   return (
     (
       <Container
@@ -33,18 +36,19 @@ function ItemReceives({ itemIdxs }:{itemIdxs: {
         }}
       >
         <GridItem>
-          {itemIdxs.map((idx) => (
+          {receiveDeals.map((aDeal) => (
             <ItemReceiveInstance
-              key={idx}
-              idx={idx.receiveIdxs}
-              dealIdx={idx.dealIdx}
+              item={aDeal.receiveItem}
+              key={aDeal.receiveItem.idx}
+              idx={aDeal.receiveItem.idx}
+              dealIdx={aDeal.dealIdx}
               // uri={item.images[0].name}
               connectedUser={1}
-              status="배송중"
+              status={aDeal.receiveItem.state}
               clickable
               width={33}
               passport
-              // idx={item.idx}
+            // idx={item.idx}
             />
           ))}
         </GridItem>

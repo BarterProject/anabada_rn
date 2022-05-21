@@ -19,7 +19,7 @@ import {
 export default function BackCard({
   item,
   //  declineOpacity, acceptOpacity,
-}:CardProps) {
+}: CardProps) {
   // console.log(item);
   const {
     name,
@@ -28,9 +28,9 @@ export default function BackCard({
   } = item;
 
   const { accessToken }:
-  {accessToken:String} = useSelector((state:initialStateProps) => ({
-    accessToken: state.userState.accessToken,
-  }));
+    { accessToken: String } = useSelector((state: initialStateProps) => ({
+      accessToken: state.userState.accessToken,
+    }));
 
   return (
     <Container>
@@ -42,7 +42,7 @@ export default function BackCard({
         source={{
           uri: (images.length === 0 || images[0] === undefined
             ? '#'
-            : `${BASE_URL}/api/items/images/${images[0].name}`),
+            : `${BASE_URL}/api/v2/items/images/${images[0].name}`),
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

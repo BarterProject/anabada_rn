@@ -83,9 +83,9 @@ function ItemDelivery({
     },
   },
 }: {
-    navigation: { setOptions: Function, goBack:Function, navigate: Function},
-    route:{params:{itemUrl:string, itemName:string, itemDescription:string, itemIdx:number}}
-  }) {
+  navigation: { setOptions: Function, goBack: Function, navigate: Function },
+  route: { params: { itemUrl: string, itemName: string, itemDescription: string, itemIdx: number } }
+}) {
   const [phone, setPhone] = useState('');
   const [receiverName, setReceiverName] = useState('');
   const [address, setAddress] = useState<string>('');
@@ -119,10 +119,10 @@ function ItemDelivery({
   }, []);
   useEffect(() => {
     if (phone.length >= 11
-        && receiverName.length
-        && address.length
-        && addressDetail.length
-        && agree) {
+      && receiverName.length
+      && address.length
+      && addressDetail.length
+      && agree) {
       setDisabled(false);
     } else {
       // eslint-disable-next-line no-unused-expressions
@@ -148,7 +148,7 @@ function ItemDelivery({
           deliveryMode: true,
         },
       });
-    //   console.log(data);
+      //   console.log(data);
     } catch (e) {
       console.log(e);
     }
@@ -163,7 +163,7 @@ function ItemDelivery({
           <Postcode
             style={{ flex: 7, height: 500 }}
             jsOptions={{ animation: true }}
-        // onComplete={handleComplete}
+            // onComplete={handleComplete}
             onSelected={(data) => {
               // console.log(data.zonecode, data.address)
               const { zonecode, address: ad } = data;
@@ -190,7 +190,7 @@ function ItemDelivery({
               >
                 <Item
                   source={{
-                    uri: `${BASE_URL}/api/items/images/${itemUrl}`,
+                    uri: `${BASE_URL}/api/v2/items/images/${itemUrl}`,
                   }}
                   resizeMode="cover"
                   imageStyle={{ borderRadius: 25 }}
@@ -209,7 +209,7 @@ function ItemDelivery({
             <CommonText>수령자</CommonText>
             <Input
               value={receiverName}
-              onChangeText={(text:string) => { setReceiverName(text); }}
+              onChangeText={(text: string) => { setReceiverName(text); }}
             />
           </Column>
           <Pressable style={{ width: '100%' }} onPress={() => { setPopup(!popup); }}>
@@ -224,14 +224,14 @@ function ItemDelivery({
             <CommonText />
             <Input
               value={addressDetail}
-              onChangeText={(text:string) => { setAddressDetail(text); }}
+              onChangeText={(text: string) => { setAddressDetail(text); }}
             />
           </Column>
           <Column>
             <CommonText>연락처</CommonText>
             <Input
               value={phone}
-              onChangeText={(text:string) => { setPhone(text); }}
+              onChangeText={(text: string) => { setPhone(text); }}
             />
           </Column>
           <Column>

@@ -19,15 +19,14 @@ export default function Report({ route: { params } }) {
       if (!send) {
         setSend(true);
       }
-    } else
-    if (send) {
+    } else if (send) {
       setSend(false);
       console.log('send-false 리렌더!');
     }
   }, [name, description]);
 
   const handlePress = () => {
-    dealApi.sendReport({ title: name, content: description, idx: 1 }).then((result) => {
+    dealApi.sendReport({ title: name, content: description, idx: params.idx }).then((result) => {
       console.log(result);
       alert('문의가 접수되었습니다.');
       navigation.dispatch(StackActions.pop(2));
@@ -40,14 +39,14 @@ export default function Report({ route: { params } }) {
       <Inputs>
         <InputTitle
           placeholder="신고 제목"
-          onChangeText={(text:string) => { setName(text); }}
+          onChangeText={(text: string) => { setName(text); }}
           value={name}
         />
         <InputContent
           placeholder="신고 내용"
           multiline
           numberOfLines={10}
-          onChangeText={(text:string) => { setDescription(text); }}
+          onChangeText={(text: string) => { setDescription(text); }}
           value={description}
           style={{ textAlignVertical: 'top' }}
         />

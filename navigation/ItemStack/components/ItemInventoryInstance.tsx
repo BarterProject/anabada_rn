@@ -68,8 +68,9 @@ function ItemInventoryInstance({
   status: number;
   clickable: boolean;
   width: number;
-  idx:number;
-  delivery:deliveryType
+  passport: boolean;
+  idx: number;
+  delivery: deliveryType
 }) {
   const { navigate } = useNavigation();
 
@@ -115,7 +116,7 @@ function ItemInventoryInstance({
         >
           <Item
             source={{
-              uri: `${BASE_URL}/api/v2/items/images/${uri}`,
+              uri: uri.includes('https://') ? uri : `${BASE_URL}/api/v2/items/images/${uri}`,
             }}
             resizeMode="cover"
             imageStyle={{ borderRadius: 25 }}

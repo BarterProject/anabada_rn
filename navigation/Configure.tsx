@@ -7,11 +7,15 @@ import { Ionicons } from '@expo/vector-icons';
 import AppInfo from './ConfigureStack/AppInfo';
 import Main from './ConfigureStack/Main';
 import MyInfo from './ConfigureStack/Myinfo';
+import QnAs from './ConfigureStack/QnAs';
+import QnAForm from './ConfigureStack/QnAForm';
 
 export type ConfigureStackParamList = {
   Main: undefined;
   MyInfo: undefined;
   Appinfo: undefined;
+  QnAs: undefined
+  QnAForm: undefined
   Report: undefined;
 };
 
@@ -56,6 +60,24 @@ export default function Configure({ navigation }) {
 
         }}
         component={MyInfo}
+      />
+      <Stack.Screen
+        name="QnAs"
+        options={{
+          //   headerShown: false,
+          headerTitle: 'QnA',
+
+        }}
+        component={QnAs}
+      />
+      <Stack.Screen
+        name="QnAForm"
+        options={{
+          //   headerShown: false,
+          headerTitle: 'QnA',
+
+        }}
+        component={QnAForm}
       />
       <Stack.Screen
         name="Appinfo"

@@ -35,15 +35,15 @@ const ImageInstance = styled.ImageBackground`
   width: 100%;
 `;
 
-function Slide({ imgList }:{imgList:ItemImage[]}) {
+function Slide({ imgList }: { imgList: ItemImage[] }) {
   const { accessToken }:
-  {accessToken:string} = useSelector((state:initialStateProps) => ({
-    accessToken: state.userState.accessToken,
-  }));
+    { accessToken: string } = useSelector((state: initialStateProps) => ({
+      accessToken: state.userState.accessToken,
+    }));
 
   return (
     <Container>
-      { imgList.length === 0
+      {imgList.length === 0
         ? null
         : (
           <Scroll
@@ -54,7 +54,7 @@ function Slide({ imgList }:{imgList:ItemImage[]}) {
               <ImageItem key={idx}>
                 <ImageInstance
                   source={{
-                    uri: `${BASE_URL}/api/items/images/${name}`,
+                    uri: `${BASE_URL}/api/v2/items/images/${name}`,
                     headers: {
                       Authorization: `Bearer ${accessToken}`,
                     },

@@ -69,13 +69,11 @@ export async function postSignup(userInfo) {
   return data;
 }
 
-export async function getRandomItems({ accessToken, number }) {
+export async function getRandomItems({ number }) {
   console.log('getRandomItems');
   const { data } = await api.get(
     `/items?size=${number}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } },
   );
-
   return data;
 }
 
@@ -86,19 +84,15 @@ export const userApi = {
 
 export const dealApi = {
   requestDeal: ({ requestId, resqustedId }) => api.post('/user/items/requests', {
-    requestItem: {
-      idx: requestId,
-    },
-    responseItem: {
-      idx: resqustedId,
-    },
+    requestItemIdx: requestId,
+    responseItemIdx: resqustedId,
   }, {
     headers: {
       // Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
   }),
-  getRequestDeals: ({ requestId }) => api.get(`/user/items/${requestId}/requests`),
+  getRequestDeals: ({ requestId }) => api.get(`/user/items/${requestId}/requests?state=1`),
   getRequestedDeals: ({ resqustedId }) => api.get(`/user/items/${resqustedId}/responses?state=1`),
   acceptDealRequested: (dealIdx) => api.put(`/user/items/requests/${dealIdx}/accept`),
   declineDealRequested: (dealIdx) => api.put(`/user/items/requests/${dealIdx}/decline`),
@@ -129,7 +123,6 @@ export const itemApi = {
         uri = image.path;
       }
       // = image.sourceURL.split('/').pop();
-
       formData.append('img', {
         uri,
         name: filename,
@@ -147,7 +140,7 @@ export const itemApi = {
         'Content-Type': 'multipart/form-data',
       },
       body: formData,
-    }).then((res) => res.json()).catch((e) => { console.log(e); });
+    }).then((res) => res.json()).catch((e) => { console.log('save image error'); console.log(e); });
     console.log(data);
     return data;
   },

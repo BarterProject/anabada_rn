@@ -13,8 +13,8 @@ import { initialStateProps } from '../../../slice';
 import { itemApi } from '../../../api';
 
 export type MarkProps = {
-    declineOpacity : Animated.AnimatedInterpolation | null,
-    acceptOpacity : Animated.AnimatedInterpolation|null
+  declineOpacity: Animated.AnimatedInterpolation | null,
+  acceptOpacity: Animated.AnimatedInterpolation | null
 }
 
 export const Container = styled.View`
@@ -128,7 +128,7 @@ export const MarkContainer = styled.View`
 export function Mark({
   declineOpacity,
   acceptOpacity,
-}:MarkProps) {
+}: MarkProps) {
   return (
     <MarkContainer>
       <AcceptMarkContainer
@@ -240,11 +240,13 @@ export function DealsButton() {
   const [chosenItemIamgeName, setChosenItemIamgeName] = useState('');
 
   const { accessToken, chosenItemId }:
-    {accessToken:string,
-      chosenItemId:number} = useSelector((state:initialStateProps) => ({
-        accessToken: state.userState.accessToken,
-        chosenItemId: state.chosenItemId,
-      }));
+    {
+      accessToken: string,
+      chosenItemId: number
+    } = useSelector((state: initialStateProps) => ({
+      accessToken: state.userState.accessToken,
+      chosenItemId: state.chosenItemId,
+    }));
 
   useEffect(() => {
     console.log('chosenItemId', chosenItemId);
@@ -278,7 +280,7 @@ export function DealsButton() {
           }}
           source={{
             uri: chosenItemId === 0 ? '#'
-              : `${BASE_URL}/api/items/images/${chosenItemIamgeName}`,
+              : `${BASE_URL}/api/v2/items/images/${chosenItemIamgeName}`,
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

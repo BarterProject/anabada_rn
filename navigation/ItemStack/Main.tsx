@@ -49,7 +49,7 @@ function Main() {
             height: 5, borderRadius: 20, width: Dimensions.get('window').width / 4, left: Dimensions.get('window').width / 8, backgroundColor: '#e94057',
           },
         }}
-        // initialRouteName="아이템"
+      // initialRouteName="아이템"
       >
         <Tab.Screen
           name="인벤토리"
@@ -57,12 +57,12 @@ function Main() {
           initialParams={{
             getNewData: false,
           }}
-          // options={{ headerShown: false }}
+        // options={{ headerShown: false }}
         />
         <Tab.Screen
           name="아이템"
           component={MyItem}
-          // options={{ title: '오더 목록' }}
+        // options={{ title: '오더 목록' }}
         />
 
       </Tab.Navigator>

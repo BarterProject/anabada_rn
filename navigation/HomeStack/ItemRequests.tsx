@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styled from 'styled-components/native';
+import { itemType } from '../../types';
 
 import ItemRequestInstance from './ItemRequestInstance';
 
@@ -16,11 +17,13 @@ const GridItem = styled.View`
   flex-direction: row;
   margin: 10px 0;
 `;
-function ItemRequests({ itemIdxs }:{itemIdxs: {
-  reqeustIdxs:number,
-  dealIdx:number
-}[]}) {
-  console.log('ItemRequests', itemIdxs.length);
+function ItemRequests({ requestDeals }: {
+  requestDeals: {
+    reqeustItem: itemType,
+    dealIdx: number
+  }[]
+}) {
+  console.log('ItemRequests itemIdxs.length:', requestDeals.length);
   return (
     (
       <Container
@@ -29,18 +32,19 @@ function ItemRequests({ itemIdxs }:{itemIdxs: {
         }}
       >
         <GridItem>
-          {itemIdxs.map((idx) => (
+          {requestDeals.map((aDeal) => (
             <ItemRequestInstance
-              key={idx.reqeustIdxs}
-              idx={idx.reqeustIdxs}
-              dealIdx={idx.dealIdx}
+              item={aDeal.reqeustItem}
+              key={aDeal.reqeustItem.idx}
+              idx={aDeal.reqeustItem.idx}
+              dealIdx={aDeal.dealIdx}
               // uri={item.images[0].name}
               connectedUser={1}
-              status="배송중"
+              status={aDeal.reqeustItem.state}
               clickable
               width={33}
               passport
-              // idx={item.idx}
+            // idx={item.idx}
             />
           ))}
         </GridItem>
