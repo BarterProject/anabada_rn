@@ -13,9 +13,9 @@ const Text = styled.Text`
 `;
 
 export default function Request() {
-  const [idxs, setIdxs] = useState([]);
+  const [requestDeals, setRequestDeals] = useState([]);
 
-  const { chosenItemId } = useSelector((state : initialStateProps) => ({
+  const { chosenItemId } = useSelector((state: initialStateProps) => ({
     chosenItemId: state.chosenItemId,
   }));
 
@@ -26,10 +26,10 @@ export default function Request() {
     }).then(({ data }) => {
       // console.log('getRequestDeals', data);
       const reqeustAndDealIdx = data.map((deal) => ({
-        reqeustIdxs: deal.responseItem.idx,
+        reqeustItem: deal.responseItem,
         dealIdx: deal.idx,
       }));
-      setIdxs(reqeustAndDealIdx);
+      setRequestDeals(reqeustAndDealIdx);
     });
     console.log('렌더가 다시되싸!');
   }, []);
@@ -37,7 +37,7 @@ export default function Request() {
   useEffect(() => {
     getMyInventory();
   }, []);
-  return idxs.length > 0 ? <ItemRequests itemIdxs={idxs} />
+  return requestDeals.length > 0 ? <ItemRequests requestDeals={requestDeals} />
     : (
       <Text
         style={{

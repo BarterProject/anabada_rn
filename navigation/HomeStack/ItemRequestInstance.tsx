@@ -16,6 +16,7 @@ import { BASE_URL } from '@env';
 
 import { useNavigation } from '@react-navigation/native';
 import { itemApi } from '../../api';
+import { itemType } from '../../types';
 
 const Container = styled.View<{ width: number }>`
   width: ${(props) => `${props.width}%`};
@@ -54,6 +55,7 @@ const AndroidStatus = styled.View`
 `;
 
 function ItemRequestInstance({
+  item,
   passport,
   connectedUser,
   idx,
@@ -63,9 +65,10 @@ function ItemRequestInstance({
   width,
 
 }: {
+  item: itemType,
   connectedUser: number,
   passport: boolean,
-  status: string,
+  status: number,
   clickable: boolean,
   width: number,
   idx: number,
@@ -73,21 +76,21 @@ function ItemRequestInstance({
 }) {
   // const { navigate, goBack } = useNavigation();
   // const dispatch = useDispatch();
-  const [item, setItem] = useState(null);
+  // const [item, setItem] = useState(null);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    console.log('ItemRequestInstance', idx);
-    itemApi.getItemInfo(idx).then(({ data }) => {
-      console.log('itemApi.getItemInfo', idx);
-      console.log(data);
-      setItem(data);
-    }).catch(
-      (err) => {
-        console.log(err);
-      },
-    );
-  }, []);
+  // useEffect(() => {
+  //   console.log('ItemRequestInstance', idx);
+  //   itemApi.getItemInfo(idx).then(({ data }) => {
+  //     console.log('itemApi.getItemInfo', idx);
+  //     console.log(data);
+  //     setItem(data);
+  //   }).catch(
+  //     (err) => {
+  //       console.log(err);
+  //     },
+  //   );
+  // }, []);
 
   return (
     <Container width={width}>

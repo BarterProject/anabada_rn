@@ -50,7 +50,7 @@ const DescriptionContainer = styled.View`
 
 function ItemRequestDetail({ route }) {
   console.log(route.params);
-  const { item, dealIdx } = route.params;
+  const { item, dealIdx }: { item: itemType, dealIdx: number } = route.params;
   const {
     name,
     description,
