@@ -74,7 +74,6 @@ export async function getRandomItems({ accessToken, number }) {
   const { data } = await api.get(
     `/items?size=${number}`
   );
-    console.log(data)
   return data;
 }
 
@@ -93,7 +92,7 @@ export const dealApi = {
       'Content-Type': 'application/json',
     },
   }),
-  getRequestDeals: ({ requestId }) => api.get(`/user/items/${requestId}/requests`),
+  getRequestDeals: ({ requestId }) => api.get(`/user/items/${requestId}/requests?state=1`),
   getRequestedDeals: ({ resqustedId }) => api.get(`/user/items/${resqustedId}/responses?state=1`),
   acceptDealRequested: (dealIdx) => api.put(`/user/items/requests/${dealIdx}/accept`),
   declineDealRequested: (dealIdx) => api.put(`/user/items/requests/${dealIdx}/decline`),
@@ -109,7 +108,9 @@ export const itemApi = {
     // const jsonItemBlob = new Blob([JSON.stringify({ ...item, type: 'application/json' })]);
     console.log(images);
     images.forEach((image) => {
-      const filename = image.sourceURL.split('/').pop();
+      const filename = image.sourceURL.split('/').pop()
+      //  || image.path.split('/').pop();
+      // console.log(filename)
       formData.append('img', {
         uri: image.sourceURL,
         name: filename,

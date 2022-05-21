@@ -38,7 +38,7 @@ const StatusText = styled.Text`
   font-size: 20px;
 `;
 
-const Button = styled.TouchableOpacity<{dis:boolean}>`
+const Button = styled.TouchableOpacity<{ dis: boolean }>`
   width: 100%;
   height: 50px;
   padding: 5px;
@@ -57,8 +57,8 @@ function Enroll({
   navigation: { setOptions, navigate },
   route: { params },
 }: {
-  navigation: { setOptions: Function, navigate:Function },
-  route:{params:{idx:number, type:string}}
+  navigation: { setOptions: Function, navigate: Function },
+  route: { params: { idx: number, type: string } }
 }) {
   const navigation = useNavigation();
   const [category, setCategory] = useState(null);
@@ -85,19 +85,20 @@ function Enroll({
   const {
     accessToken,
   } = useSelector(
-    (state:initialStateProps) => ({
+    (state: initialStateProps) => ({
       accessToken: state.userState.accessToken,
     }),
   );
 
   useEffect(() => {
-    if (categoryCheck && paymentCheck && imgList.length && name.length && description.length
+    console.log(categoryCheck, paymentCheck, imgList.length, name.length, description.length
+      , amount.length, agree)
+    if (categoryCheck !== null && paymentCheck !== null && imgList.length && name.length && description.length
       && amount.length && agree) {
       if (!send) {
         setSend(true);
       }
-    } else
-    if (send) {
+    } else if (send) {
       setSend(false);
       console.log('send-false 리렌더!');
     }
@@ -127,7 +128,7 @@ function Enroll({
       categoryIdx: category[categoryCheck].idx,
     };
     try {
-      const data:itemType = await itemApi.saveItem(accessToken, item, imgList);
+      const data: itemType = await itemApi.saveItem(accessToken, item, imgList);
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -177,14 +178,14 @@ function Enroll({
         <Inputs>
           <InputTitle
             placeholder="제품명"
-            onChangeText={(text:string) => { setName(text); }}
+            onChangeText={(text: string) => { setName(text); }}
             value={name}
           />
           <InputContent
             placeholder="설명"
             multiline
             numberOfLines={10}
-            onChangeText={(text:string) => { setDescription(text); }}
+            onChangeText={(text: string) => { setDescription(text); }}
             value={description}
             style={{ textAlignVertical: 'top' }}
           />
@@ -210,7 +211,6 @@ function Enroll({
           >
             <InputColumn style={{ marginTop: 20 }}>
               <CommonText>{paymentCheck !== null ? paymentOption[paymentCheck].name : '결제수단 선택'}</CommonText>
-
               <Ionicons size={20} name="chevron-forward-outline" color="black" />
             </InputColumn>
           </CategoryBtn>
@@ -218,7 +218,7 @@ function Enroll({
             <CommonText>보증금</CommonText>
             <InputValue
               textAlign="center"
-              onChangeText={(text:string) => { setAmount(text); }}
+              onChangeText={(text: string) => { setAmount(text); }}
               value={amount}
             />
           </InputColumn>
@@ -264,7 +264,6 @@ function Enroll({
       }}
       >
         <Text>goconfirm</Text>
-
       </CategoryBtn> */}
     </KeyboardAwareScrollView>
   );
