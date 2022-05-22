@@ -8,7 +8,7 @@ import {
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { initialStateProps } from '../../../slice';
-import { Item } from '../../../types';
+import { itemType } from '../../../types';
 import { Mark, MarkProps } from './MainComponents';
 
 const Container = styled.View`
@@ -80,7 +80,7 @@ const Deposit = styled.Text`
   font-size: 20px;
 `;
 type CardProps = MarkProps & {
-  item: Item
+  item: itemType
 }
 
 export default function Card({

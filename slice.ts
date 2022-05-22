@@ -308,10 +308,9 @@ export function requestLogin() {
 
 export function requestRandomItems(number :number) {
   return async (dispatch, getState) => {
-    const { userState: { accessToken } } = getState();
 
     try {
-      const data:itemType[] = await getRandomItems({ accessToken, number });
+      const data:itemType[] = await getRandomItems({ number });
       dispatch(addRandomItems(data));
     } catch (e) {
       console.log({ ...e });
