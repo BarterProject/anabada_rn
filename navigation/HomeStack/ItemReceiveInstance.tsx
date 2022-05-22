@@ -111,24 +111,7 @@ function ItemReceiveInstance({
               }}
               resizeMode="cover"
               imageStyle={{ borderRadius: 25 }}
-            >
-              {status === undefined ? null : Platform.OS === 'ios' ? (
-                <BlurView
-                  intensity={50}
-                  style={{
-                    height: 30,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Status>{text}</Status>
-                </BlurView>
-              ) : (
-                <AndroidStatus>
-                  <Status>{text}</Status>
-                </AndroidStatus>
-              )}
-            </Item>
+            />
           </DropShadow>
         </TouchableOpacity>
       )
