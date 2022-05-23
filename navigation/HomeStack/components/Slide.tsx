@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 
 import { BASE_URL } from '@env';
 import { useSelector } from 'react-redux';
-import { ItemImage } from '../../../types';
+import { imageType } from '../../../types';
 import { initialStateProps } from '../../../slice';
 
 const Container = styled.View`
@@ -35,7 +35,7 @@ const ImageInstance = styled.ImageBackground`
   width: 100%;
 `;
 
-function Slide({ imgList }: { imgList: ItemImage[] }) {
+function Slide({ imgList }: { imgList: imageType[] }) {
   const { accessToken }:
     { accessToken: string } = useSelector((state: initialStateProps) => ({
       accessToken: state.userState.accessToken,
@@ -51,7 +51,7 @@ function Slide({ imgList }: { imgList: ItemImage[] }) {
             horizontal
           >
             {imgList.map(({ name, idx }) => (
-              <ImageItem key={idx}>
+              <ImageItem key={name}>
                 <ImageInstance
                   source={{
                     uri: `${BASE_URL}/api/v2/items/images/${name}`,
