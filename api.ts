@@ -94,8 +94,8 @@ export const dealApi = {
   }),
   getRequestDeals: ({ requestId }) => api.get(`/user/items/${requestId}/requests?state=1`),
   getRequestedDeals: ({ resqustedId }) => api.get(`/user/items/${resqustedId}/responses?state=1`),
-  acceptDealRequested: (dealIdx) => api.put(`/user/items/requests/${dealIdx}/accept`),
-  declineDealRequested: (dealIdx) => api.put(`/user/items/requests/${dealIdx}/decline`),
+  acceptDealRequested: (dealIdx:number) => api.put(`/user/items/requests/${dealIdx}/accept`),
+  declineDealRequested: (dealIdx:number) => api.put(`/user/items/requests/${dealIdx}/decline`),
   sendReport: ({ title, content, idx }) => api.post(`/items/${idx}/reports`, { title, content }),
 };
 

@@ -29,8 +29,7 @@ export default function Receives() {
     dealApi.getRequestedDeals({
       resqustedId: chosenItemId,
     }).then(({ data }) => {
-      console.log('getRequestedDeals', data.idx);
-
+      console.log('getRequestedDeals', data);
       const receiveAndDealIdx = data.map((deal) => ({
         receiveItem: deal.requestItem,
         dealIdx: deal.idx,

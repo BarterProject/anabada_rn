@@ -39,7 +39,7 @@ function ItemReceives({ receiveDeals }: {
           {receiveDeals.map((aDeal) => (
             <ItemReceiveInstance
               item={aDeal.receiveItem}
-              key={aDeal.receiveItem.idx}
+              key={aDeal.dealIdx}
               idx={aDeal.receiveItem.idx}
               dealIdx={aDeal.dealIdx}
               // uri={item.images[0].name}
