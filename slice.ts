@@ -347,6 +347,7 @@ export function requestDeal() {
   };
 }
 
+
 // export function acceptDeal({ dealIdx, itemIdx }:{dealIdx:number, itemIdx:number}) {
 //   return async (dispatch, getState) => {
 //     try {

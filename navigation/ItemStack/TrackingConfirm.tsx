@@ -20,7 +20,7 @@ const StatusText = styled.Text`
   font-weight: 300;
 `;
 
-function Enroll({
+function TrackingConfirm({
   navigation: { setOptions, navigate },
   route: { params },
 }: {
@@ -30,7 +30,7 @@ function Enroll({
   useEffect(() => {
     setOptions({
       headerBackTitleVisible: false,
-      title: '아이템 등록대기',
+      title: '운송장번호 등록완료',
     });
   }, []);
 
@@ -38,18 +38,17 @@ function Enroll({
     <Container>
       <StatusText>
         아이템
-        {' '}
         {params.title}
-        의 등록이 신청되었습니다.
+        의 운송장번호가 등록되었습니다.
       </StatusText>
       <StatusText>
-        관리자의 승인을 기다려주세요.
+        보증금 입금은 잠시 기다려주십시오.
       </StatusText>
 
       <Button
         style={{ marginTop: 50 }}
         onPress={() => {
-          navigate('Main', { screen: '인벤토리', params: { getNewData: true } });
+          navigate('Main', { screen: '아이템', params: { getNewData: true } });
         }}
       >
         <ButtonText>돌아가기</ButtonText>
@@ -59,4 +58,4 @@ function Enroll({
   );
 }
 
-export default Enroll;
+export default TrackingConfirm;
