@@ -22,34 +22,40 @@ const StatusText = styled.Text`
 
 function Enroll({
   navigation: { setOptions, navigate },
-  route: { params },
+  route: {
+    params: {
+      title, bigMsg, smallMsg, screen, getNewData,
+    },
+  },
 }: {
   navigation: { setOptions: Function, navigate:Function },
-  route:{params:{title:string, type:string}}
+  route:{params:{title:string, bigMsg:string, smallMsg:string, screen:string, getNewData:boolean}}
 }) {
   useEffect(() => {
     setOptions({
       headerBackTitleVisible: false,
-      title: '아이템 등록대기',
+      title,
     });
   }, []);
 
   return (
     <Container>
       <StatusText>
-        아이템
+        {/* 아이템
         {' '}
         {params.title}
-        의 등록이 신청되었습니다.
+        의 등록이 신청되었습니다. */}
+        {bigMsg}
       </StatusText>
       <StatusText>
-        관리자의 승인을 기다려주세요.
+        {smallMsg}
+        {/* 관리자의 승인을 기다려주세요. */}
       </StatusText>
 
       <Button
         style={{ marginTop: 50 }}
         onPress={() => {
-          navigate('Main', { screen: '인벤토리', params: { getNewData: true } });
+          navigate('Main', { screen, params: { getNewData } });
         }}
       >
         <ButtonText>돌아가기</ButtonText>

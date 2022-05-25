@@ -147,10 +147,15 @@ export const itemApi = {
   getMyInvetory: (): Promise<AxiosResponse<any>> => api.get('/user/items?option=owner'),
   getMyItem: (): Promise<AxiosResponse<any>> => api.get('/user/items'),
   getItemInfo: (idx: number): Promise<AxiosResponse<any>> => api.get(`/items/${idx}`),
+  refundItem: (idx:number) :Promise<AxiosResponse<any>> => api.post(`/user/items/${idx}/refund`),
 };
 
 export const deliveryApi = {
   saveDelivery: (idx:number, body:any) :Promise<AxiosResponse<any>> => api.post(`/user/items/${idx}/deliveries`, { ...body }),
+  saveTracking: (idx:number, body:any):Promise<AxiosResponse<any>> => {
+    console.log(idx, body);
+    return api.post(`/user/items/deliveries/${idx}`, { ...body });
+  },
 };
 
 export const socketApi = {

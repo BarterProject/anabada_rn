@@ -26,7 +26,7 @@ export const Inputs = styled.View`
 
 // about button
 
-export const Button = styled.TouchableOpacity`
+export const Button = styled.Pressable`
   width: 100%;
   height: 50px;
   padding: 5px;
@@ -65,11 +65,11 @@ export const InputColumn = styled.View`
 export const CommonText = styled.Text`
 color: #626262;
 font-weight: 300;
-font-size: 20px;
+font-size: 23px;
 `;
 
 export const InputValue = styled(InputTitle)`
-height: 35px;
+height: 43px;
 width: 100px;
 margin: 0;
 `;

@@ -12,9 +12,11 @@ import Main from './ItemStack/Main';
 import ItemDetail from './ItemStack/ItemDetail';
 import ItemDelivery from './ItemStack/ItemDelivery';
 import Enroll from './ItemStack/Enroll';
+import Confirm from './ItemStack/Confirm';
 import EnrollConfirm from './ItemStack/EnrollConfirm';
 import ItemHistory from './ItemStack/ItemHistory';
 import SelectOption from './ItemStack/SelectOption';
+import TrackingConfirm from './ItemStack/TrackingConfirm';
 
 const Stack = createNativeStackNavigator();
 
@@ -71,11 +73,13 @@ export default function Item() {
     >
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen name="Enroll" component={Enroll} />
+      <Stack.Screen name="Confirm" component={Confirm} />
       <Stack.Screen name="EnrollConfirm" component={EnrollConfirm} />
       <Stack.Screen name="Detail" component={ItemDetail} />
       <Stack.Screen name="History" component={ItemHistory} />
       <Stack.Screen name="SelectOption" component={SelectOption} />
       <Stack.Screen name="ItemDelivery" component={ItemDelivery} />
+      <Stack.Screen name="TrackingConfirm" component={TrackingConfirm} />
 
     </Stack.Navigator>
   );

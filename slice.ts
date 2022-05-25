@@ -351,10 +351,10 @@ export function requestDeal() {
 export function acceptDeal({ dealIdx, itemIdx }:{dealIdx:number, itemIdx:number}) {
   return async (dispatch, getState) => {
     try {
-      dealApi.acceptDealRequested(dealIdx);
+      await dealApi.acceptDealRequested(dealIdx);
       dispatch(setItemToDeal(itemIdx));
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
   };
 }

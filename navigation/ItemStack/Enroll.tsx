@@ -100,7 +100,8 @@ function Enroll({
       amount.length,
       agree,
     );
-    if (categoryCheck !== null && paymentCheck !== null && imgList.length && name.length && description.length
+    if (categoryCheck !== null && paymentCheck !== null && imgList.length && name.length
+      && description.length
       && amount.length && agree) {
       if (!send) {
         setSend(true);
@@ -140,9 +141,13 @@ function Enroll({
         CommonActions.reset({
           index: 0,
           routes: [{
-            name: 'EnrollConfirm',
+            name: 'Confirm',
             params: {
-              title: data.name,
+              title: '아이템 등록대기',
+              bigMsg: `아이템 ${name}의 등록이 신청되었습니다. `,
+              smallMsg: '관리자의 승인을 기다려주세요.',
+              screen: '인벤토리',
+              getNewData: true,
             },
           }],
         }),
@@ -247,7 +252,7 @@ function Enroll({
           </InputColumn>
           <Button
             style={{ marginBottom: 20 }}
-            onPress={() => { saveItem(imgList); }}
+            onPress={() => { saveItem(); }}
             disabled={!send}
             dis={!send}
           >
