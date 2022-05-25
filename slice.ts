@@ -308,10 +308,9 @@ export function requestLogin() {
 
 export function requestRandomItems(number :number) {
   return async (dispatch, getState) => {
-    const { userState: { accessToken } } = getState();
 
     try {
-      const data:itemType[] = await getRandomItems({ accessToken, number });
+      const data:itemType[] = await getRandomItems({ number });
       dispatch(addRandomItems(data));
     } catch (e) {
       console.log({ ...e });
@@ -348,16 +347,28 @@ export function requestDeal() {
   };
 }
 
-export function acceptDeal({ dealIdx, itemIdx }:{dealIdx:number, itemIdx:number}) {
-  return async (dispatch, getState) => {
-    try {
-      await dealApi.acceptDealRequested(dealIdx);
-      dispatch(setItemToDeal(itemIdx));
-    } catch (e) {
-      console.log(e);
-    }
-  };
-}
+
+// export function acceptDeal({ dealIdx, itemIdx }:{dealIdx:number, itemIdx:number}) {
+//   return async (dispatch, getState) => {
+//     try {
+//       dealApi.acceptDealRequested(dealIdx);
+//       dispatch(setItemToDeal(itemIdx));
+//     } catch (e) {
+//       console.error(e);
+//     }
+//   };
+// }
+
+// export function declineDeal({ dealIdx }:{dealIdx:number}) {
+//   return async (dispatch, getState) => {
+//     try {
+//       dealApi.declineDealRequested(dealIdx);
+//       // dispatch(setItemToDeal(itemIdx));
+//     } catch (e) {
+//       console.error(e);
+//     }
+//   };
+// }
 
 // export function getUserInfo() {
 //   return async (dispatch:any) => {

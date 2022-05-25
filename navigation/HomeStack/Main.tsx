@@ -79,7 +79,7 @@ function Main() {
     // console.log('값이 0입니다. ');
     if (randomItems.length === 0) {
       dispatch(requestRandomItems(10));
-    } else if (randomItems.length === 5) {
+    } else if (randomItems.length <= 5) {
       dispatch(requestRandomItems(5));
     }
     // return () => {};

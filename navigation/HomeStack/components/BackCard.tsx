@@ -20,7 +20,6 @@ export default function BackCard({
   item,
   //  declineOpacity, acceptOpacity,
 }: CardProps) {
-  // console.log(item);
   const {
     name,
     deposit,
