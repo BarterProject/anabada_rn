@@ -17,7 +17,8 @@ const Text = styled.Text`
     align-items:center;
 `;
 
-export default function Receives() {
+export default function Receives({ route: { params } }:
+  {route:{params:{getNewData:boolean}}}) {
   const [receiveDeals, setReceiveDeals] = useState([]);
 
   const { chosenItemId } = useSelector((state: initialStateProps) => ({
@@ -45,6 +46,13 @@ export default function Receives() {
     getRequestedDeals();
   }, []);
 
+  useEffect(() => {
+    if (params) {
+      if (params.getNewData) {
+        getRequestedDeals();
+      }
+    }
+  }, [params]);
   return receiveDeals.length > 0 ? <ItemReceives receiveDeals={receiveDeals} />
     : (
       <Text

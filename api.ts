@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from 'axios';
 
 import EncryptedStorage from 'react-native-encrypted-storage';
 
-import { itemToSendType, imageToSendType } from './types';
+import { itemToSendType, imageToSendType, trackingType } from './types';
 
 const api = axios.create({
   baseURL: `${BASE_URL}/api/v2` as string,
@@ -97,6 +97,7 @@ export const dealApi = {
   acceptDealRequested: (dealIdx:number) => api.put(`/user/items/requests/${dealIdx}/accept`),
   declineDealRequested: (dealIdx:number) => api.put(`/user/items/requests/${dealIdx}/decline`),
   sendReport: ({ title, content, idx }) => api.post(`/items/${idx}/reports`, { title, content }),
+  deleteRequest: (idx:number) :Promise<AxiosResponse<any>> => api.delete(`/user/items/requests/${idx}`),
 };
 
 export const itemApi = {
@@ -152,10 +153,8 @@ export const itemApi = {
 
 export const deliveryApi = {
   saveDelivery: (idx:number, body:any) :Promise<AxiosResponse<any>> => api.post(`/user/items/${idx}/deliveries`, { ...body }),
-  saveTracking: (idx:number, body:any):Promise<AxiosResponse<any>> => {
-    console.log(idx, body);
-    return api.post(`/user/items/deliveries/${idx}`, { ...body });
-  },
+  saveTracking: (idx:number, body:any):Promise<AxiosResponse<any>> => api.post(`/user/items/deliveries/${idx}`, { ...body }),
+  getTrackingInfo: (idx:number) :Promise<AxiosResponse<trackingType>> => api.get(`/user/items/${idx}/deliveries/tracking`),
 };
 
 export const socketApi = {

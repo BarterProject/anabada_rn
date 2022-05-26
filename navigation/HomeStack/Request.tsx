@@ -12,7 +12,8 @@ const Text = styled.Text`
     align-items:center;
 `;
 
-export default function Request() {
+export default function Request({ route: { params } }:
+  {route:{params:{getNewData:boolean}}}) {
   const [requestDeals, setRequestDeals] = useState([]);
 
   const { chosenItemId } = useSelector((state: initialStateProps) => ({
@@ -30,9 +31,18 @@ export default function Request() {
         dealIdx: deal.idx,
       }));
       setRequestDeals(reqeustAndDealIdx);
+      console.log(setRequestDeals);
     });
-    console.log('렌더가 다시되싸!');
+    console.log('request Data 가져오기');
   }, []);
+
+  useEffect(() => {
+    if (params) {
+      if (params.getNewData) {
+        getMyInventory();
+      }
+    }
+  }, [params]);
 
   useEffect(() => {
     getMyInventory();

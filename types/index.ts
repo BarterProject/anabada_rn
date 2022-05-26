@@ -107,3 +107,17 @@ export type noticeType = {
     state: number,
     user: userType,
 }
+export type trackingDetailType = {
+    kind: string,
+    timeString: string,
+    where:string,
+}
+
+export type trackingType = {
+  complete:boolean,
+  invoiceNo: string,
+  itemName: string,
+  level: number,
+  result: string,
+  trackingDetails:trackingDetailType[],
+}

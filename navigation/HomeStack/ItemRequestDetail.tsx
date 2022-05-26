@@ -14,7 +14,7 @@ import {
   InputContent, Inputs, InputTitle, Button, ButtonText, InputColumn, CommonText, InputValue,
 } from '../ItemStack/utils';
 
-import { itemApi } from '../../api';
+import { dealApi, itemApi } from '../../api';
 import { itemType } from '../../types';
 
 const Container = styled.ScrollView``;
@@ -48,9 +48,19 @@ const DescriptionContainer = styled.View`
 
 `;
 
-function ItemRequestDetail({ route }) {
-  console.log(route.params);
+function ItemRequestDetail({ route, navigation: { navigate } }:
+  {route:{params}, navigation:{navigate:Function}}) {
   const { item, dealIdx }: { item: itemType, dealIdx: number } = route.params;
+
+  const deleteRequest = async () => {
+    try {
+      const { data } = await dealApi.deleteRequest(dealIdx);
+      navigate('ItemDeals', { screen: '교환 요청', params: { getNewData: true } });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const {
     name,
     description,
@@ -91,6 +101,13 @@ function ItemRequestDetail({ route }) {
                 }}
               />
             </InputColumn>
+            <Button
+              style={{ marginTop: 10 }}
+              onPress={deleteRequest}
+            >
+              <ButtonText>요청 취소</ButtonText>
+
+            </Button>
           </Inputs>
         </Container>
       </KeyboardAwareScrollView>
