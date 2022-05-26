@@ -146,8 +146,8 @@ export default function Card({
       <ChangeImageContainer>
         <View
           style={{
-            backgroundColor: 'yellow',
-            opacity: 0,
+            // backgroundColor: 'yellow',
+            opacity: 1,
             flex: 1,
           }}
           onTouchStart={() => { // 0.5초 넘게 누르거나 움직이면 이미지 넘기기 취소
@@ -156,11 +156,11 @@ export default function Card({
               () => {
                 setShortTouch(false);
               },
-              500,
+              100,
             );
           }}
           onTouchMove={() => {
-            setShortTouch(false);
+            // setShortTouch(false);
           }}
           onTouchEnd={() => {
             if (isShortTouch) {
@@ -171,8 +171,8 @@ export default function Card({
         />
         <View
           style={{
-            backgroundColor: 'blue',
-            opacity: 0,
+            // backgroundColor: 'blue',
+            opacity: 1,
             flex: 1,
           }}
           onTouchStart={() => {
@@ -181,11 +181,11 @@ export default function Card({
               () => {
                 setShortTouch(false);
               },
-              500,
+              100,
             );
           }}
           onTouchMove={() => {
-            setShortTouch(false);
+            // setShortTouch(false);
           }}
           onTouchEnd={() => {
             if (isShortTouch) {

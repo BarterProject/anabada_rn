@@ -15,12 +15,11 @@ import { useNavigation } from '@react-navigation/native';
 import Slide from './components/Slide';
 
 import {
-  InputContent, Inputs, InputTitle, Button, ButtonText, InputColumn, CommonText, InputValue,
+  Inputs, Button, InputColumn, CommonText, InputValue,
 } from '../ItemStack/utils';
 
-import { dealApi, itemApi } from '../../api';
-import { itemType } from '../../types';
-import { acceptDeal, declineDeal, setItemToDeal } from '../../slice';
+import { dealApi } from '../../api';
+import { setItemToDeal } from '../../slice';
 
 // const Container = styled.ScrollView`
 //     position: relative;
