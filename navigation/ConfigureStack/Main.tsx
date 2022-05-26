@@ -3,6 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
+import { FCMApi } from '../../api';
 import { deleteAccessToken } from '../../slice';
 import { ConfigureStackParamList } from '../Configure';
 
@@ -86,6 +87,7 @@ export default function Main({ navigation }: MainInProps) {
         <Button
           onPress={() => {
             dispatch(deleteAccessToken());
+            FCMApi.deleteToken();
             navigation.dispatch(
               CommonActions.reset({
                 index: 0,
