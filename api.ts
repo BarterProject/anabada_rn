@@ -159,3 +159,10 @@ export const socketApi = {
     return api.get(`/socket?jwt=${accessToken}`);
   },
 };
+
+export const FCMApi = {
+  updateToken: (token:string) :Promise<AxiosResponse<any>> => api.put('/api/v2/user/fcm/token',{
+    token
+  }),
+  deleteToken:() :Promise<AxiosResponse<any>> => api.delete('/api/v2/user/fcm/token',),
+}

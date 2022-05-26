@@ -10,7 +10,7 @@ import messaging from '@react-native-firebase/messaging';
 
 import axios from 'axios';
 import { BASE_URL } from '@env';
-import { itemApi, userApi } from '../../api';
+import { FCMApi, itemApi, userApi } from '../../api';
 
 import {
   initialStateProps, removeARandomItem, requestDeal, requestRandomItems, setNotice, setPhoneToken,
@@ -65,7 +65,8 @@ function Main() {
         const token = await messaging().getToken();
         console.log('phone token', token);
         dispatch(setPhoneToken(token));
-        return axios.post(`${BASE_URL}/phonetoken`, { token });
+        // return axios.post(`${BASE_URL}/phonetoken`, { token });
+        return FCMApi.updateToken(token)
       } catch (error) {
         return console.error(error);
       }
