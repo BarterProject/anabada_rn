@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components/native';
 
-import { TouchableOpacity, Text, View, ActivityIndicator, Alert } from 'react-native';
+import {
+  TouchableOpacity, Text, View, ActivityIndicator, Alert,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -67,7 +69,8 @@ const WhiteText = styled(Text)`
   font-size: 16;
 `;
 
-function ItemReceiveDetail({ route }) {
+function ItemReceiveDetail({ route, navigation: { navigate } }:
+  {route:{params}, navigation:{navigate:Function}}) {
   // console.log(route.params);
   const { item, dealIdx } = route.params;
   const [loading, setLoading] = useState(false);
@@ -79,10 +82,12 @@ function ItemReceiveDetail({ route }) {
     description,
     deposit,
     images,
+    state,
     itemCategory: { name: categoryName },
   } = item;
-  console.log('ItemReceiveDetail dealIdx', dealIdx)
-  console.log('ItemReceiveDetail itemIdx', itemIdx)
+  console.log(item);
+  console.log('ItemReceiveDetail dealIdx', dealIdx);
+  console.log('ItemReceiveDetail itemIdx', itemIdx);
 
   return (
     item ? (
@@ -116,74 +121,77 @@ function ItemReceiveDetail({ route }) {
               />
             </InputColumn>
           </Inputs>
-          <ButtonsContainer>
-            <SmallButton
-              disabled={loading}
-              onPress={async () => {
-                setLoading(true)
-                console.log('요청승인');
-                dealApi.acceptDealRequested(dealIdx).then(
-                  (result) => {
-                    console.log('요청성공', result);
-                    navigation.navigate('Main');
-                    dispatch(setItemToDeal(itemIdx));
-                  }
-                ).catch((error) => {
-                  console.log('요청실패');
-                  console.log(error.data.errorCode);
-                  console.log(error);
-                  // if (error.data.errorCode === "B0001") {
-                  Alert.alert("1분만 기다려 주세요")
-                  // }
-                }).finally(() => {
-                  setLoading(false);
-                })
+          {state === 1
+            ? (
+              <ButtonsContainer>
+                <SmallButton
+                  disabled={loading}
+                  onPress={async () => {
+                    setLoading(true);
+                    console.log('요청승인');
+                    dealApi.acceptDealRequested(dealIdx).then(
+                      (result) => {
+                        console.log('요청성공', result);
+                        navigate('Main');
+                        dispatch(setItemToDeal(itemIdx));
+                      },
+                    ).catch((error) => {
+                      console.log('요청실패');
+                      console.log(error);
+                      if (error.response.status === 400) {
+                        Alert.alert('1분만 기다려 주세요');
+                      }
+                      // if (error.data.errorCode === "B0001") {
+                      // }
+                    }).finally(() => {
+                      setLoading(false);
+                    });
+                  }}
+                >
+                  {
+               loading
+                 ? <ActivityIndicator size="small" />
+                 : (
+                   <WhiteText>
+                     요청 승인
+                   </WhiteText>
+                 )
+             }
 
-                  ;
-              }}
-            >
-              {
-                loading ?
-                  <ActivityIndicator size="small" />
-                  :
-                  <WhiteText>
-                    요청 승인
-                  </WhiteText>
-              }
+                </SmallButton>
+                <SmallButton
+                  onPress={async () => {
+                    setLoading(true);
+                    console.log('요청취소');
+                    try {
+                      const { data } = await dealApi.declineDealRequested(dealIdx);
+                      navigate('ItemDeals', { screen: '받은 요청', params: { getNewData: true } });
+                    } catch (e) {
+                      console.log('요청실패');
+                      console.log({ ...e });
+                      if (e.response.status === 400) {
+                        Alert.alert('1분만 기다려 주세요');
+                      }
 
-            </SmallButton>
-            <SmallButton
-              onPress={() => {
-                setLoading(true)
-                console.log('요청취소');
-                // dispatch(declineDeal(dealIdx));
-                dealApi.declineDealRequested(dealIdx).then((result) => {
-                  console.log('요청성공', result);
-                  //   console.log(result);
-                  navigation.goBack();
-                }).catch((error) => {
-                  console.log('요청실패');
-                  console.log(error.data);
-                  if (error.data.errorCode === "B0001") {
-                    Alert.alert("1분만 기다려 주세요")
-                  }
+                      console.log(e.response);
+                    } finally {
+                      setLoading(false);
+                    }
+                  }}
+                >
+                  {
+               loading
+                 ? <ActivityIndicator size="small" />
+                 : (
+                   <WhiteText>
+                     요청 취소
+                   </WhiteText>
+                 )
+             }
+                </SmallButton>
+              </ButtonsContainer>
+            ) : null}
 
-                  console.log(error.response);
-                }).finally(() => {
-                  setLoading(false);
-                });
-              }}
-            >
-              {
-                loading ?
-                  <ActivityIndicator size="small" />
-                  :
-                  <WhiteText>
-                    요청 취소
-                  </WhiteText>
-              }
-            </SmallButton>
-          </ButtonsContainer>
         </Container>
 
       </KeyboardAwareScrollView>

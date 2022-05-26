@@ -12,7 +12,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useDispatch, useSelector } from 'react-redux';
 
 import { CommonActions } from '@react-navigation/native';
-import { PushNotificationScheduledLocalObject } from 'react-native-push-notification';
+// import { PushNotificationScheduledLocalObject } from 'react-native-push-notification';
 import Slide from './components/Slide';
 import Popup from './components/Popup';
 
@@ -146,6 +146,38 @@ function ItemDetail({
     }
   };
 
+  const refundItem = async () => {
+    try {
+      await itemApi.refundItem(itemIdx);
+      dis(
+        CommonActions.reset({
+          index: 0,
+          routes: [{
+            name: 'Confirm',
+            params: {
+              title: '등록취소(환불신청) 대기',
+              bigMsg: `아이템 ${itemInfo.name}의 환불이 신청되었습니다.`,
+              smallMsg: '보증금 입금은 잠시 기다려주십시오.',
+              screen: '아이템',
+              getNewData: true,
+            },
+          }],
+        }),
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // const getTrackingInfo = async () => {
+  //   try {
+  //     const { data } = await deliveryApi.getTrackingInfo(itemIdx);
+  //     console.log(data);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
   const getItemInfo = useCallback(async () => {
     try {
       const { data }: { data: itemType } = await itemApi.getItemInfo(itemIdx);
@@ -260,7 +292,8 @@ function ItemDetail({
                   : null
               ) : null} */}
               {
-                !isItItem && itemInfo.state !== 4 && itemInfo.state !== 2 ? (
+                !isItItem && itemInfo.state !== 4 && itemInfo.state !== 2
+                && itemInfo.state !== 5 && itemInfo.state !== 7 ? (
                   <Button
                     style={{ marginTop: 15 }}
                     onPress={() => {
@@ -271,7 +304,7 @@ function ItemDetail({
                   >
                     <ButtonText>선택하기</ButtonText>
                   </Button>
-                ) : null
+                  ) : null
               }
               {
               isItItem || itemInfo.state === 4 || itemInfo.registrant.idx === userIdx
@@ -301,6 +334,19 @@ function ItemDetail({
                 )
 
               }
+              {
+                itemInfo.state === 7 ? (
+                  <Button
+                    style={{ marginVertical: 15 }}
+                    onPress={() => {
+                      navigate('Item', { screen: 'ItemTracking', params: { itemIdx, itemUrl: itemInfo.images[0].name } });
+                    }}
+                  >
+                    <ButtonText>배송현황</ButtonText>
+                  </Button>
+                ) : null
+              }
+
               {
                 isItItem && itemInfo.state === 2 ? (
                   <>
@@ -341,11 +387,22 @@ function ItemDetail({
                isItItem
                 && itemInfo.owner.idx === userIdx
                 && itemInfo.registrant.idx === userIdx
+                && itemInfo.state !== 5
                  ? (
-                   <Button style={{ marginVertical: 15 }}>
+                   <Button onPress={refundItem} style={{ marginVertical: 15 }}>
                      <ButtonText>등록 취소(환불 신청)</ButtonText>
                    </Button>
                  ) : null
+              }
+
+              {
+                itemInfo.state === 5 ? (
+                  <CommonText style={{ marginVertical: 15, color: '#e94057' }}>
+                    환불신청 되었습니다.
+                    잠시만 기다려주세요.
+
+                  </CommonText>
+                ) : null
               }
 
               {

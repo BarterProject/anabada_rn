@@ -20,11 +20,11 @@ export default function BackCard({
   item,
   //  declineOpacity, acceptOpacity,
 }: CardProps) {
-  const {
-    name,
-    deposit,
-    images,
-  } = item;
+  // const {
+  //   name,
+  //   deposit,
+  //   images,
+  // } = item;
 
   const { accessToken }:
     { accessToken: String } = useSelector((state: initialStateProps) => ({
@@ -32,28 +32,29 @@ export default function BackCard({
     }));
 
   return (
-    <Container>
-      <Image
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
-        source={{
-          uri: (images.length === 0 || images[0] === undefined
-            ? '#'
-            : `${BASE_URL}/api/v2/items/images/${images[0].name}`),
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }}
-      />
-      <InfoContainerBackground />
-      <InfoContainer>
-        <Info name={name} />
-        <DepositInfo
-          deposit={deposit}
-        />
-      </InfoContainer>
-    </Container>
+    <></>
+    // <Container>
+    //   <Image
+    //     style={{
+    //       width: '100%',
+    //       height: '100%',
+    //     }}
+    //     source={{
+    //       uri: (images.length === 0 || images[0] === undefined
+    //         ? '#'
+    //         : `${BASE_URL}/api/v2/items/images/${images[0].name}`),
+    //       headers: {
+    //         Authorization: `Bearer ${accessToken}`,
+    //       },
+    //     }}
+    //   />
+    //   <InfoContainerBackground />
+    //   <InfoContainer>
+    //     <Info name={name} />
+    //     <DepositInfo
+    //       deposit={deposit}
+    //     />
+    //   </InfoContainer>
+    // </Container>
   );
 }
