@@ -21,7 +21,7 @@ PushNotification.configure({
 
   // (required) 리모트 노티를 수신하거나, 열었거나 로컬 노티를 열었을 때 실행
   onNotification(notification: any) {
-    console.log('NOTIFICATION:', notification);
+    console.log('onNotification NOTIFICATION:', notification);
     if (notification.channelId === 'riders') {
       // if (notification.message || notification.data.message) {
       //   store.dispatch(
@@ -39,8 +39,8 @@ PushNotification.configure({
 
   // (optional) 등록한 액션을 누렀고 invokeApp이 false 상태일 때 실행됨, true면 onNotification이 실행됨 (Android)
   onAction(notification: any) {
-    console.log('ACTION:', notification.action);
-    console.log('NOTIFICATION:', notification);
+    console.log('onAction ACTION:', notification.action);
+    console.log('onAction NOTIFICATION:', notification);
 
     // process the action
   },
