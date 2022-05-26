@@ -11,6 +11,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import { useDispatch, useSelector } from 'react-redux';
 
+import { CommonActions } from '@react-navigation/native';
+import { PushNotificationScheduledLocalObject } from 'react-native-push-notification';
 import Slide from './components/Slide';
 import Popup from './components/Popup';
 
@@ -18,7 +20,7 @@ import {
   InputContent, Inputs, InputTitle, Button, ButtonText, InputColumn, CommonText, InputValue,
 } from './utils';
 
-import { itemApi } from '../../api';
+import { itemApi, deliveryApi } from '../../api';
 import { initialStateProps, setItemToDeal } from '../../slice';
 import { itemType } from '../../types';
 
@@ -60,7 +62,9 @@ function ItemDetail({
       isItItem,
     },
   },
-  navigation: { setOptions, goBack, navigate },
+  navigation: {
+    setOptions, goBack, navigate, dispatch: dis,
+  },
 }: {
   route: { params: {
     readOnly:boolean,
@@ -70,10 +74,16 @@ function ItemDetail({
     inventoryMode:boolean,
     isItItem:boolean,
   } };
-  navigation: { setOptions: Function; goBack: Function, navigate:Function };
+  navigation: { setOptions: Function; goBack: Function, navigate:Function, dispatch:Function };
 
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
+  const [waybill, setWaybill] = useState<string>('');
+  const [courier, setCourier] = useState<string>('');
+  const [trackingError, setTrackingError] = useState<boolean>(false);
+  const [trackingErrorMsg, setTrackingErrorMsg] = useState<string>('');
+
+  const [delivery, setDelivery] = useState<boolean>(false);
   const dispatch = useDispatch();
   const {
     userIdx,
@@ -98,11 +108,48 @@ function ItemDetail({
     } else { goBack(); }
   };
 
+  const saveTracking = async () => {
+    try {
+      const body = {
+        trackingNumber: parseInt(waybill, 10),
+        deliveryCompanyIdx: parseInt(courier, 10),
+      };
+      const { data } = await deliveryApi.saveTracking(itemInfo.delivery.idx, body);
+      console.log(data);
+      dis(
+        CommonActions.reset({
+          index: 0,
+          routes: [{
+            name: 'Confirm',
+            params: {
+              title: '운송장번호 등록완료',
+              bigMsg: `아이템 ${itemInfo.name}의 운송장번호가 등록되었습니다.`,
+              smallMsg: '보증금 입금은 잠시 기다려주십시오.',
+              screen: '아이템',
+              getNewData: true,
+            },
+          }],
+        }),
+      );
+    } catch (e) {
+      console.log(e);
+      if (e.response.status === 404) {
+        setTrackingError(true);
+        setTrackingErrorMsg('유효하지 않은 운송장 정보입니다.');
+      } else if (e.response.staus === 401) {
+        setTrackingError(true);
+        setTrackingErrorMsg('권한이 없습니다.');
+      } else if (e.response.status === 400) {
+        setTrackingError(true);
+        setTrackingErrorMsg('운송장 번호가 이미 등록되었습니다.');
+      }
+    }
+  };
+
   const getItemInfo = useCallback(async () => {
     try {
       const { data }: { data: itemType } = await itemApi.getItemInfo(itemIdx);
       setItemInfo(data);
-      console.log(data);
     } catch (e) {
       console.log(e);
     }
@@ -147,6 +194,9 @@ function ItemDetail({
     console.log(enrollMode);
   }, [enrollMode, deliveryMode]);
 
+  useEffect(() => {
+    setDelivery(deliveryMode);
+  }, [deliveryMode]);
   return (
     itemInfo ? (
       <>
@@ -210,7 +260,7 @@ function ItemDetail({
                   : null
               ) : null} */}
               {
-                !isItItem && itemInfo.state !== 4 ? (
+                !isItItem && itemInfo.state !== 4 && itemInfo.state !== 2 ? (
                   <Button
                     style={{ marginTop: 15 }}
                     onPress={() => {
@@ -228,9 +278,7 @@ function ItemDetail({
                 ? null : (
                   deliveryMode || itemInfo.delivery
                     ? (
-                      <Button style={{ marginVertical: 15 }}>
-                        <ButtonText>배송 상태 보기</ButtonText>
-                      </Button>
+                      null
                     )
                     : (
                       <Button
@@ -253,20 +301,74 @@ function ItemDetail({
                 )
 
               }
+              {
+                isItItem && itemInfo.state === 2 ? (
+                  <>
+                    <InputColumn style={{ marginTop: 15 }}>
+                      <CommonText>요청 주소지</CommonText>
+                    </InputColumn>
+                    <InputTitle editable={false} value={itemInfo.delivery.address} />
+                    <InputColumn style={{ marginTop: 15 }}>
+                      <CommonText>연락처</CommonText>
+                    </InputColumn>
+                    <InputTitle placeholder="제품명" editable={false} value={itemInfo.delivery.phone} />
+                    <InputColumn style={{ marginTop: 15 }}>
+                      <CommonText>운송장 번호</CommonText>
+                    </InputColumn>
+                    <InputTitle placeholder="운송장 번호를 입력해주세요." value={waybill} editable onChangeText={(text:string) => { setWaybill(text); }} />
+                    <InputColumn style={{ marginTop: 15 }}>
+                      <CommonText>택배사 번호</CommonText>
+                    </InputColumn>
+                    <InputTitle placeholder="택배사 번호를 입력해주세요." value={courier} editable onChangeText={(text:string) => { setCourier(text); }} />
+                    <Button
+                      style={{
+                        marginVertical: 15,
+                        opacity: waybill.length !== 0
+                        && courier.length !== 0 ? 1 : 0.5,
+                      }}
+                      disabled={waybill.length === 0
+                      && courier.length === 0}
+                      onPress={saveTracking}
+                    >
+                      <ButtonText>배송완료(보증금 반환 신청)</ButtonText>
+                    </Button>
+                  </>
+                ) : (
+                  null
+                )
+              }
+              {
+               isItItem
+                && itemInfo.owner.idx === userIdx
+                && itemInfo.registrant.idx === userIdx
+                 ? (
+                   <Button style={{ marginVertical: 15 }}>
+                     <ButtonText>등록 취소(환불 신청)</ButtonText>
+                   </Button>
+                 ) : null
+              }
+
+              {
+                !isItItem && itemInfo.state === 2 ? (
+
+                  <CommonText style={{ marginVertical: 15, color: '#e94057' }}>
+                    실 소유주의 운송장번호가 입력되지 않았습니다.
+                    잠시 기다려주세요.
+
+                  </CommonText>
+
+                ) : null
+
+              }
 
             </Inputs>
           </Container>
         </KeyboardAwareScrollView>
-        {
-          enrollMode
-            ? <Popup header="Congratulations 🎉" message="등록이 완료되었습니다." />
-            : null
-        }
-        {
-          deliveryMode
-            ? <Popup header="Delivery request 🚚" message="배송신청이 완료되었습니다." />
-            : null
-        }
+
+        {/* deliveryMode */}
+        <Popup header="Delivery request 🚚" message="배송신청이 완료되었습니다." display={delivery} setDisplay={setDelivery} />
+
+        <Popup header="운송장 등록 오류 🚚" message={trackingErrorMsg} display={trackingError} setDisplay={setTrackingError} />
 
       </>
     )

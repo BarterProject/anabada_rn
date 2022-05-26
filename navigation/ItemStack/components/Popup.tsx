@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
 import styled from 'styled-components/native';
@@ -15,7 +15,7 @@ const Container = styled.Pressable`
 `;
 
 const ContentContainer = styled.View`
-    width:270px;
+    width:340px;
     height:160px;
     border-radius: 7px;
     background-color: white;
@@ -58,12 +58,12 @@ const Btn = styled.TouchableOpacity`
   background-color: #f3f3f3;
 `;
 
-function Popup({ message, header }:{message:string, header:string}) {
-  const [display, setDisplay] = useState(true);
-
+function Popup({
+  message, header, display, setDisplay,
+}:{message:string, header:string, display:boolean, setDisplay:Function}) {
   return (
     display ? (
-      <Container onPress={() => { setDisplay(false); }}>
+      <Container onPress={() => { setDisplay(!display); }}>
         <DropShadow
           style={{
             shadowColor: '#171717',
@@ -97,7 +97,7 @@ function Popup({ message, header }:{message:string, header:string}) {
                 {/* 등록이 완료되었습니다. */}
               </BodyText>
               <BodyBtnColumn>
-                <Btn onPress={() => { setDisplay(false); }}>
+                <Btn onPress={() => { setDisplay(!display); }}>
                   <Text style={{ fontSize: 10, fontWeight: '600' }}>
                     CLOSE
                   </Text>
