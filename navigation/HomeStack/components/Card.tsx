@@ -146,7 +146,7 @@ export default function Card({
       <ChangeImageContainer>
         <View
           style={{
-            backgroundColor: 'yellow',
+            // backgroundColor: 'yellow',
             opacity: 1,
             flex: 1,
           }}
@@ -171,7 +171,7 @@ export default function Card({
         />
         <View
           style={{
-            backgroundColor: 'blue',
+            // backgroundColor: 'blue',
             opacity: 1,
             flex: 1,
           }}
