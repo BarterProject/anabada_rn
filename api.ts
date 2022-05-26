@@ -166,8 +166,8 @@ export const socketApi = {
 };
 
 export const FCMApi = {
-  updateToken: (token:string) :Promise<AxiosResponse<any>> => api.put('/api/v2/user/fcm/token',{
+  updateToken: (token:string) :Promise<AxiosResponse<any>> => api.put('/user/fcm/token',{
     token
   }),
-  deleteToken:() :Promise<AxiosResponse<any>> => api.delete('/api/v2/user/fcm/token',),
+  deleteToken:() :Promise<AxiosResponse<any>> => api.delete('/user/fcm/token',),
 }

@@ -66,7 +66,10 @@ function Main() {
         console.log('phone token', token);
         dispatch(setPhoneToken(token));
         // return axios.post(`${BASE_URL}/phonetoken`, { token });
-        return FCMApi.updateToken(token)
+        FCMApi.updateToken(token)
+          .then(result => console.log("result1", result))
+          .catch(e => console.log("result2", e));
+        return;
       } catch (error) {
         return console.error(error);
       }
