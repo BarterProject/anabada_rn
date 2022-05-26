@@ -48,7 +48,7 @@ const ButtonContainer = styled.View`
 
 type PhoneAuthProps = NativeStackScreenProps<AuthStackParamList, 'PhoneAuth'>
 
-export default function PhoneAuth({ route, navigation }:PhoneAuthProps) {
+export default function PhoneAuth({ route, navigation }: PhoneAuthProps) {
   const [confirm, setConfirm] = useState(null);
   const [code, setCode] = useState('');
   const { phoneNumber } = route.params;
@@ -61,14 +61,17 @@ export default function PhoneAuth({ route, navigation }:PhoneAuthProps) {
   }
 
   async function confirmCode() {
+    console.log("인증 시도", phoneNumber);
     try {
       const response = await confirm.confirm(code);
+      console.log(response);
       if (response) {
         dispatch(setPhoneAuthChecked());
         navigation.goBack();
       }
     } catch (e) {
-      alert(JSON.stringify(e));
+      // alert(JSON.stringify(e));
+      alert("번호가 잘못되었습니다. 다시 시도해주세요");
     }
   }
 

@@ -51,15 +51,15 @@ const TextInput = styled.TextInput`
 `;
 
 const TouchableNextButton = styled.TouchableOpacity`
-background-color:#E94057;
-height: 43px;
-width: 100%;
-border-radius: 15px;
-justify-content:center;
-align-items:center;
-color: white;
-/* margin:5px; */
-margin-top:30px;
+  background-color:#E94057;
+  height: 43px;
+  width: 100%;
+  border-radius: 15px;
+  justify-content:center;
+  align-items:center;
+  color: white;
+  /* margin:5px; */
+  margin-top:30px;
 `;
 
 // const ButtonText = styled.Text`
@@ -70,16 +70,16 @@ margin-top:30px;
 //   color: #FFFFFF;
 // `;
 
-interface PhoneNumberProps{
-  navigation:any;
+interface PhoneNumberProps {
+  navigation: any;
 }
 
-export default function PhoneNumber({ navigation }:PhoneNumberProps) {
+export default function PhoneNumber({ navigation }: PhoneNumberProps) {
   const [phoneNumber, setPhoneNumber] = useState('');
   // const [isPhoneChecked, setPhoneChecked] = useState(false);
   const dispatch = useDispatch();
 
-  const { isPhoneAuthChecked } = useSelector((state:initialStateProps) => ({
+  const { isPhoneAuthChecked } = useSelector((state: initialStateProps) => ({
     isPhoneAuthChecked: state.signUpField.isPhoneAuthChecked,
   }));
   console.log(isPhoneAuthChecked);
@@ -128,8 +128,8 @@ export default function PhoneNumber({ navigation }:PhoneNumberProps) {
           text="next"
         /> */}
         <TouchableNextButton
-          // disabled={!isPhoneAuthChecked}
-          disabled={false}
+          disabled={!isPhoneAuthChecked}
+          // disabled={false}
           style={{
             // opacity: 1,
             opacity: !isPhoneAuthChecked ? 0.5 : 1,
