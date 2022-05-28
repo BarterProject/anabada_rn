@@ -1,14 +1,19 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useHeaderHeight } from '@react-navigation/elements';
 import DropShadow from 'react-native-drop-shadow';
 import styled from 'styled-components/native';
+import { TouchableOpacity, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import moment from 'moment';
+import { boardApi } from '../../api';
 
-const Container = styled.View`
+const Container = styled.ScrollView`
     flex: 1;
+    position: relative;
+    padding: 10px 25px 0 25px;
 `;
 const Header = styled.View`
 /* background-color:blue; */
-  flex:2;
 `;
 // 텍스트 아래 속성 없어야 중앙배열
 const Text = styled.Text`
@@ -18,42 +23,30 @@ const Text = styled.Text`
 `;
 
 const Btn = styled.TouchableOpacity`
-  position: absolute;
-  width: 85px;
-  height: 85px;
-  right: 30px;
-  bottom: 50px;
+  width: 70px;
+  height: 55px;
   border-radius: 80px;
 `;
-const BtnInstance = styled.View`
-  width: 100%;
-  height: 100%;
-  background-color: #e94057;
-  align-items: center;
-  justify-content: center;
-  border-radius: 80px;
-`;
-
 
 const ButtonContainer = styled.View`
   /* background-color:red; */
   flex:14;
   /* margin-top:50px; */
-  margin-left:20px;
-  margin-right:20px;
   flex-direction: column;
   align-items:flex-start;
+  padding-bottom: 10px;
+  margin-bottom:15px;
 `;
 
 const Text2 = styled.Text`
   font-size:20px;
+  margin-bottom:10px;
 `;
 
 const Button = styled.TouchableOpacity`
     /* background-color:yellow; */
     width:100%;
-    margin-bottom: 15px;
-    margin-top: 15px;
+ 
 `;
 
 const Line = styled.View`
@@ -64,50 +57,120 @@ const Line = styled.View`
 const SmallText = styled.Text`
       font-size:10px;
 
-`
+`;
 
-export default function QnAs() {
-    const navigation = useNavigation();
-    return (
-        <Container>
-            <Header />
+export default function QnAs({
+  route: {
+    params,
+  },
+  navigation: {
+    setOptions, goBack, navigate,
+  },
 
-            <ButtonContainer>
-                <Line />
-                <Button
-                    onPress={() => {
-                        // navigation.navigate('MyInfo');
-                    }}
-                >
-                    <Text2>
-                        문의 내용입니다.
-                    </Text2>
-                    <SmallText>
-                        박성일 2022--05-13
-                    </SmallText>
-                </Button>
-                <Line />
-            </ButtonContainer>
-            <Btn
-                onPress={() => {
-                    navigation.navigate('QnAForm');
-                }}
+}:{navigation: {
+    setOptions:Function, goBack:Function, navigate:Function
+  }, route:{
+    params:{
+        getNewData:boolean
+    }
+} }) {
+  const headerHeight = useHeaderHeight();
+
+  const [posts, setPosts] = useState(null);
+  const getBoards = async () => {
+    try {
+      const { data } = await boardApi.getMyPosts();
+      setPosts(data);
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => {
+            goBack();
+          }}
+        >
+          <Text>
+            <Ionicons size={30} name="chevron-back-outline" />
+          </Text>
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => {
+            navigate('QnAForm');
+          }}
+        >
+          <Text style={{ fontSize: 17, fontWeight: '500' }}>
+            등록하기
+          </Text>
+        </TouchableOpacity>
+        // <Btn
+        //   onPress={() => {
+        //     navigate('QnAForm');
+        //   }}
+        // >
+
+        //   <Text style={{
+        //     color: 'white', fontSize: 18, fontWeight: '600',
+        //   }}
+        //   >
+        //     등록하기
+        //   </Text>
+        // </Btn>
+      ),
+    });
+    getBoards();
+  }, []);
+
+  // eslint-disable-next-line no-unused-expressions
+  useEffect(() => {
+    if (params) {
+      if (params.getNewData) {
+        getBoards();
+      }
+    }
+  }, [params]);
+
+  return (posts !== null ? (
+    <Container>
+      <Header style={{ height: headerHeight }} />
+
+      {posts.length !== 0
+        ? posts.map((post) => (
+          <ButtonContainer style={{ borderBottomColor: 'black', borderBottomWidth: 1 }}>
+            <Button
+              onPress={() => {
+                navigate('QnADetail', { detail: post });
+              }}
             >
-                <DropShadow
-                    style={{
-                        shadowColor: '#171717',
-                        shadowOffset: { width: 0, height: 4 },
-                        shadowOpacity: 0.5,
-                        shadowRadius: 2,
-                    }}
-                >
-                    <BtnInstance>
-                        <Text style={{ top: 30, color: 'white', fontSize: 18, fontWeight: '600' }}>
-                            등록하기
-                        </Text>
-                    </BtnInstance>
-                </DropShadow>
-            </Btn>
-        </Container>
-    );
+              <Text2>
+                {post.title}
+              </Text2>
+              <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row' }}>
+                <SmallText>
+                  {post.content.length > 10 ? `${post.content.slice(0, 10)}...` : post.content}
+                </SmallText>
+                <SmallText>
+                  {moment(post.updatedAt).fromNow()}
+                </SmallText>
+              </View>
+
+            </Button>
+          </ButtonContainer>
+        )) : (
+          <View style={{ flex: 1, alignItems: 'center', marginTop: 30 }}>
+            <Text style={{ fontSize: 20, fontWeight: '600' }}>업로드한 게시물이 없습니다.</Text>
+          </View>
+        )}
+
+    </Container>
+  ) : null
+
+  );
 }

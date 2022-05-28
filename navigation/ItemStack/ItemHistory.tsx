@@ -7,7 +7,11 @@ import { Ionicons } from '@expo/vector-icons';
 
 import styled from 'styled-components/native';
 
+import { BASE_URL } from '@env';
 import { Card, InputContent } from './utils';
+import { dealApi } from '../../api';
+
+import { historyDetail } from '../../types';
 
 const Container = styled.View`
     flex:1;
@@ -42,11 +46,20 @@ const Btn = styled.TouchableOpacity<{dis:boolean}>`
   margin: 0px 10px;
 `;
 
+const CardInfo = styled.View`
+  width:200px;
+  background-color: #ffffffaf;
+  height:50%;
+  padding: 10px 8px;
+  position: absolute;
+  
+`;
+
 function ItemHistory({
-  // route: { params },
+  route: { params: { itemIdx } },
   navigation: { setOptions, goBack },
 }: {
-    // route: { params: any };
+    route: { params: {itemIdx:number}},
     navigation: { setOptions: Function; goBack: Function, }
   }) {
   const position = useRef(new Animated.Value(0)).current;
@@ -54,45 +67,7 @@ function ItemHistory({
 
   const [leftMode, setLeftMode] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [images, setImages] = useState([
-    {
-      cancelled: false,
-      height: 2848,
-      type: 'image',
-      uri: 'https://dnvefa72aowie.cloudfront.net/origin/article/202203/77244408576a24ade40688210613046231e9ace75c37f8edde88fb2e4b8c6450.webp?q=95&s=1440x1440&t=inside',
-      width: 4288,
-    },
-    {
-      cancelled: false,
-      height: 2848,
-      type: 'image',
-      uri: 'https://dnvefa72aowie.cloudfront.net/origin/article/202202/775D42B631730AE1E209F484BD53CAC86C00AFFA4E0A8F349A96E257812DBDB3.jpg?q=95&s=1440x1440&t=inside',
-      width: 4288,
-    },
-    {
-      cancelled: false,
-      height: 2848,
-      type: 'image',
-      uri: 'https://dnvefa72aowie.cloudfront.net/origin/article/202108/35CE4BACED9F6EE24B0B4F8CE48A1920FE444DA578FEDD5AEBB310A994FC3A6B.jpg?q=95&s=1440x1440&t=inside',
-      width: 4288,
-    },
-    {
-      cancelled: false,
-      height: 2848,
-      type: 'image',
-      uri: 'https://dnvefa72aowie.cloudfront.net/origin/article/202203/AE33A8E09508FEFBAF957FA1EB33D022CB04A3219085AB886B0BD2C4B04A2EC5.jpg?q=95&s=1440x1440&t=inside',
-      width: 4288,
-    },
-    {
-      cancelled: false,
-      height: 2848,
-      type: 'image',
-      uri: 'https://dnvefa72aowie.cloudfront.net/origin/article/202110/d14f2570915c4b59948afe675fd7c894a23034020fa82a32f4691153bf252a53.webp?q=95&s=1440x1440&t=inside',
-      width: 4288,
-    },
-  ]);
-
-  
+  const [images, setImages] = useState<historyDetail[]>();
 
   const [nowImage, setNowImage] = useState(null);
 
@@ -200,6 +175,17 @@ function ItemHistory({
     }).start(onDismissRotation);
   };
 
+  const getHistory = async () => {
+    try {
+      const { data } = await dealApi.getDealHistory(itemIdx);
+      console.log(data);
+      setImages(data);
+      setNowImage(data.length);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     setOptions({
       headerLeft: () => (
@@ -216,8 +202,8 @@ function ItemHistory({
 
       title: '아이템 히스토리',
     });
-
-    setNowImage(images.length);
+    getHistory();
+    console.log('렌더헤헷');
   }, []);
 
   return (
@@ -229,12 +215,22 @@ function ItemHistory({
             {nowImage >= 4 ? (
               <Card
                 source={{
-                  uri: images[nowImage - 4].uri,
+                  uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 4].itemImages[0].name}`,
                 }}
                 resizeMode="cover"
                 imageStyle={{ borderRadius: 25 }}
                 style={{ transform: [{ rotateZ: finalBackRotation }, { scale: finalScale }] }}
-              />
+              >
+                <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+                  <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 4].name}</Text>
+                  <Text>
+                    보증금
+                    :
+                    {images[nowImage - 4].deposit}
+                    원
+                  </Text>
+                </CardInfo>
+              </Card>
             ) : null}
             {nowImage >= 3 ? (
               <Card
@@ -244,11 +240,21 @@ function ItemHistory({
 
                 }}
                 source={{
-                  uri: images[nowImage - 3].uri,
+                  uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 3].itemImages[0].name}`,
                 }}
                 resizeMode="cover"
                 imageStyle={{ borderRadius: 25 }}
-              />
+              >
+                <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+                  <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 3].name}</Text>
+                  <Text>
+                    보증금
+                    :
+                    {images[nowImage - 3].deposit}
+                    원
+                  </Text>
+                </CardInfo>
+              </Card>
             ) : null}
 
             {
@@ -259,11 +265,22 @@ function ItemHistory({
                 : [{ rotateZ: secondForwardRotation }],
             }}
             source={{
-              uri: images[nowImage - 2].uri,
+              uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 2].itemImages[0].name}`,
+
             }}
             resizeMode="cover"
             imageStyle={{ borderRadius: 25 }}
-          />
+          >
+            <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+              <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 2].name}</Text>
+              <Text>
+                보증금
+                :
+                {images[nowImage - 2].deposit}
+                원
+              </Text>
+            </CardInfo>
+          </Card>
         )
           : null
             }
@@ -277,23 +294,44 @@ function ItemHistory({
                 ],
               }}
               source={{
-                uri: images[nowImage - 1].uri,
+                uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 1].itemImages[0].name}`,
               }}
               resizeMode="cover"
               imageStyle={{ borderRadius: 25 }}
-            />
+            >
+              <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+                <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 1].name}</Text>
+                <Text>
+                  보증금
+                  :
+                  {images[nowImage - 1].deposit}
+                  원
+                </Text>
+              </CardInfo>
+
+            </Card>
 
             {nowImage < images.length ? (
               <Card
                 source={{
-                  uri: images[nowImage].uri,
+                  uri: `${BASE_URL}/api/v2/items/images/${images[nowImage].itemImages[0].name}`,
                 }}
                 resizeMode="cover"
                 imageStyle={{ borderRadius: 25 }}
                 style={{
                   transform: [{ translateX: lastMove }, { rotateZ: lastRotaion }],
                 }}
-              />
+              >
+                <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+                  <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 7 }}>{images[nowImage].name}</Text>
+                  <Text>
+                    보증금
+                    :
+                    {images[nowImage].deposit}
+                    원
+                  </Text>
+                </CardInfo>
+              </Card>
             ) : null}
 
             <BtnColumn>

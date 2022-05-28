@@ -15,7 +15,8 @@ export const Inputs = styled.View`
 export const InputTitle = styled.TextInput.attrs({
   placeholderTextColor: '#626262',
 })`
-  background-color: #d4d4d4;
+  background-color: #eaeaea;
+
   height: 50px;
   width: 100%;
   border-radius: 10px;

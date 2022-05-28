@@ -89,7 +89,6 @@ export default function Home({ navigation }: HomeScreenProps) {
       <Stack.Screen name="Main" component={Main} />
       <Stack.Screen
         options={{
-          headerTransparent: true,
           headerShown: false,
         }}
         name="Configure"

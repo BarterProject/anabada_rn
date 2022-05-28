@@ -94,6 +94,7 @@ function Slide({ imgList, edit, setImgList }: {
         }}
         resizeMode="cover"
         imageStyle={{ borderRadius: 25 }}
+        key={e.name}
       />
       {edit ? (
         <DelBtn

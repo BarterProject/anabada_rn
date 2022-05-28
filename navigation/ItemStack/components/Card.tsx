@@ -10,9 +10,10 @@ const Instance = styled(Animated.createAnimatedComponent(ImageBackground))`
   justify-content: center;
   align-items: center;
   border-radius: 12px;
+  border:1px solid #e8e8e8;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
   position: absolute;
-  background-color: white;
+
 `;
 
 function Card({ uri, styleProps }:{uri:string, styleProps:any}) {

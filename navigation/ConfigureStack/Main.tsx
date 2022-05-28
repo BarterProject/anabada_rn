@@ -1,11 +1,11 @@
 import { CommonActions } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+// import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { FCMApi } from '../../api';
 import { deleteAccessToken } from '../../slice';
-import { ConfigureStackParamList } from '../Configure';
+// import { ConfigureStackParamList } from '../Configure';
 
 const Container = styled.View`
   /* background-color:red; */
@@ -44,11 +44,10 @@ const Line = styled.View`
   width:100%;
 `;
 
-type MainInProps = NativeStackScreenProps<ConfigureStackParamList, 'Main'>
+// type MainInProps = NativeStackScreenProps<ConfigureStackParamList, 'Main'>
 
-export default function Main({ navigation }: MainInProps) {
-  const dispatch = useDispatch();
-
+export default function Main({ navigation: { navigate, dispatch } }: {
+  navigation:{navigate:Function, dispatch:Function}}) {
   return (
     <Container>
       <Header />
@@ -56,7 +55,7 @@ export default function Main({ navigation }: MainInProps) {
         <Line />
         <Button
           onPress={() => {
-            navigation.navigate('MyInfo');
+            navigate('MyInfo');
           }}
         >
           <Text>
@@ -66,7 +65,7 @@ export default function Main({ navigation }: MainInProps) {
         <Line />
         <Button
           onPress={() => {
-            navigation.navigate('Appinfo');
+            navigate('Appinfo');
           }}
         >
           <Text>
@@ -76,7 +75,7 @@ export default function Main({ navigation }: MainInProps) {
         <Line />
         <Button
           onPress={() => {
-            navigation.navigate('QnAs');
+            navigate('QnAs', { getNewData: false });
           }}
         >
           <Text>
@@ -87,6 +86,7 @@ export default function Main({ navigation }: MainInProps) {
         <Button
           onPress={() => {
             dispatch(deleteAccessToken());
+            dispatch(
             FCMApi.deleteToken();
             navigation.dispatch(
               CommonActions.reset({

@@ -18,6 +18,7 @@ const StatusText = styled.Text`
   color: black;
   font-size: 17px;
   font-weight: 300;
+  
 `;
 
 function Enroll({
@@ -41,15 +42,11 @@ function Enroll({
   return (
     <Container>
       <StatusText>
-        {/* 아이템
-        {' '}
-        {params.title}
-        의 등록이 신청되었습니다. */}
+
         {bigMsg}
       </StatusText>
-      <StatusText>
+      <StatusText style={{ marginTop: 20 }}>
         {smallMsg}
-        {/* 관리자의 승인을 기다려주세요. */}
       </StatusText>
 
       <Button

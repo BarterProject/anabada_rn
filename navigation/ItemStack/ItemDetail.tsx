@@ -3,7 +3,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components/native';
 
-import { TouchableOpacity, Text, View } from 'react-native';
+import {
+  TouchableOpacity, Text, View, ActivityIndicator,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -20,9 +22,9 @@ import {
   InputContent, Inputs, InputTitle, Button, ButtonText, InputColumn, CommonText, InputValue,
 } from './utils';
 
-import { itemApi, deliveryApi } from '../../api';
+import { itemApi, deliveryApi, dealApi } from '../../api';
 import { initialStateProps, setItemToDeal } from '../../slice';
-import { itemType } from '../../types';
+import { historyDetail, itemType } from '../../types';
 
 const Container = styled.ScrollView`
     position: relative;
@@ -58,7 +60,7 @@ const HistoryBtn = styled.TouchableOpacity`
 function ItemDetail({
   route: {
     params: {
-      readOnly, itemIdx, enrollMode, inventoryMode, deliveryMode,
+      readOnly, itemIdx, enrollMode, deliveryMode,
       isItItem,
     },
   },
@@ -84,6 +86,7 @@ function ItemDetail({
   const [trackingErrorMsg, setTrackingErrorMsg] = useState<string>('');
 
   const [delivery, setDelivery] = useState<boolean>(false);
+
   const dispatch = useDispatch();
   const {
     userIdx,
@@ -192,8 +195,8 @@ function ItemDetail({
       headerRight: () => (!readOnly
         ? (
           <HistoryBtn
-            onPress={() => {
-              navigate('Item', { screen: 'History' });
+            onPress={async () => {
+              navigate('Item', { screen: 'History', params: { itemIdx } });
             }}
           >
             <Text>
@@ -429,7 +432,7 @@ function ItemDetail({
 
       </>
     )
-      : <View><Text>Loading</Text></View>
+      : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color="gray" size="large" /></View>
   );
 }
 

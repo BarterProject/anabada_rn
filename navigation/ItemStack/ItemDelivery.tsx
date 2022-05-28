@@ -13,6 +13,7 @@ import {
   Dimensions, Pressable, TouchableOpacity, Text, ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { CommonActions } from '@react-navigation/native';
 import {
   InputColumn, InputTitle, CommonText, Button, ButtonText,
 } from './utils';
@@ -76,14 +77,16 @@ const Column = styled(InputColumn)`
 `;
 
 function ItemDelivery({
-  navigation: { setOptions, goBack, navigate },
+  navigation: {
+    setOptions, goBack, navigate, dispatch,
+  },
   route: {
     params: {
       itemUrl, itemName, itemDescription, itemIdx,
     },
   },
 }: {
-  navigation: { setOptions: Function, goBack: Function, navigate: Function },
+  navigation: { setOptions: Function, goBack: Function, navigate: Function, dispatch:Function },
   route: { params: { itemUrl: string, itemName: string, itemDescription: string, itemIdx: number } }
 }) {
   const [phone, setPhone] = useState('');
@@ -140,32 +143,37 @@ function ItemDelivery({
         clauseAgree: agree,
       });
       setLoading(false);
-      navigate('Item', {
-        screen: 'Detail',
-        params: {
-          readOnly: false,
-          itemIdx,
-          deliveryMode: true,
-        },
-      });
-      //   console.log(data);
+      dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{
+            name: 'Confirm',
+            params: {
+              title: '배송신청 완료',
+              bigMsg: `아이템 ${itemName}의 배송신청이 완료되었습니다.`,
+              smallMsg: '아이템 실소유주가 아이템을 배송하기까지 잠시만 기다려주시길 바랍니다.',
+              screen: '인벤토리',
+              getNewData: true,
+            },
+          }],
+        }),
+      );
     } catch (e) {
       console.log(e);
     }
   };
 
-  return (
-    <KeyboardAwareScrollView extraScrollHeight={30}>
-
-      <Container>
-        <Popup style={{ width: Dimensions.get('window').width, display: popup ? 'flex' : 'none' }}>
+  const returnPostcode = (display:boolean) => (
+    display
+      ? (
+        <Popup style={{ width: Dimensions.get('window').width }}>
 
           <Postcode
             style={{ flex: 7, height: 500 }}
             jsOptions={{ animation: true }}
-            // onComplete={handleComplete}
+    // onComplete={handleComplete}
             onSelected={(data) => {
-              // console.log(data.zonecode, data.address)
+            // console.log(data.zonecode, data.address)
               const { zonecode, address: ad } = data;
               setAddress(`${zonecode} ${ad}`);
               setPopup(!popup);
@@ -177,6 +185,14 @@ function ItemDelivery({
           />
         </Popup>
 
+      ) : null
+  );
+
+  return (
+    <KeyboardAwareScrollView extraScrollHeight={30}>
+
+      <Container>
+        {returnPostcode(popup)}
         <ItemInfoWrapper>
           <LeftSide>
             <ImageWrapper>
