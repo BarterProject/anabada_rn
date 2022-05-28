@@ -3,6 +3,7 @@ import { CommonActions } from '@react-navigation/native';
 import React from 'react';
 // import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
+import { FCMApi } from '../../api';
 import { deleteAccessToken } from '../../slice';
 // import { ConfigureStackParamList } from '../Configure';
 
@@ -86,6 +87,8 @@ export default function Main({ navigation: { navigate, dispatch } }: {
           onPress={() => {
             dispatch(deleteAccessToken());
             dispatch(
+            FCMApi.deleteToken();
+            navigation.dispatch(
               CommonActions.reset({
                 index: 0,
                 routes: [{ name: 'Auth' }],

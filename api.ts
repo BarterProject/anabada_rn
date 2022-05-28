@@ -165,8 +165,15 @@ export const socketApi = {
   },
 };
 
+
 export const boardApi = {
   getBoard: ():Promise<AxiosResponse<any>> => api.get('/boards'),
   getMyPosts: ():Promise<AxiosResponse<any>> => api.get('/boards/1/posts'),
   savePost: (title:string, content:string):Promise<AxiosResponse<any>> => api.post('/boards/1/posts', { title, content }),
 };
+export const FCMApi = {
+  updateToken: (token:string) :Promise<AxiosResponse<any>> => api.put('/user/fcm/token',{
+    token
+  }),
+  deleteToken:() :Promise<AxiosResponse<any>> => api.delete('/user/fcm/token',),
+}

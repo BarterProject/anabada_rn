@@ -19,7 +19,7 @@ const GridItem = styled.View`
 `;
 function ItemRequests({ requestDeals }: {
   requestDeals: {
-    reqeustItem: itemType,
+    requestItem: itemType,
     dealIdx: number
   }[]
 }) {
@@ -34,13 +34,13 @@ function ItemRequests({ requestDeals }: {
         <GridItem>
           {requestDeals.map((aDeal) => (
             <ItemRequestInstance
-              item={aDeal.reqeustItem}
-              key={aDeal.reqeustItem.idx}
-              idx={aDeal.reqeustItem.idx}
+              item={aDeal.requestItem}
+              key={aDeal.requestItem.idx}
+              idx={aDeal.requestItem.idx}
               dealIdx={aDeal.dealIdx}
               // uri={item.images[0].name}
               connectedUser={1}
-              status={aDeal.reqeustItem.state}
+              status={aDeal.requestItem.state}
               clickable
               width={33}
               passport

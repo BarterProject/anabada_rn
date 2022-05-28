@@ -27,7 +27,7 @@ export default function Request({ route: { params } }:
     }).then(({ data }) => {
       // console.log('getRequestDeals', data);
       const reqeustAndDealIdx = data.map((deal) => ({
-        reqeustItem: deal.responseItem,
+        requestItem: deal.responseItem,
         dealIdx: deal.idx,
       }));
       setRequestDeals(reqeustAndDealIdx);

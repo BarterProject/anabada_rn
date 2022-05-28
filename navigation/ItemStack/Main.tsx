@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styled from 'styled-components/native';
 
@@ -13,6 +13,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import MyItem from './Stack/MyItem';
 import Inventory from './Stack/Inventory';
+import messaging from '@react-native-firebase/messaging';
+
 
 const Container = styled.View`
   flex: 1;
@@ -39,6 +41,36 @@ const BtnInstance = styled.View`
 function Main() {
   const navigation = useNavigation();
   const Tab = createMaterialTopTabNavigator();
+  const [initialRoute, setInitialRoute] = useState<'인벤토리' |
+    '아이템'>('인벤토리');
+  useEffect(() => {
+    messaging().onNotificationOpenedApp((remoteMessage): any => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      console.log('HI guys안뇽 여긴 아이템스택 메인이야1')
+      // console.log('remoteMessage.data.route', remoteMessage.data.route)
+      // navigation.navigate(remoteMessage.data.route);
+    });
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from quit state:',
+            remoteMessage.notification,
+          );
+          // if (remoteMessage.notification.android.channelId === "ItemActivated") {
+          console.log('HI guys안뇽 여긴 아이템스택 메인이야2', remoteMessage.data.route)
+          // console.log('remoteMessage.data.route', remoteMessage.data.route)
+          setInitialRoute('아이템'); // e.g. "Settings"
+          // }
+        }
+        // setLoading(false);
+      });
+
+  })
 
   return (
     <Container>
@@ -49,7 +81,7 @@ function Main() {
             height: 5, borderRadius: 20, width: Dimensions.get('window').width / 4, left: Dimensions.get('window').width / 8, backgroundColor: '#e94057',
           },
         }}
-      // initialRouteName="아이템"
+        initialRouteName={initialRoute}
       >
         <Tab.Screen
           name="인벤토리"
