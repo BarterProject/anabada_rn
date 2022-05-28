@@ -121,3 +121,38 @@ export type trackingType = {
   result: string,
   trackingDetails:trackingDetailType[],
 }
+
+export type historyImageDetail = {
+    createdAt: Date,
+    extension: string,
+    idx: number,
+    name: string,
+    number: number | null,
+    originalName: string | null,
+    saveName: string | null,
+    size: number,
+    uploadPath: string | null,
+}
+export type historyDetail ={
+    deposit: number,
+    itemImages: historyImageDetail[],
+    name: string,
+    tradedAt: Date | null,
+}
+
+export type boardType = {
+    description: string,
+    idx: number,
+    name: string,
+}
+
+export type PostType = {
+    content: string,
+    createdAt: Date | null,
+    deletedAt: Date | null,
+    idx: number,
+    reply: string | null,
+    title: string,
+    updatedAt: Date,
+    user: null,
+}

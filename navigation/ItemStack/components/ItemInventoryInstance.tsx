@@ -99,7 +99,7 @@ function ItemInventoryInstance({
           clickable && navigate('Item', {
             screen: 'Detail',
             params: {
-              readOnly: true,
+              readOnly: false,
               itemIdx: idx,
               inventoryMode: true,
             },

@@ -9,6 +9,7 @@ import Main from './ConfigureStack/Main';
 import MyInfo from './ConfigureStack/Myinfo';
 import QnAs from './ConfigureStack/QnAs';
 import QnAForm from './ConfigureStack/QnAForm';
+import QnADetail from './ConfigureStack/QnADetail';
 
 export type ConfigureStackParamList = {
   Main: undefined;
@@ -45,7 +46,7 @@ export default function Configure({ navigation }) {
                 navigation.goBack();
               }}
             >
-              <Ionicons name="md-arrow-back" size={40} />
+              <Ionicons size={30} name="chevron-back-outline" />
             </HomeButtton>
           ),
           //   headerShown: false,
@@ -64,7 +65,7 @@ export default function Configure({ navigation }) {
       <Stack.Screen
         name="QnAs"
         options={{
-          //   headerShown: false,
+          // headerShown: false,
           headerTitle: 'QnA',
 
         }}
@@ -73,11 +74,20 @@ export default function Configure({ navigation }) {
       <Stack.Screen
         name="QnAForm"
         options={{
-          //   headerShown: false,
+          // headerShown: false,
           headerTitle: 'QnA',
 
         }}
         component={QnAForm}
+      />
+      <Stack.Screen
+        name="QnADetail"
+        options={{
+          // headerShown: false,
+          headerTitle: 'QnA',
+
+        }}
+        component={QnADetail}
       />
       <Stack.Screen
         name="Appinfo"

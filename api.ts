@@ -98,6 +98,7 @@ export const dealApi = {
   declineDealRequested: (dealIdx:number) => api.put(`/user/items/requests/${dealIdx}/decline`),
   sendReport: ({ title, content, idx }) => api.post(`/items/${idx}/reports`, { title, content }),
   deleteRequest: (idx:number) :Promise<AxiosResponse<any>> => api.delete(`/user/items/requests/${idx}`),
+  getDealHistory: (idx:number):Promise<AxiosResponse<any>> => api.get(`/user/items/${idx}/dealHistory`),
 };
 
 export const itemApi = {
@@ -162,4 +163,10 @@ export const socketApi = {
     const accessToken = await EncryptedStorage.getItem('accessToken');
     return api.get(`/socket?jwt=${accessToken}`);
   },
+};
+
+export const boardApi = {
+  getBoard: ():Promise<AxiosResponse<any>> => api.get('/boards'),
+  getMyPosts: ():Promise<AxiosResponse<any>> => api.get('/boards/1/posts'),
+  savePost: (title:string, content:string):Promise<AxiosResponse<any>> => api.post('/boards/1/posts', { title, content }),
 };

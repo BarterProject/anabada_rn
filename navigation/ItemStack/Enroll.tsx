@@ -1,7 +1,9 @@
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Text, View, Platform } from 'react-native';
+import {
+  Text, View, Platform, ActivityIndicator,
+} from 'react-native';
 import Checkbox from 'expo-checkbox';
 
 import styled from 'styled-components/native';
@@ -72,6 +74,8 @@ function Enroll({
   const [agree, setAgree] = useState(false);
   const [amount, setAmount] = useState('');
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     console.log(imgList.length);
   }, [imgList]);
@@ -136,6 +140,7 @@ function Enroll({
       categoryIdx: category[categoryCheck].idx,
     };
     try {
+      setLoading(true);
       const data: itemType = await itemApi.saveItem(accessToken, item, imgList, Platform.OS);
       navigation.dispatch(
         CommonActions.reset({
@@ -154,6 +159,8 @@ function Enroll({
       );
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   }, [name, description, agree, imgList, amount, paymentCheck, categoryCheck]);
   useEffect(() => {
@@ -253,12 +260,15 @@ function Enroll({
           <Button
             style={{ marginBottom: 20 }}
             onPress={() => { saveItem(); }}
-            disabled={!send}
-            dis={!send}
+            disabled={!send || loading}
+            dis={!send || loading}
           >
-            <Text style={{ color: 'white', fontWeight: '600', fontSize: 20 }}>
-              등록완료
-            </Text>
+            {loading ? <ActivityIndicator color="white" size="small" /> : (
+              <Text style={{ color: 'white', fontWeight: '600', fontSize: 20 }}>
+                등록완료
+              </Text>
+            )}
+
           </Button>
         </Inputs>
       </Container>

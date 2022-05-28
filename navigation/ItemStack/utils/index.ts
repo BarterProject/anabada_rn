@@ -46,11 +46,11 @@ export const ButtonText = styled.Text`
 export const Card = styled(Animated.createAnimatedComponent(ImageBackground))`
   width: 200px;
   height: 200px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
+  justify-content: flex-end;
+  border-radius: 30px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
   position: absolute;
+  border:1px solid #e8e8e8;
 
 `;
 
