@@ -86,9 +86,8 @@ export default function Main({ navigation: { navigate, dispatch } }: {
         <Button
           onPress={() => {
             dispatch(deleteAccessToken());
+            dispatch(FCMApi.deleteToken());
             dispatch(
-            FCMApi.deleteToken();
-            navigation.dispatch(
               CommonActions.reset({
                 index: 0,
                 routes: [{ name: 'Auth' }],
