@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
-import { StackActions, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
-import { boardApi, dealApi } from '../../api';
-import BackCard from '../HomeStack/components/BackCard';
+import { boardApi } from '../../api';
 import {
   Container, InputContent, Inputs, InputTitle, WhiteText, Button,
 } from './components/QnAFormComponents';
@@ -26,7 +26,6 @@ export default function QnAForm({
   setOptions:Function, goBack:Function,
   navigate:Function
 }, }) {
-  const navigation = useNavigation();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [send, setSend] = useState(false);

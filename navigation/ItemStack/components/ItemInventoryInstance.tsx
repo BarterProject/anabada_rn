@@ -77,7 +77,9 @@ function ItemInventoryInstance({
   const [text, setText] = useState<string>();
 
   useEffect(() => {
-    if (status === 2) {
+    if (status === 1) {
+      setText('거래중');
+    } else if (status === 2) {
       setText('교환중');
     } else if (status === 3) {
       setText('종료');
@@ -102,6 +104,7 @@ function ItemInventoryInstance({
               readOnly: false,
               itemIdx: idx,
               inventoryMode: true,
+              status: text,
             },
           });
         }}
