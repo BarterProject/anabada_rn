@@ -73,8 +73,9 @@ function ItemInstance({
   const [text, setText] = useState<string>();
 
   useEffect(() => {
-    console.log(status);
-    if (status === 2) {
+    if (status === 1) {
+      setText('거래중');
+    } else if (status === 2) {
       setText('교환중');
     } else if (status === 3) {
       setText('종료');
@@ -99,6 +100,7 @@ function ItemInstance({
                 readOnly: false,
                 itemIdx: idx,
                 isItItem: true,
+                status: text,
               },
             });
         }}

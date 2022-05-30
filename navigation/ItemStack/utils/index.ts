@@ -12,6 +12,7 @@ export const InputTitle = styled.TextInput.attrs({
   border-radius: 10px;
   padding: 10px 15px;
   margin-bottom: 15px;
+  color:black;
 `;
 
 export const InputContent = styled(InputTitle)`

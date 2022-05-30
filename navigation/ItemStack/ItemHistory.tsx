@@ -207,10 +207,11 @@ function ItemHistory({
   }, []);
 
   return (
-
+    <Container>
+      {
     nowImage
       ? (
-        <Container>
+        <>
           <CardContainer>
             {nowImage >= 4 ? (
               <Card
@@ -363,9 +364,11 @@ function ItemHistory({
           히스토리 목록입니다."
             />
           </InfoContainer>
-        </Container>
-      ) : null
+        </>
+      ) : <Text>해당 아이템의 거래내역이 없습니다.</Text>
+              }
+    </Container>
+
   );
 }
-
 export default ItemHistory;

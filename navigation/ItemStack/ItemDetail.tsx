@@ -35,6 +35,7 @@ const StatusContainer = styled.View`
   justify-content: space-evenly;
   flex-direction: row;
   height: 60px;
+  padding: 0 25px;
 `;
 
 const Status = styled.View<{ color: string }>`
@@ -61,7 +62,7 @@ function ItemDetail({
   route: {
     params: {
       readOnly, itemIdx, enrollMode, deliveryMode,
-      isItItem,
+      isItItem, status,
     },
   },
   navigation: {
@@ -75,8 +76,10 @@ function ItemDetail({
     deliveryMode:boolean,
     inventoryMode:boolean,
     isItItem:boolean,
+    status:string
   } };
-  navigation: { setOptions: Function; goBack: Function, navigate:Function, dispatch:Function };
+  navigation: { setOptions: Function, goBack: Function, navigate:Function,
+    dispatch:Function };
 
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
@@ -190,6 +193,53 @@ function ItemDetail({
     }
   }, [itemInfo]);
 
+  // eslint-disable-next-line consistent-return
+  const statusJsx = (state:number) => {
+    if (state === 1) {
+      return (
+        <Status color="green">
+          <Text style={{ color: 'green' }}>{status}</Text>
+        </Status>
+      );
+    } if (state === 2) {
+      return (
+        <Status color="blue">
+          <Text style={{ color: 'blue' }}>{status}</Text>
+        </Status>
+      );
+    } if (state === 3) {
+      return (
+        <Status color="black">
+          <Text style={{ color: 'black' }}>{status}</Text>
+        </Status>
+      );
+    } if (state === 4) {
+      return (
+        <Status color="yellow">
+          <Text style={{ color: 'yello' }}>{status}</Text>
+        </Status>
+      );
+    } if (state === 5) {
+      return (
+        <Status color="red">
+          <Text style={{ color: 'red' }}>{status}</Text>
+        </Status>
+      );
+    } if (state === 6) {
+      return (
+        <Status color="black">
+          <Text style={{ color: 'black' }}>{status}</Text>
+        </Status>
+      );
+    } if (state === 7) {
+      return (
+        <Status color="black">
+          <Text style={{ color: 'black' }}>{status}</Text>
+        </Status>
+      );
+    }
+  };
+
   useEffect(() => {
     setOptions({
       headerRight: () => (!readOnly
@@ -254,19 +304,12 @@ function ItemDetail({
         </View> */}
             {!readOnly ? (
               <StatusContainer>
-                {/* <Status color="green">
-                <Text style={{ color: 'green' }}>거래 완료</Text>
-              </Status>
-              <Status color="red">
-                <Text style={{ color: 'red' }}>배송기간 만료</Text>
-              </Status> */}
-                <Status color="blue">
-                  <Text style={{ color: 'blue' }}>거래중</Text>
-                </Status>
+                {statusJsx(itemInfo.state)}
               </StatusContainer>
             ) : null}
 
             <Inputs>
+
               <InputTitle placeholder="제품명" editable={false} value={itemInfo.name} />
               <InputContent
                 placeholder="설명"
@@ -285,6 +328,11 @@ function ItemDetail({
                 <CommonText>보증금</CommonText>
                 <InputValue textAlign="center" value={String(itemInfo.deposit)} editable={false} />
               </InputColumn>
+              <InputColumn style={{ marginTop: 15 }}>
+                <CommonText>관리자의 계좌번호</CommonText>
+              </InputColumn>
+              <InputValue style={{ width: '100%' }} textAlign="left" value="3561191555063 농협" editable={false} />
+
               {/* {!readOnly ? (
                 isItItem && itemInfo.delivery
                   ? (
@@ -296,7 +344,7 @@ function ItemDetail({
               ) : null} */}
               {
                 !isItItem && itemInfo.state !== 4 && itemInfo.state !== 2
-                && itemInfo.state !== 5 && itemInfo.state !== 7 ? (
+                && itemInfo.state !== 5 && itemInfo.state !== 7 && itemInfo.state !== 6 ? (
                   <Button
                     style={{ marginTop: 15 }}
                     onPress={() => {
@@ -312,7 +360,7 @@ function ItemDetail({
               {
               isItItem || itemInfo.state === 4 || itemInfo.registrant.idx === userIdx
                 ? null : (
-                  deliveryMode || itemInfo.delivery
+                  deliveryMode || itemInfo.delivery || itemInfo.state === 6
                     ? (
                       null
                     )
@@ -391,6 +439,7 @@ function ItemDetail({
                 && itemInfo.owner.idx === userIdx
                 && itemInfo.registrant.idx === userIdx
                 && itemInfo.state !== 5
+                && itemInfo.state !== 6
                  ? (
                    <Button onPress={refundItem} style={{ marginVertical: 15 }}>
                      <ButtonText>등록 취소(환불 신청)</ButtonText>
