@@ -94,7 +94,7 @@ export default function SignIn() {
       console.log('accessToken의 값이 에러가 뜹니다..');
       dispatch(setAccessToken(''));
       Alert.alert('아이디/비밀번호를 다시 확인해주세요');
-    } else {
+    } else if (accessToken.length > 30) {
       console.log('accessToken의 값이 감지가 되어 로그인됩니다.');
       navigation.dispatch(
         CommonActions.reset({
