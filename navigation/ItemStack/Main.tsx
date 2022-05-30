@@ -41,36 +41,6 @@ const BtnInstance = styled.View`
 function Main() {
   const navigation = useNavigation();
   const Tab = createMaterialTopTabNavigator();
-  const [initialRoute, setInitialRoute] = useState<'인벤토리' |
-    '아이템'>('인벤토리');
-  useEffect(() => {
-    messaging().onNotificationOpenedApp((remoteMessage): any => {
-      console.log(
-        'Notification caused app to open from background state:',
-        remoteMessage.notification,
-      );
-      console.log('HI guys안뇽 여긴 아이템스택 메인이야1')
-      // console.log('remoteMessage.data.route', remoteMessage.data.route)
-      // navigation.navigate(remoteMessage.data.route);
-    });
-    messaging()
-      .getInitialNotification()
-      .then(remoteMessage => {
-        if (remoteMessage) {
-          console.log(
-            'Notification caused app to open from quit state:',
-            remoteMessage.notification,
-          );
-          // if (remoteMessage.notification.android.channelId === "ItemActivated") {
-          console.log('HI guys안뇽 여긴 아이템스택 메인이야2', remoteMessage.data.route)
-          // console.log('remoteMessage.data.route', remoteMessage.data.route)
-          setInitialRoute('아이템'); // e.g. "Settings"
-          // }
-        }
-        // setLoading(false);
-      });
-
-  })
 
   return (
     <Container>
@@ -81,7 +51,7 @@ function Main() {
             height: 5, borderRadius: 20, width: Dimensions.get('window').width / 4, left: Dimensions.get('window').width / 8, backgroundColor: '#e94057',
           },
         }}
-        initialRouteName={initialRoute}
+        initialRouteName={'인벤토리'}
       >
         <Tab.Screen
           name="인벤토리"
@@ -101,7 +71,7 @@ function Main() {
 
       <Btn
         onPress={() => {
-          navigation.navigate('Item', { screen: 'Enroll' });
+          navigation.navigate('Enroll');
         }}
       >
         <DropShadow
