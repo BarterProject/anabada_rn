@@ -7,13 +7,13 @@ import {
   TouchableOpacity, Text, View, ActivityIndicator,
 } from 'react-native';
 
-import { Ionicons } from '@expo/vector-icons';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 // import { PushNotificationScheduledLocalObject } from 'react-native-push-notification';
 import Slide from './components/Slide';
 import Popup from './components/Popup';
@@ -22,9 +22,9 @@ import {
   InputContent, Inputs, InputTitle, Button, ButtonText, InputColumn, CommonText, InputValue,
 } from './utils';
 
-import { itemApi, deliveryApi, dealApi } from '../../api';
-import { initialStateProps, setItemToDeal } from '../../slice';
-import { historyDetail, itemType } from '../../types';
+import { itemApi, deliveryApi } from '../../api';
+import { initialStateProps, resetRandomItems, setItemToDeal } from '../../slice';
+import { itemType } from '../../types';
 
 const Container = styled.ScrollView`
     position: relative;
@@ -69,17 +69,18 @@ function ItemDetail({
     setOptions, goBack, navigate, dispatch: dis,
   },
 }: {
-  route: { params: {
-    readOnly:boolean,
-    itemIdx:number,
-    enrollMode:boolean,
-    deliveryMode:boolean,
-    inventoryMode:boolean,
-    isItItem:boolean,
-    status:string
-  } };
-  navigation: { setOptions: Function, goBack: Function, navigate:Function,
-    dispatch:Function };
+
+  route: {
+    params: {
+      readOnly: boolean,
+      itemIdx: number,
+      enrollMode: boolean,
+      deliveryMode: boolean,
+      inventoryMode: boolean,
+      isItItem: boolean,
+    }
+  };
+  navigation: { setOptions: Function; goBack: Function, navigate: Function, dispatch: Function };
 
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
@@ -90,7 +91,10 @@ function ItemDetail({
 
   const [delivery, setDelivery] = useState<boolean>(false);
 
+  const navigation = useNavigation()
+
   const dispatch = useDispatch();
+
   const {
     userIdx,
   } = useSelector(
@@ -98,13 +102,6 @@ function ItemDetail({
       userIdx: state.userState.idx,
     }),
   );
-  // const {
-  //   userInfo,
-  // } = useSelector(
-  //   (state:initialStateProps) => ({
-  //     userInfo: state.userState,
-  //   }),
-  // );
 
   const go = (enroll: boolean, delivery: boolean) => {
     if (enroll) {
@@ -155,6 +152,7 @@ function ItemDetail({
   const refundItem = async () => {
     try {
       await itemApi.refundItem(itemIdx);
+      dispatch(setItemToDeal({ chosenItemId: 0 }))
       dis(
         CommonActions.reset({
           index: 0,
@@ -175,26 +173,20 @@ function ItemDetail({
     }
   };
 
-  // const getTrackingInfo = async () => {
-  //   try {
-  //     const { data } = await deliveryApi.getTrackingInfo(itemIdx);
-  //     console.log(data);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
   const getItemInfo = useCallback(async () => {
+    console.log("진입", itemIdx)
+
     try {
       const { data }: { data: itemType } = await itemApi.getItemInfo(itemIdx);
       setItemInfo(data);
     } catch (e) {
+      console.log("getItemInfo 에러")
       console.log(e);
     }
   }, [itemInfo]);
 
   // eslint-disable-next-line consistent-return
-  const statusJsx = (state:number) => {
+  const statusJsx = (state: number) => {
     if (state === 1) {
       return (
         <Status color="green">
@@ -275,9 +267,30 @@ function ItemDetail({
           </Text>
         </TouchableOpacity>
       ),
+      headerRight: () => {
+        if (itemInfo === null) {
+          return null;
+        }
+        if (itemInfo.state === 2) {
+          return <TouchableOpacity
+            onPress={() => {
+              console.log('het')
+              // navigate('ChatRoom', {
+              //   id: itemInfo.idx,
+              //   test: "test"
+              // });
+              navigation.navigate('Item', {
+                screen: 'ChatRoom',
+              });
+            }}
+          >
+            <Entypo name='chat' size={40} />
+          </TouchableOpacity >
+        }
+      }
     });
     console.log(enrollMode);
-  }, [enrollMode, deliveryMode]);
+  }, [enrollMode, deliveryMode, itemInfo]);
 
   useEffect(() => {
     setDelivery(deliveryMode);
@@ -344,46 +357,46 @@ function ItemDetail({
               ) : null} */}
               {
                 !isItItem && itemInfo.state !== 4 && itemInfo.state !== 2
-                && itemInfo.state !== 5 && itemInfo.state !== 7 && itemInfo.state !== 6 ? (
+                  && itemInfo.state !== 5 && itemInfo.state !== 7 && itemInfo.state !== 6 ? (
                   <Button
                     style={{ marginTop: 15 }}
                     onPress={() => {
                       dispatch(setItemToDeal(itemIdx));
+                      dispatch(resetRandomItems());
                       console.log(`${itemIdx}선택완료`);
                       navigate('Home', { screen: 'Main' });
                     }}
                   >
                     <ButtonText>선택하기</ButtonText>
                   </Button>
-                  ) : null
+                ) : null
               }
               {
-              isItItem || itemInfo.state === 4 || itemInfo.registrant.idx === userIdx
-                ? null : (
-                  deliveryMode || itemInfo.delivery || itemInfo.state === 6
-                    ? (
-                      null
-                    )
-                    : (
-                      <Button
-                        style={{ marginVertical: 15 }}
-                        onPress={async () => {
-                          navigate('Item', {
-                            screen: 'ItemDelivery',
-                            params: {
-                              itemUrl: itemInfo.images[0].name,
-                              itemName: itemInfo.name,
-                              itemDescription: itemInfo.description,
-                              itemIdx,
-                            },
-                          });
-                        }}
-                      >
-                        <ButtonText>배송신청</ButtonText>
-                      </Button>
-                    )
-                )
-
+                isItItem || itemInfo.state === 4 || itemInfo.registrant.idx === userIdx
+                  ? null : (
+                    deliveryMode || itemInfo.delivery || itemInfo.state === 6
+                      ? (
+                        null
+                      )
+                      : (
+                        <Button
+                          style={{ marginVertical: 15 }}
+                          onPress={async () => {
+                            navigate('Item', {
+                              screen: 'ItemDelivery',
+                              params: {
+                                itemUrl: itemInfo.images[0].name,
+                                itemName: itemInfo.name,
+                                itemDescription: itemInfo.description,
+                                itemIdx,
+                              },
+                            });
+                          }}
+                        >
+                          <ButtonText>배송신청</ButtonText>
+                        </Button>
+                      )
+                  )
               }
               {
                 itemInfo.state === 7 ? (
@@ -412,19 +425,19 @@ function ItemDetail({
                     <InputColumn style={{ marginTop: 15 }}>
                       <CommonText>운송장 번호</CommonText>
                     </InputColumn>
-                    <InputTitle placeholder="운송장 번호를 입력해주세요." value={waybill} editable onChangeText={(text:string) => { setWaybill(text); }} />
+                    <InputTitle placeholder="운송장 번호를 입력해주세요." value={waybill} editable onChangeText={(text: string) => { setWaybill(text); }} />
                     <InputColumn style={{ marginTop: 15 }}>
                       <CommonText>택배사 번호</CommonText>
                     </InputColumn>
-                    <InputTitle placeholder="택배사 번호를 입력해주세요." value={courier} editable onChangeText={(text:string) => { setCourier(text); }} />
+                    <InputTitle placeholder="택배사 번호를 입력해주세요." value={courier} editable onChangeText={(text: string) => { setCourier(text); }} />
                     <Button
                       style={{
                         marginVertical: 15,
                         opacity: waybill.length !== 0
-                        && courier.length !== 0 ? 1 : 0.5,
+                          && courier.length !== 0 ? 1 : 0.5,
                       }}
                       disabled={waybill.length === 0
-                      && courier.length === 0}
+                        && courier.length === 0}
                       onPress={saveTracking}
                     >
                       <ButtonText>배송완료(보증금 반환 신청)</ButtonText>
@@ -435,50 +448,39 @@ function ItemDetail({
                 )
               }
               {
-               isItItem
-                && itemInfo.owner.idx === userIdx
-                && itemInfo.registrant.idx === userIdx
-                && itemInfo.state !== 5
-                && itemInfo.state !== 6
-                 ? (
-                   <Button onPress={refundItem} style={{ marginVertical: 15 }}>
-                     <ButtonText>등록 취소(환불 신청)</ButtonText>
-                   </Button>
-                 ) : null
+                isItItem
+                  && itemInfo.owner.idx === userIdx
+                  && itemInfo.registrant.idx === userIdx
+                  && itemInfo.state !== 5
+                  && itemInfo.state !== 6
+                  ? (
+                    <Button onPress={refundItem} style={{ marginVertical: 15 }}>
+                      <ButtonText>등록 취소(환불 신청)</ButtonText>
+                    </Button>
+                  ) : null
               }
-
               {
                 itemInfo.state === 5 ? (
                   <CommonText style={{ marginVertical: 15, color: '#e94057' }}>
                     환불신청 되었습니다.
                     잠시만 기다려주세요.
-
                   </CommonText>
                 ) : null
               }
-
               {
                 !isItItem && itemInfo.state === 2 ? (
-
                   <CommonText style={{ marginVertical: 15, color: '#e94057' }}>
                     실 소유주의 운송장번호가 입력되지 않았습니다.
                     잠시 기다려주세요.
-
                   </CommonText>
-
                 ) : null
-
               }
-
             </Inputs>
           </Container>
         </KeyboardAwareScrollView>
-
         {/* deliveryMode */}
         <Popup header="Delivery request 🚚" message="배송신청이 완료되었습니다." display={delivery} setDisplay={setDelivery} />
-
         <Popup header="운송장 등록 오류 🚚" message={trackingErrorMsg} display={trackingError} setDisplay={setTrackingError} />
-
       </>
     )
       : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator color="gray" size="large" /></View>
