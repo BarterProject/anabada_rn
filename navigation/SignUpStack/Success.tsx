@@ -63,17 +63,21 @@ const ButtonText = styled.Text`
 
 type SuccessProps = NativeStackScreenProps<AuthStackParamList, 'SignUp'>
 
-export default function Success({ navigation }:SuccessProps) {
-  const { signUpField } = useSelector((state:initialStateProps) => ({
+export default function Success({ navigation }: SuccessProps) {
+  const { signUpField } = useSelector((state: initialStateProps) => ({
     signUpField: state.signUpField,
   }));
-
+  const {
+    id, password, phoneNumber, addressinfo, accountNumber, bankName
+  } = signUpField
   console.log('Success의 signUpField:', signUpField);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(requestSignUp());
+    dispatch(requestSignUp({
+      id, password, phoneNumber, addressinfo, accountNumber, bankName
+    }));
   }, []);
 
   return (
