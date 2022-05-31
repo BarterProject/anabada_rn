@@ -6,6 +6,8 @@ import styled from 'styled-components/native';
 import { FCMApi } from '../../api';
 import { deleteAccessToken } from '../../slice';
 // import { ConfigureStackParamList } from '../Configure';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import { useDispatch } from 'react-redux';
 
 const Container = styled.View`
   /* background-color:red; */
@@ -46,8 +48,11 @@ const Line = styled.View`
 
 // type MainInProps = NativeStackScreenProps<ConfigureStackParamList, 'Main'>
 
-export default function Main({ navigation: { navigate, dispatch } }: {
-  navigation:{navigate:Function, dispatch:Function}}) {
+export default function Main({ navigation }: {
+  navigation: { navigate: Function, dispatch: Function }
+}) {
+  const dispatch = useDispatch();
+
   return (
     <Container>
       <Header />
@@ -55,7 +60,7 @@ export default function Main({ navigation: { navigate, dispatch } }: {
         <Line />
         <Button
           onPress={() => {
-            navigate('MyInfo');
+            navigation.navigate('MyInfo');
           }}
         >
           <Text>
@@ -65,7 +70,7 @@ export default function Main({ navigation: { navigate, dispatch } }: {
         <Line />
         <Button
           onPress={() => {
-            navigate('Appinfo');
+            navigation.navigate('Appinfo');
           }}
         >
           <Text>
@@ -75,7 +80,7 @@ export default function Main({ navigation: { navigate, dispatch } }: {
         <Line />
         <Button
           onPress={() => {
-            navigate('QnAs', { getNewData: false });
+            navigation.navigate('QnAs', { getNewData: false });
           }}
         >
           <Text>
@@ -84,10 +89,11 @@ export default function Main({ navigation: { navigate, dispatch } }: {
         </Button>
         <Line />
         <Button
-          onPress={() => {
+          onPress={async () => {
+            await EncryptedStorage.setItem('accessToken', null);
             dispatch(deleteAccessToken());
-            dispatch(FCMApi.deleteToken());
-            dispatch(
+            FCMApi.deleteToken();
+            navigation.dispatch(
               CommonActions.reset({
                 index: 0,
                 routes: [{ name: 'Auth' }],
