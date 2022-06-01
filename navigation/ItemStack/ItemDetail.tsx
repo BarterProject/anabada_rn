@@ -281,6 +281,10 @@ function ItemDetail({
               // });
               navigation.navigate('Item', {
                 screen: 'ChatRoom',
+                params: {
+                  itemIdx,
+                  name: itemInfo.name
+                }
               });
             }}
           >

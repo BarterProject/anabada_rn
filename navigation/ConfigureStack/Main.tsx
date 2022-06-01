@@ -90,7 +90,7 @@ export default function Main({ navigation }: {
         <Line />
         <Button
           onPress={async () => {
-            await EncryptedStorage.setItem('accessToken', null);
+            await EncryptedStorage.setItem('accessToken', '');
             dispatch(deleteAccessToken());
             FCMApi.deleteToken();
             navigation.dispatch(
@@ -108,6 +108,6 @@ export default function Main({ navigation }: {
         <Line />
 
       </ButtonContainer>
-    </Container>
+    </Container >
   );
 }

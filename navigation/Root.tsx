@@ -42,15 +42,10 @@ PushNotification.configure({
   // (required) 리모트 노티를 수신하거나, 열었거나 로컬 노티를 열었을 때 실행
   onNotification(notification: any) {
     console.log('onNotification NOTIFICATION:', notification);
-    if (notification.channelId === 'ItemActivated') {
+    if (notification.data.channelId === 'ItemActivated') {
       console.log('채널 아이디가 ItemActivated이다.')
-      // if (notification.message || notification.data.message) {
-      //   store.dispatch(
-      //     userSlice.actions.showPushPopup(
-      //       notification.message || notification.data.message,
-      //     ),
-      //   );
-      // }
+    } else if (notification.data.channelId === 'chatting') {
+      console.log('채팅 알람이 왔습니다. foreground.')
     }
     // process the notification
 
@@ -266,25 +261,55 @@ function Root() {
             }
           },
         });
+      } else if (remoteMessage.data.channelId === 'chatting') {
+        // navigation.navigate('Home', {
+        //   screen: 'Item',
+        //   params: {
+        //     screen: 'ChatRoom',
+        //     params: {
+        //       itemIdx:remoteMessage.data.roomId
+        //     }
+        //   }
+        // })
+        // navigation.navigate('Home', {
+        //   screen: 'Item',
+        //   params: {
+        //     screen: 'Detail',
+        //     params: {
+        //       readOnly: true,
+        //       itemIdx: parseInt(remoteMessage.data.itemId),
+        //     }
+        //   },
+        // });
       }
+      //chatting일 경우 해당 아이템의 채팅방 스크린으로 이동
     });
 
-    messaging()
-      .getInitialNotification()
-      .then(remoteMessage => {
-        console.log("222222")
-        console.log(remoteMessage);
+    messaging().getInitialNotification().then(remoteMessage => {
+      console.log("222222")
+      console.log(remoteMessage);
 
-        // if (remoteMessage) {
-        // console.log(
-        //   'Notification caused app to open from quit state:',
-        //   remoteMessage.notification,
-        // );
-        // console.log('remoteMessage.data.route', remoteMessage.data.route)
-        // setInitialRoute(remoteMessage.data.route); // e.g. "Settings"
-        // }
-        setLoading(false);
-      });
+      // if (remoteMessage) {
+      // console.log(
+      //   'Notification caused app to open from quit state:',
+      //   remoteMessage.notification,
+      // );
+      // console.log('remoteMessage.data.route', remoteMessage.data.route)
+      // setInitialRoute(remoteMessage.data.route); // e.g. "Settings"
+      // }
+      setLoading(false);
+    });
+    messaging().onMessage(async remoteMessage => {
+      // console.log('messaging().onMessage', remoteMessage)
+      console.log('messaging().onMessage에서 remoteMessage.data.roomId ', remoteMessage.data.roomId)
+      console.log('roomIdx ', roomIdx)
+      if (remoteMessage.data.roomId === `${roomIdx}`) {
+        console.log('remoteMessage.data.roomId === {roomIdx}', remoteMessage.data.roomId === `${roomIdx}`)
+
+        refetch()
+      }
+      // let message_body = remoteMessage.notification.body;
+    })
   }, []);
 
   return (
