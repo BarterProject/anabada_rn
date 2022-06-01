@@ -5,7 +5,7 @@ import { Text } from 'react-native';
 
 import styled from 'styled-components/native';
 
-import { categoryType, paymentOptionType } from '../../types';
+import { categoryType, deliveryType, paymentOptionType } from '../../types';
 
 const Btn = styled.TouchableOpacity``;
 
@@ -32,12 +32,28 @@ function Category({
   route: { params },
 }: {
     navigation: { setOptions: Function, goBack:Function, navigate:Function},
-    route:{params:{itemList:categoryType[] | paymentOptionType[], check:number, type:string}}
+    route:{params:{
+      itemList:categoryType[] | paymentOptionType[],
+      check:number,
+      type:string,
+      delivery:deliveryType,
+      itemUrl:string,
+      itemName:string,
+      itemDescription:string, }}
   }) {
+  const setTitle = () => {
+    if (params.type === 'category') {
+      return '카테고리 선택';
+    }
+    if (params.type === 'payment') {
+      return '결제수단 선택';
+    }
+    return '택배사 선택';
+  };
   useEffect(() => {
     setOptions({
       headerBackTitleVisible: true,
-      title: params.type === 'category' ? '카테고리 선택' : '결제수단 선택',
+      title: setTitle(),
       headerLeft: () => (
         <Btn
           onPress={() => {
@@ -58,10 +74,18 @@ function Category({
           style={{ borderBottomColor: 'lightgray', borderBottomWidth: 1 }}
           onPress={() => {
             navigate('Item', {
-              screen: 'Enroll',
-              params: { idx, type: params.type },
+              screen: params.type === 'category' || params.type === 'payment' ? 'Enroll' : 'ItemRefund',
+              params: {
+                idx,
+                type: params.type,
+                delivery: params.delivery,
+                itemUrl: params.itemUrl,
+                itemName: params.itemName,
+                itemDescription: params.itemDescription,
+              },
             });
           }}
+          key={item.idx}
         >
           <CategoryTitle check={params.check === idx}>{item.name}</CategoryTitle>
           {params.check === idx ? (

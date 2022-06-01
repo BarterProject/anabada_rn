@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 
 import {
-  TouchableOpacity, Text, View, ActivityIndicator,
+  TouchableOpacity, Text, View, ActivityIndicator, Pressable, Linking, Alert,
 } from 'react-native';
 
 import { Entypo, Ionicons } from '@expo/vector-icons';
@@ -23,6 +23,7 @@ import {
 } from './utils';
 
 import { itemApi, deliveryApi } from '../../api';
+
 import { initialStateProps, resetRandomItems, setItemToDeal } from '../../slice';
 import { itemType } from '../../types';
 
@@ -62,30 +63,29 @@ function ItemDetail({
   route: {
     params: {
       readOnly, itemIdx, enrollMode, deliveryMode,
-      isItItem, status,
+      isItItem, status, idx,
     },
   },
   navigation: {
     setOptions, goBack, navigate, dispatch: dis,
   },
 }: {
-
-  route: {
-    params: {
-      readOnly: boolean,
-      itemIdx: number,
-      enrollMode: boolean,
-      deliveryMode: boolean,
-      inventoryMode: boolean,
-      isItItem: boolean,
-    }
-  };
-  navigation: { setOptions: Function; goBack: Function, navigate: Function, dispatch: Function };
+  route: { params: {
+    readOnly:boolean,
+    itemIdx:number,
+    enrollMode:boolean,
+    deliveryMode:boolean,
+    inventoryMode:boolean,
+    isItItem:boolean,
+    status:string
+    idx: number
+  } };
+  navigation: { setOptions: Function, goBack: Function, navigate:Function,
+    dispatch:Function };
 
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
-  const [waybill, setWaybill] = useState<string>('');
-  const [courier, setCourier] = useState<string>('');
+
   const [trackingError, setTrackingError] = useState<boolean>(false);
   const [trackingErrorMsg, setTrackingErrorMsg] = useState<string>('');
 
@@ -103,6 +103,12 @@ function ItemDetail({
     }),
   );
 
+  // useEffect(() => {
+  //   if (idx) {
+  //     // eslint-disable-next-line no-unused-expressions
+  //     setCompanyCheck(idx);
+  //   }
+  // }, [idx]);
   const go = (enroll: boolean, delivery: boolean) => {
     if (enroll) {
       navigate('Main', { screen: '아이템', params: { getNewData: true } });
@@ -111,43 +117,43 @@ function ItemDetail({
     } else { goBack(); }
   };
 
-  const saveTracking = async () => {
-    try {
-      const body = {
-        trackingNumber: parseInt(waybill, 10),
-        deliveryCompanyIdx: parseInt(courier, 10),
-      };
-      const { data } = await deliveryApi.saveTracking(itemInfo.delivery.idx, body);
-      console.log(data);
-      dis(
-        CommonActions.reset({
-          index: 0,
-          routes: [{
-            name: 'Confirm',
-            params: {
-              title: '운송장번호 등록완료',
-              bigMsg: `아이템 ${itemInfo.name}의 운송장번호가 등록되었습니다.`,
-              smallMsg: '보증금 입금은 잠시 기다려주십시오.',
-              screen: '아이템',
-              getNewData: true,
-            },
-          }],
-        }),
-      );
-    } catch (e) {
-      console.log(e);
-      if (e.response.status === 404) {
-        setTrackingError(true);
-        setTrackingErrorMsg('유효하지 않은 운송장 정보입니다.');
-      } else if (e.response.staus === 401) {
-        setTrackingError(true);
-        setTrackingErrorMsg('권한이 없습니다.');
-      } else if (e.response.status === 400) {
-        setTrackingError(true);
-        setTrackingErrorMsg('운송장 번호가 이미 등록되었습니다.');
-      }
-    }
-  };
+  // const saveTracking = async () => {
+  //   try {
+  //     const body = {
+  //       trackingNumber: parseInt(waybill, 10),
+  //       deliveryCompanyIdx: parseInt(courier, 10),
+  //     };
+  //     const { data } = await deliveryApi.saveTracking(itemInfo.delivery.idx, body);
+  //     console.log(data);
+  //     dis(
+  //       CommonActions.reset({
+  //         index: 0,
+  //         routes: [{
+  //           name: 'Confirm',
+  //           params: {
+  //             title: '운송장번호 등록완료',
+  //             bigMsg: `아이템 ${itemInfo.name}의 운송장번호가 등록되었습니다.`,
+  //             smallMsg: '보증금 입금은 잠시 기다려주십시오.',
+  //             screen: '아이템',
+  //             getNewData: true,
+  //           },
+  //         }],
+  //       }),
+  //     );
+  //   } catch (e) {
+  //     console.log(e);
+  //     if (e.response.status === 404) {
+  //       setTrackingError(true);
+  //       setTrackingErrorMsg('유효하지 않은 운송장 정보입니다.');
+  //     } else if (e.response.staus === 401) {
+  //       setTrackingError(true);
+  //       setTrackingErrorMsg('권한이 없습니다.');
+  //     } else if (e.response.status === 400) {
+  //       setTrackingError(true);
+  //       setTrackingErrorMsg('운송장 번호가 이미 등록되었습니다.');
+  //     }
+  //   }
+  // };
 
   const refundItem = async () => {
     try {
@@ -207,8 +213,8 @@ function ItemDetail({
       );
     } if (state === 4) {
       return (
-        <Status color="yellow">
-          <Text style={{ color: 'yello' }}>{status}</Text>
+        <Status color="#ffd300">
+          <Text style={{ color: '#ffd300' }}>{status}</Text>
         </Status>
       );
     } if (state === 5) {
@@ -232,13 +238,40 @@ function ItemDetail({
     }
   };
 
+  function OpenURLButton({ url, children }:{url:string, children:string}) {
+    const handlePress = useCallback(async () => {
+      // Checking if the link is supported for links with custom URL scheme.
+      const supported = await Linking.canOpenURL(url);
+
+      if (supported) {
+        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+        // by some browser in the mobile
+        await Linking.openURL(url);
+      } else {
+        Alert.alert(`Don't know how to open this URL: ${url}`);
+      }
+    }, [url]);
+
+    return (
+      <Button
+        style={{ marginVertical: 15 }}
+        onPress={handlePress}
+      >
+        <ButtonText>{children}</ButtonText>
+      </Button>
+    );
+  }
+
+  useEffect(() => {
+    getItemInfo();
+  }, []);
   useEffect(() => {
     setOptions({
       headerRight: () => (!readOnly
         ? (
           <HistoryBtn
             onPress={async () => {
-              navigate('Item', { screen: 'History', params: { itemIdx } });
+              navigate('Item', { screen: 'History', params: { itemIdx, itemName: itemInfo.name } });
             }}
           >
             <Text>
@@ -252,8 +285,8 @@ function ItemDetail({
         ) : null
       ),
     });
-    getItemInfo();
-  }, []);
+  }, [itemInfo]);
+
   useEffect(() => {
     setOptions({
       headerLeft: () => (
@@ -400,49 +433,33 @@ function ItemDetail({
               }
               {
                 itemInfo.state === 7 ? (
-                  <Button
-                    style={{ marginVertical: 15 }}
-                    onPress={() => {
-                      navigate('Item', { screen: 'ItemTracking', params: { itemIdx, itemUrl: itemInfo.images[0].name } });
-                    }}
-                  >
-                    <ButtonText>배송현황</ButtonText>
-                  </Button>
+                  <OpenURLButton url={`http://www.deliverytracking.kr/?dummy=dummy&deliverytype=doortodoor&keyword=${itemInfo.delivery.trackingNumber}&remark=`}>배송현황</OpenURLButton>
                 ) : null
               }
 
               {
                 isItItem && itemInfo.state === 2 ? (
-                  <>
-                    <InputColumn style={{ marginTop: 15 }}>
-                      <CommonText>요청 주소지</CommonText>
-                    </InputColumn>
-                    <InputTitle editable={false} value={itemInfo.delivery.address} />
-                    <InputColumn style={{ marginTop: 15 }}>
-                      <CommonText>연락처</CommonText>
-                    </InputColumn>
-                    <InputTitle placeholder="제품명" editable={false} value={itemInfo.delivery.phone} />
-                    <InputColumn style={{ marginTop: 15 }}>
-                      <CommonText>운송장 번호</CommonText>
-                    </InputColumn>
-                    <InputTitle placeholder="운송장 번호를 입력해주세요." value={waybill} editable onChangeText={(text: string) => { setWaybill(text); }} />
-                    <InputColumn style={{ marginTop: 15 }}>
-                      <CommonText>택배사 번호</CommonText>
-                    </InputColumn>
-                    <InputTitle placeholder="택배사 번호를 입력해주세요." value={courier} editable onChangeText={(text: string) => { setCourier(text); }} />
-                    <Button
-                      style={{
-                        marginVertical: 15,
-                        opacity: waybill.length !== 0
-                          && courier.length !== 0 ? 1 : 0.5,
-                      }}
-                      disabled={waybill.length === 0
-                        && courier.length === 0}
-                      onPress={saveTracking}
-                    >
-                      <ButtonText>배송완료(보증금 반환 신청)</ButtonText>
-                    </Button>
-                  </>
+                  <Button
+                    style={{
+                      marginVertical: 15,
+                      // opacity: waybill.length !== 0
+                      // && courier.length !== 0 ? 1 : 0.5,
+                    }}
+                    onPress={() => {
+                      navigate('Item', {
+                        screen: 'ItemRefund',
+                        params: {
+                          itemIdx,
+                          itemUrl: itemInfo.images[0].name,
+                          delivery: itemInfo.delivery,
+                          itemName: itemInfo.name,
+                          itemDescription: itemInfo.description,
+                        },
+                      });
+                    }}
+                  >
+                    <ButtonText>배송완료(보증금 반환 신청)</ButtonText>
+                  </Button>
                 ) : (
                   null
                 )
