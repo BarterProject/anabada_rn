@@ -56,10 +56,10 @@ const CardInfo = styled.View`
 `;
 
 function ItemHistory({
-  route: { params: { itemIdx } },
+  route: { params: { itemIdx, itemName } },
   navigation: { setOptions, goBack },
 }: {
-    route: { params: {itemIdx:number}},
+    route: { params: {itemIdx:number, itemName:string}},
     navigation: { setOptions: Function; goBack: Function, }
   }) {
   const position = useRef(new Animated.Value(0)).current;
@@ -223,7 +223,7 @@ function ItemHistory({
                 style={{ transform: [{ rotateZ: finalBackRotation }, { scale: finalScale }] }}
               >
                 <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
-                  <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 4].name}</Text>
+                  <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 4].name}</Text>
                   <Text>
                     보증금
                     :
@@ -247,7 +247,7 @@ function ItemHistory({
                 imageStyle={{ borderRadius: 25 }}
               >
                 <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
-                  <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 3].name}</Text>
+                  <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 3].name}</Text>
                   <Text>
                     보증금
                     :
@@ -273,7 +273,7 @@ function ItemHistory({
             imageStyle={{ borderRadius: 25 }}
           >
             <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
-              <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 2].name}</Text>
+              <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 2].name}</Text>
               <Text>
                 보증금
                 :
@@ -301,7 +301,7 @@ function ItemHistory({
               imageStyle={{ borderRadius: 25 }}
             >
               <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
-                <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 1].name}</Text>
+                <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 1].name}</Text>
                 <Text>
                   보증금
                   :
@@ -324,7 +324,7 @@ function ItemHistory({
                 }}
               >
                 <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
-                  <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 7 }}>{images[nowImage].name}</Text>
+                  <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage].name}</Text>
                   <Text>
                     보증금
                     :
@@ -357,11 +357,9 @@ function ItemHistory({
             <InputContent
               placeholder="설명"
               multiline
-              numberOfLines={15}
               editable={false}
-              style={{ textAlignVertical: 'top', height: 80 }}
-              value="아이템 ‘거의 거저 아이폰’의 거래
-          히스토리 목록입니다."
+              style={{ textAlignVertical: 'top', height: 80, color: 'black' }}
+              value={`'${itemName}’의 거래 히스토리 목록입니다.`}
             />
           </InfoContainer>
         </>
