@@ -17,7 +17,7 @@ export const setToken = async () => {
 
 export async function postLogin({ id, password }) {
   const url = `${BASE_URL}/api/v2/user/authentication`;
-  console.log(url);
+  // console.log(url);
   const data = await fetch(url, {
     method: 'POST',
     headers: {
@@ -175,5 +175,14 @@ export const FCMApi = {
   updateToken: (token:string) :Promise<AxiosResponse<any>> => api.put('/user/fcm/token', {
     token,
   }),
-  deleteToken: () :Promise<AxiosResponse<any>> => api.delete('/user/fcm/token'),
-};
+  deleteToken:() :Promise<AxiosResponse<any>> => api.delete('/user/fcm/token',),
+}
+
+export const chatApi = {
+  getRoomById:(id:string) :Promise<AxiosResponse<any>> => api.get(`/items/${id}/rooms`,),
+  saveMessasge:({content,roomName}) :Promise<AxiosResponse<any>> => api.post(`/rooms/messages`,{
+    content,
+    roomName
+  }),
+  getMessages:(id:string) :Promise<AxiosResponse<any>> => api.get(`/rooms/${id}/messages?page=0`,),
+}

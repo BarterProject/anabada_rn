@@ -17,6 +17,7 @@ import Confirm from './ItemStack/Confirm';
 import ItemHistory from './ItemStack/ItemHistory';
 import SelectOption from './ItemStack/SelectOption';
 import ItemRefund from './ItemStack/ItemRefund';
+import ChatRoom from './ItemStack/ChatRoom';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ const Badge = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
 const Btn = styled.TouchableOpacity``;
 
 export default function Item() {
@@ -75,6 +77,12 @@ export default function Item() {
       <Stack.Screen name="Enroll" component={Enroll} />
       <Stack.Screen name="Confirm" component={Confirm} />
       <Stack.Screen name="Detail" component={ItemDetail} />
+      <Stack.Screen name="ChatRoom" component={ChatRoom}
+        options={{
+          headerShown: false,
+          headerLeft: () => null
+        }}
+      />
       <Stack.Screen name="History" component={ItemHistory} />
       <Stack.Screen name="SelectOption" component={SelectOption} />
       <Stack.Screen name="ItemDelivery" component={ItemDelivery} />

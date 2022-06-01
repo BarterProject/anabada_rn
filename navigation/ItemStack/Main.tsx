@@ -79,7 +79,7 @@ function Main() {
             height: 5, borderRadius: 20, width: Dimensions.get('window').width / 4, left: Dimensions.get('window').width / 8, backgroundColor: '#e94057',
           },
         }}
-        initialRouteName={initialRoute}
+        initialRouteName={'인벤토리'}
       >
         <Tab.Screen
           name="인벤토리"
@@ -99,7 +99,7 @@ function Main() {
 
       <Btn
         onPress={() => {
-          navigation.navigate('Item', { screen: 'Enroll' });
+          navigation.navigate('Enroll');
         }}
       >
         <DropShadow

@@ -217,6 +217,10 @@ const { actions, reducer } = createSlice({
         phoneToken: payload.phoneToken,
       },
     }),
+    resetRandomItems:(state)=>({
+      ...state,
+      randomItems:[]
+    })
   },
 });
 
@@ -240,17 +244,20 @@ export const {
   setNoticeAlarm,
   setUserInfo,
   setPhoneToken,
+  resetRandomItems
 } = actions;
 
-export function requestSignUp() {
+export function requestSignUp({
+  id, password, phoneNumber, addressinfo, accountNumber, bankName
+}) {
   return async (dispatch, getState) => {
     console.log('requestSignUp 진입');
-    const {
-      signUpField: {
-        id, password, phoneNumber, addressinfo, accountNumber, bankName,
-      },
-    } = getState();
-    console.log(id, password, phoneNumber, addressinfo, accountNumber, bankName);
+    // const {
+    //   signUpField: {
+    //     id, password, phoneNumber, addressinfo, accountNumber, bankName,
+    //   },
+    // } = getState();
+    // console.log("test222",id, password, phoneNumber, addressinfo, accountNumber, bankName);
 
     const { zonecode, address, addressDetail } = addressinfo;
 
@@ -262,6 +269,8 @@ export function requestSignUp() {
       bankAccount: accountNumber,
       bankKind: bankName,
     };
+    console.log('userInfo 내용');
+    console.log(userInfo)
 
     try {
       const data = await postSignup(userInfo);
@@ -291,8 +300,7 @@ export function requestLogin() {
       const { message, jwt } = data;
       await EncryptedStorage.setItem('accessToken', jwt);
       await setToken();
-      if (message !== undefined) {
-        console.log(message);
+      if (message === "Bad credentials") {
         dispatch(setAccessToken('err'));
       } else {
         dispatch(setAccessToken(jwt));
@@ -318,6 +326,9 @@ export function requestRandomItems(number :number) {
   };
 }
 
+// export function reserRandomItems(){
+
+// }
 export function requestDeal() {
   return async (dispatch, getState) => {
     const {

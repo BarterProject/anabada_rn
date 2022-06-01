@@ -52,12 +52,12 @@ function ItemDetail({
   route: { params: { readOnly, itemIdx, enrollMode } },
   navigation: { setOptions, goBack, navigate },
 }: {
-  route: { params: {readOnly:boolean, itemIdx:number, enrollMode:boolean} };
-  navigation: { setOptions: Function; goBack: Function, navigate:Function };
+  route: { params: { readOnly: boolean, itemIdx: number, enrollMode: boolean } };
+  navigation: { setOptions: Function; goBack: Function, navigate: Function };
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
 
-  const go = (enroll:boolean) => {
+  const go = (enroll: boolean) => {
     if (enroll) {
       navigate('Main', { screen: '아이템', params: { getNewData: true } });
     } else { goBack(); }
@@ -65,7 +65,7 @@ function ItemDetail({
 
   const getItemInfo = useCallback(async () => {
     try {
-      const { data }:{data:itemType} = await itemApi.getItemInfo(itemIdx);
+      const { data }: { data: itemType } = await itemApi.getItemInfo(itemIdx);
       setItemInfo(data);
     } catch (e) {
       console.log(e);
@@ -115,11 +115,8 @@ function ItemDetail({
     itemInfo ? (
       <>
         <KeyboardAwareScrollView extraScrollHeight={30}>
-
           <Container>
-
-            <Slide imgList={itemInfo.images} edit={false} setImgList={() => {}} />
-
+            <Slide imgList={itemInfo.images} edit={false} setImgList={() => { }} />
             {/* <View style={{ height: 150, marginVertical: 20 }}>
           <Carousel
             layout="default"
@@ -180,7 +177,7 @@ function ItemDetail({
           </Container>
 
         </KeyboardAwareScrollView>
-        { enrollMode
+        {enrollMode
           ? <Popup />
           : null}
       </>

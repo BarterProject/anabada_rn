@@ -19,7 +19,7 @@ import {
 } from '../ItemStack/utils';
 
 import { dealApi } from '../../api';
-import { setItemToDeal } from '../../slice';
+import { resetRandomItems, setItemToDeal } from '../../slice';
 
 // const Container = styled.ScrollView`
 //     position: relative;
@@ -69,7 +69,7 @@ const WhiteText = styled(Text)`
 `;
 
 function ItemReceiveDetail({ route, navigation: { navigate } }:
-  {route:{params}, navigation:{navigate:Function}}) {
+  { route: { params }, navigation: { navigate: Function } }) {
   // console.log(route.params);
   const { item, dealIdx } = route.params;
   const [loading, setLoading] = useState(false);
@@ -133,6 +133,7 @@ function ItemReceiveDetail({ route, navigation: { navigate } }:
                         console.log('요청성공', result);
                         navigate('Main');
                         dispatch(setItemToDeal(itemIdx));
+                        dispatch(resetRandomItems());
                       },
                     ).catch((error) => {
                       console.log('요청실패');
@@ -148,14 +149,14 @@ function ItemReceiveDetail({ route, navigation: { navigate } }:
                   }}
                 >
                   {
-               loading
-                 ? <ActivityIndicator size="small" />
-                 : (
-                   <WhiteText>
-                     요청 승인
-                   </WhiteText>
-                 )
-             }
+                    loading
+                      ? <ActivityIndicator size="small" />
+                      : (
+                        <WhiteText>
+                          요청 승인
+                        </WhiteText>
+                      )
+                  }
 
                 </SmallButton>
                 <SmallButton
@@ -179,14 +180,14 @@ function ItemReceiveDetail({ route, navigation: { navigate } }:
                   }}
                 >
                   {
-               loading
-                 ? <ActivityIndicator size="small" />
-                 : (
-                   <WhiteText>
-                     요청 취소
-                   </WhiteText>
-                 )
-             }
+                    loading
+                      ? <ActivityIndicator size="small" />
+                      : (
+                        <WhiteText>
+                          요청 취소
+                        </WhiteText>
+                      )
+                  }
                 </SmallButton>
               </ButtonsContainer>
             ) : null}

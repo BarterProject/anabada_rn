@@ -13,6 +13,8 @@ import Item from './Item';
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import { useDispatch } from 'react-redux';
+import { resetRandomItems, setItemToDeal } from '../slice';
 
 
 export type RootStackParamList = {
@@ -91,79 +93,6 @@ PushNotification.configure({
   requestPermissions: true,
 });
 
-PushNotification.createChannel(
-  {
-    channelId: 'message', // (required)
-    channelName: '앱 전반', // (required)
-    channelDescription: '메시지가 도착했습니다.', // (optional) default: undefined.
-    soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
-    importance: 4, // (optional) default: 4. Int value of the Android notification importance
-    vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
-  },
-  (created: boolean) => console.log(`createChannel riders returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
-);
-
-PushNotification.createChannel(
-  {
-    channelId: 'ItemActivated', // (required)
-    channelName: '앱 전반', // (required)
-    channelDescription: '아이템이 활성화됐습니다.', // (optional) default: undefined.
-    soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
-    importance: 4, // (optional) default: 4. Int value of the Android notification importance
-    vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
-  },
-  (created: boolean) => console.log(`createChannel riders returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
-);
-PushNotification.createChannel(
-  {
-    channelId: 'DealRequested', // (required)
-    channelName: '앱 전반', // (required)
-    channelDescription: '교환이 요청됐습니다.', // (optional) default: undefined.
-    soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
-    importance: 4, // (optional) default: 4. Int value of the Android notification importance
-    vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
-  },
-  (created: boolean) => console.log(`createChannel riders returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
-);
-
-
-
-PushNotification.createChannel(
-  {
-    channelId: 'DeliverRequested', // (required)
-    channelName: '앱 전반', // (required)
-    channelDescription: '배송 요청이 됐습니다.', // (optional) default: undefined.
-    soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
-    importance: 4, // (optional) default: 4. Int value of the Android notification importance
-    vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
-  },
-  (created: boolean) => console.log(`createChannel riders returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
-);
-
-PushNotification.createChannel(
-  {
-    channelId: 'DeliveryStarted', // (required)
-    channelName: '앱 전반', // (required)
-    channelDescription: '배송이 시작되었습니다.', // (optional) default: undefined.
-    soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
-    importance: 4, // (optional) default: 4. Int value of the Android notification importance
-    vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
-  },
-  (created: boolean) => console.log(`createChannel riders returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
-);
-
-PushNotification.createChannel(
-  {
-    channelId: 'DepositRefunded', // (required)
-    channelName: '앱 전반', // (required)
-    channelDescription: '보증금이 지급되었습니다.', // (optional) default: undefined.
-    soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
-    importance: 4, // (optional) default: 4. Int value of the Android notification importance
-    vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
-  },
-  (created: boolean) => console.log(`createChannel riders returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
-);
-
 const Nav = createNativeStackNavigator<RootStackParamList>();
 
 function Root() {
@@ -173,27 +102,187 @@ function Root() {
     'Home' |
     'Alarm' |
     'Item'>('Auth');
+  const dispatch = useDispatch();
   useEffect(() => {
     messaging().onNotificationOpenedApp((remoteMessage): any => {
-      console.log(
-        'Notification caused app to open from background state:',
-        remoteMessage.notification,
-      );
-      console.log('remoteMessage.data.route', remoteMessage.data.route)
-      navigation.navigate(remoteMessage.data.route);
+      console.log("1111111")
+      console.log(remoteMessage);
+
+      if (remoteMessage.data.channelId === 'ItemActivated') {
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Main',
+            params: {
+              screen: '아이템',
+            }
+          }
+        })
+
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Detail',
+            params: {
+              readOnly: true,
+              itemIdx: parseInt(remoteMessage.data.itemId),
+              inventoryMode: true,
+            }
+          },
+        });
+      } else if (remoteMessage.data.channelId === 'DealBeenRequested') {
+        dispatch(setItemToDeal(parseInt(remoteMessage.data.itemId)));
+
+        navigation.navigate('Home', {
+          screen: 'ItemDeals',
+          params: {
+            screen: '받은 요청',
+            getNewData: true
+          }
+        })
+      } else if (remoteMessage.data.channelId === 'DealCompleted') {
+        dispatch(setItemToDeal(parseInt(remoteMessage.data.itemId)))
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Main',
+            params: {
+              screen: '인벤토리',
+            }
+          }
+        })
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Detail',
+            params: {
+              readOnly: true,
+              itemIdx: parseInt(remoteMessage.data.itemId),
+              inventoryMode: true,
+            }
+          },
+        });
+        dispatch(setItemToDeal({ itemId: remoteMessage.data.itemId }));
+        dispatch(resetRandomItems())
+      } else if (remoteMessage.data.channelId === 'DeliveryRequested') {
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Main',
+            params: {
+              screen: '아이템',
+            }
+          }
+        })
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Detail',
+            params: {
+              itemIdx: parseInt(remoteMessage.data.itemId),
+              isItItem: true
+              // inventoryMode: true,
+            }
+          },
+        });
+      } else if (remoteMessage.data.channelId === 'DeliveryStarted') {
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Main',
+            params: {
+              screen: '인벤토리',
+            }
+          }
+        })
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Detail',
+            params: {
+              readOnly: true,
+              itemIdx: parseInt(remoteMessage.data.itemId),
+              inventoryMode: true,
+            }
+          },
+        });
+      } else if (remoteMessage.data.channelId === 'DepositLost') {
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Main',
+            params: {
+              screen: '아이템',
+            }
+          }
+        })
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Detail',
+            params: {
+              itemIdx: parseInt(remoteMessage.data.itemId),
+              isItItem: true,
+            }
+          },
+        });
+      } else if (remoteMessage.data.channelId === 'DepositPresented') {
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Main',
+            params: {
+              screen: '아이템',
+            }
+          }
+        })
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Detail',
+            params: {
+              itemIdx: parseInt(remoteMessage.data.itemId),
+              inventoryMode: true,
+            }
+          },
+        });
+      } else if (remoteMessage.data.channelId === 'DepositRefunded') {
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Main',
+            params: {
+              screen: '아이템',
+            }
+          }
+        })
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'Detail',
+            params: {
+              readOnly: true,
+              itemIdx: parseInt(remoteMessage.data.itemId),
+            }
+          },
+        });
+      }
     });
 
     messaging()
       .getInitialNotification()
       .then(remoteMessage => {
-        if (remoteMessage) {
-          console.log(
-            'Notification caused app to open from quit state:',
-            remoteMessage.notification,
-          );
-          console.log('remoteMessage.data.route', remoteMessage.data.route)
-          setInitialRoute(remoteMessage.data.route); // e.g. "Settings"
-        }
+        console.log("222222")
+        console.log(remoteMessage);
+
+        // if (remoteMessage) {
+        // console.log(
+        //   'Notification caused app to open from quit state:',
+        //   remoteMessage.notification,
+        // );
+        // console.log('remoteMessage.data.route', remoteMessage.data.route)
+        // setInitialRoute(remoteMessage.data.route); // e.g. "Settings"
+        // }
         setLoading(false);
       });
   }, []);

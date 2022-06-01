@@ -98,13 +98,6 @@ export default function Home({ navigation }: HomeScreenProps) {
         options={{
           headerShown: true,
         }}
-        name="Request"
-        component={Request}
-      />
-      <Stack.Screen
-        options={{
-          headerShown: true,
-        }}
         name="ItemDeals"
         component={ItemDeals}
       />

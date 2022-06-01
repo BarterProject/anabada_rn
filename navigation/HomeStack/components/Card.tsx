@@ -156,7 +156,7 @@ export default function Card({
               () => {
                 setShortTouch(false);
               },
-              100,
+              500,
             );
           }}
           onTouchMove={() => {
@@ -181,7 +181,7 @@ export default function Card({
               () => {
                 setShortTouch(false);
               },
-              100,
+              500,
             );
           }}
           onTouchMove={() => {

@@ -43,14 +43,15 @@ color: #FFFFFF;
 `;
 
 interface IDPWProps {
-  navigation : any;
+  navigation: any;
 }
 
-export default function IDPW({ navigation }:IDPWProps) {
+export default function IDPW({ navigation }: IDPWProps) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [isCompleted, setCompleted] = useState(false);
+
 
   const dispatch = useDispatch();
 
@@ -65,7 +66,7 @@ export default function IDPW({ navigation }:IDPWProps) {
   return (
     <Container>
       <Form>
-        <InputFormRow title="아이디" placeholder="6자리 이상" setText={setId} />
+        <InputFormRow title="아이디" placeholder="이메일 계정" setText={setId} />
         <InputFormRowSecrue title="비밀번호" placeholder="6자리 이상" setText={setPassword} />
         <InputFormRowSecrue title="" placeholder="비밀번호 확인" setText={setPassword2} />
         <TouchableButton
@@ -76,6 +77,14 @@ export default function IDPW({ navigation }:IDPWProps) {
           disabled={!isCompleted}
           onPress={() => {
             // 중복되면 안넘어감
+            if (
+              !/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
+                id,
+              )
+            ) {
+              return Alert.alert('에러', '올바른 이메일 주소가 아닙니다.');
+            }
+
             // 비밀번호 다르면 안넘어감
             if (password === password2) {
               navigation.dispatch(

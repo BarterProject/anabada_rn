@@ -66,7 +66,7 @@ function ItemInstance({
   clickable: boolean;
   width: number;
   passport: boolean;
-  idx:number;
+  idx: number;
 }) {
   const { navigate } = useNavigation();
 
