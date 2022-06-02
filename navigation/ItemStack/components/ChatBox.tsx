@@ -1,4 +1,5 @@
 import React from 'react';
+import { memo } from 'react';
 import styled from 'styled-components/native';
 
 const Container = styled.View`
@@ -50,22 +51,33 @@ const LeftText = styled.Text`
 
 type ChatBoxProps = {
     text: string,
-    sender: number
+    id: number,
+    sender: boolean
 }
-
-export default function ChatBox({ text, sender }: ChatBoxProps) {
-
+function arePropsEqual(prevProps, nextProps) {
+    /*
+    return true if passing nextProps to render would return
+    the same result as passing prevProps to render,
+    otherwise return false
+    */return (prevProps.text === nextProps.text)
+}
+const ChatBox = memo(({ text, id, sender }: ChatBoxProps) => {
+    console.log('ChatBoxId', id)
     return (
-        sender === 0 ?
-            <LeftTextContainer>
+        sender ?
+            (<LeftTextContainer>
                 <LeftText>
                     {text}
                 </LeftText>
-            </LeftTextContainer> :
-            <RightTextContainer>
+            </LeftTextContainer>) :
+            (<RightTextContainer>
                 <RightText>
                     {text}
                 </RightText>
-            </RightTextContainer>
+            </RightTextContainer>)
     );
-}
+})
+
+// export default ChatBox;
+export default memo(ChatBox, arePropsEqual);
+

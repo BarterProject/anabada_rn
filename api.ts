@@ -177,12 +177,26 @@ export const FCMApi = {
   }),
   deleteToken:() :Promise<AxiosResponse<any>> => api.delete('/user/fcm/token',),
 }
+type saveMessasgeProps = {
+  content: string;
+  roomName: string;
+}
 
 export const chatApi = {
   getRoomById:(id:string) :Promise<AxiosResponse<any>> => api.get(`/items/${id}/rooms`,),
-  saveMessasge:({content,roomName}) :Promise<AxiosResponse<any>> => api.post(`/rooms/messages`,{
+  saveMessasge:({content,roomName}:saveMessasgeProps) :Promise<AxiosResponse<any>> => api.post(`/rooms/messages`,{
     content,
     roomName
   }),
-  getMessages:(id:string) :Promise<AxiosResponse<any>> => api.get(`/rooms/${id}/messages?page=0`,),
+  getMessages:({roomIdx,pageParam}) => {
+    // console.log('getMessages',pageParam,queryKey)
+    // if(roomIdx===0){
+    //   return{
+    //     contents:[]
+    //   }
+    // }
+    console.log('getMessages작동!')
+    return api.get(`/rooms/${roomIdx}/messages?page=${pageParam}`)
+  },
 }
+

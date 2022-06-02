@@ -7,6 +7,22 @@ import {
 } from './api';
 import { itemType, noticeType } from './types';
 
+type ChatRoomsProps = ChatRoomProps[]
+
+type ChatRoomProps={
+  name:string,
+  messages:Array<MessageProps>
+}
+
+type MessageProps={
+  idx:number,
+  content:string,
+  createdAt:string,
+  sender:{
+    email:string
+  }
+}
+
 export type initialStateProps ={
     signInField:{
       id:string,
@@ -40,6 +56,7 @@ export type initialStateProps ={
       password: string,
       phone: string,
     }
+    chatRooms:ChatRoomProps[],
     chosenItemId:number,
     randomItems:itemType[],
     notice:noticeType[],
@@ -50,6 +67,8 @@ export type stateProps= {
   name: string,
   initialsState: initialStateProps
 }
+
+
 
 const { actions, reducer } = createSlice({
   name: 'application',
@@ -86,6 +105,7 @@ const { actions, reducer } = createSlice({
       password: null,
       phone: null,
     },
+    chatRooms:[],
     chosenItemId: 0,
     randomItems: [],
     notice: [],
@@ -165,7 +185,6 @@ const { actions, reducer } = createSlice({
       ...state,
       signInField: {
         ...state.signInField,
-        id: '',
         password: '',
       },
       userState: {
@@ -220,6 +239,14 @@ const { actions, reducer } = createSlice({
     resetRandomItems:(state)=>({
       ...state,
       randomItems:[]
+    }),
+    setChatRooms:(state,{ payload:{roomId,messages} })=>({
+      ...state,
+      chatRooms: {
+        ...state.chatRooms,
+        [roomId]:messages
+        
+      }
     })
   },
 });
