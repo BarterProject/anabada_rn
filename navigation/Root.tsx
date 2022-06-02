@@ -100,7 +100,7 @@ function Root() {
   const dispatch = useDispatch();
   useEffect(() => {
     messaging().onNotificationOpenedApp((remoteMessage): any => {
-      console.log("1111111")
+      // console.log("test1111111")
       console.log(remoteMessage);
 
       if (remoteMessage.data.channelId === 'ItemActivated') {
@@ -262,15 +262,16 @@ function Root() {
           },
         });
       } else if (remoteMessage.data.channelId === 'chatting') {
-        // navigation.navigate('Home', {
-        //   screen: 'Item',
-        //   params: {
-        //     screen: 'ChatRoom',
-        //     params: {
-        //       itemIdx:remoteMessage.data.roomId
-        //     }
-        //   }
-        // })
+        navigation.navigate('Home', {
+          screen: 'Item',
+          params: {
+            screen: 'ChatRoom',
+            params: {
+              itemIdx: remoteMessage.data.itemId,
+              name: ''
+            }
+          }
+        })
         // navigation.navigate('Home', {
         //   screen: 'Item',
         //   params: {
@@ -299,17 +300,17 @@ function Root() {
       // }
       setLoading(false);
     });
-    messaging().onMessage(async remoteMessage => {
-      // console.log('messaging().onMessage', remoteMessage)
-      console.log('messaging().onMessage에서 remoteMessage.data.roomId ', remoteMessage.data.roomId)
-      console.log('roomIdx ', roomIdx)
-      if (remoteMessage.data.roomId === `${roomIdx}`) {
-        console.log('remoteMessage.data.roomId === {roomIdx}', remoteMessage.data.roomId === `${roomIdx}`)
+    // messaging().onMessage(async remoteMessage => {
+    //   // console.log('messaging().onMessage', remoteMessage)
+    //   console.log('messaging().onMessage에서 remoteMessage.data.roomId ', remoteMessage.data.roomId)
+    //   console.log('roomIdx ', roomIdx)
+    //   if (remoteMessage.data.roomId === `${roomIdx}`) {
+    //     console.log('remoteMessage.data.roomId === {roomIdx}', remoteMessage.data.roomId === `${roomIdx}`)
 
-        refetch()
-      }
-      // let message_body = remoteMessage.notification.body;
-    })
+    //     // refetch()
+    //   }
+    //   // let message_body = remoteMessage.notification.body;
+    // })
   }, []);
 
   return (

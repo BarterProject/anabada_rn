@@ -167,10 +167,10 @@ export default function ChatRoom({ route: { params }, navigation: { setOptions
     useEffect(() => {
         messaging().onMessage(async remoteMessage => {
             // console.log('messaging().onMessage', remoteMessage)
-            console.log('messaging().onMessage에서 remoteMessage.data.roomId ', remoteMessage.data.roomId)
-            console.log('roomIdx ', roomIdx)
-            if (remoteMessage.data.roomId === `${roomIdx}`) {
-                console.log('remoteMessage.data.roomId === {roomIdx}', remoteMessage.data.roomId === `${roomIdx}`)
+            console.log('messaging().onMessage에서 remoteMessage.data.roomId ', remoteMessage.data.itemId)
+            console.log('roomIdx ', itemIdx)
+            if (remoteMessage.data.itemId === `${itemIdx}`) {
+                console.log('remoteMessage.data.roomId === {roomIdx}', remoteMessage.data.roomId === `${itemIdx}`)
 
                 refetch()
             }
