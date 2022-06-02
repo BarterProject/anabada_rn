@@ -74,3 +74,18 @@ height: 43px;
 width: 100px;
 margin: 0;
 `;
+
+export const Fresh = styled.TouchableOpacity`
+  position: absolute;
+  width: 85px;
+  height: 85px;
+  right: 30px;
+  bottom: 50px;
+  border-radius: 80px;
+  left:25px;
+  border:2px solid #e94057;
+  background-color: white;
+  flex:1;
+  align-items: center;
+  justify-content: center;
+`;

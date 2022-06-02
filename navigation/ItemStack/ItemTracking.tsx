@@ -9,10 +9,12 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import { BASE_URL } from '@env';
 
+import moment from 'moment';
 import {
   Dimensions, Pressable, TouchableOpacity, Text, ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 import {
   InputColumn, InputTitle, CommonText, Button, ButtonText,
 } from './utils';
@@ -90,9 +92,9 @@ function ItemTracking({
   const [trackingInfo, setTrackingInfo] = useState<trackingType>(null);
   const getTrackingInfo = async () => {
     try {
-      const { data } = await deliveryApi.getTrackingInfo(itemIdx);
-      setTrackingInfo(data);
+      const { data } = await axios.get('http://www.deliverytracking.kr/?dummy=one&deliverytype=doortodoor&keyword=364183918351');
       console.log(data);
+      // setTrackingInfo(data);
     } catch (e) {
       console.log(e);
     }
@@ -171,21 +173,21 @@ function ItemTracking({
                 editable={false}
               />
             </Column>
-            <Column>
-              <CommonText>결과</CommonText>
-              <Input
-                value="hello"
-                editable={false}
-              />
-            </Column>
+
             <Column>
               <CommonText>배송정보</CommonText>
-              <Input
-                value="hello"
-                editable={false}
-              />
+
             </Column>
           </InputWrapper>
+          {trackingInfo.trackingDetails.map((e, idx) => (
+            <Input
+              value={`${moment(e.time).format('YYYY-MM-DD HH:MM')} - ${e.kind} - ${e.where}`}
+              editable={false}
+              style={{ width: '100%', marginBottom: 15 }}
+              // eslint-disable-next-line react/no-array-index-key
+              key={idx}
+            />
+          ))}
 
           {/* <Button
 

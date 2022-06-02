@@ -99,6 +99,7 @@ export const dealApi = {
   sendReport: ({ title, content, idx }) => api.post(`/items/${idx}/reports`, { title, content }),
   deleteRequest: (idx:number) :Promise<AxiosResponse<any>> => api.delete(`/user/items/requests/${idx}`),
   getDealHistory: (idx:number):Promise<AxiosResponse<any>> => api.get(`/user/items/${idx}/dealHistory`),
+  getCompanies: (): Promise<AxiosResponse<any>> => api.get('/items/deliveries/companies'),
 };
 
 export const itemApi = {
@@ -165,15 +166,14 @@ export const socketApi = {
   },
 };
 
-
 export const boardApi = {
   getBoard: ():Promise<AxiosResponse<any>> => api.get('/boards'),
   getMyPosts: ():Promise<AxiosResponse<any>> => api.get('/boards/1/posts'),
   savePost: (title:string, content:string):Promise<AxiosResponse<any>> => api.post('/boards/1/posts', { title, content }),
 };
 export const FCMApi = {
-  updateToken: (token:string) :Promise<AxiosResponse<any>> => api.put('/user/fcm/token',{
-    token
+  updateToken: (token:string) :Promise<AxiosResponse<any>> => api.put('/user/fcm/token', {
+    token,
   }),
   deleteToken:() :Promise<AxiosResponse<any>> => api.delete('/user/fcm/token',),
 }
@@ -200,14 +200,3 @@ export const chatApi = {
   },
 }
 
-export async function fetchAllPosts({ pageParam = 0, queryKey }) {
-  const [_, query] = queryKey;
-  console.log('testtest',pageParam,query)
-
-  // const url = `${BASE_URL}/api/posts?page=${pageParam}&query=${query}`;
-  // console.log(url);
-  // const data: PostsProps = await fetch(url)
-  //   .then((res) => (res.json()));
-
-  return ['test'];
-}

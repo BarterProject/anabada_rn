@@ -107,20 +107,20 @@ export type noticeType = {
     state: number,
     user: userType,
 }
-export type trackingDetailType = {
-    kind: string,
-    timeString: string,
-    where:string,
-}
+// export type trackingDetailType = {
+//     kind: string,
+//     timeString: string,
+//     where:string,
+// }
 
-export type trackingType = {
-  complete:boolean,
-  invoiceNo: string,
-  itemName: string,
-  level: number,
-  result: string,
-  trackingDetails:trackingDetailType[],
-}
+// export type trackingType = {
+//   complete:boolean,
+//   invoiceNo: string,
+//   itemName: string,
+//   level: number,
+//   result: string,
+//   trackingDetails:trackingDetailType[],
+// }
 
 export type historyImageDetail = {
     createdAt: Date,
@@ -155,4 +155,34 @@ export type PostType = {
     title: string,
     updatedAt: Date,
     user: null,
+}
+
+export type trackingDetailType = {
+    code: null,
+    kind: string,
+    level: number,
+    manName: string,
+    manPic: string,
+    remark: string,
+    telno: string,
+    telno2: string,
+    time: number,
+    timeString: string,
+    where:string,
+}
+
+export type trackingType = {
+  complete: boolean,
+  invoiceNo: number,
+  itemImage: string,
+  itemName: string,
+  level: number,
+  orderNumber: number | null,
+  receiverAddr: string,
+  receiverName: string,
+  recipient: string,
+  result: 'Y' | 'N',
+  senderName: string,
+  trackingDetails: trackingDetailType[],
+  zipCode: number | null,
 }

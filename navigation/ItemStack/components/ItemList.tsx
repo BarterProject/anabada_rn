@@ -2,6 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components/native';
 
+import { Text } from 'react-native';
 import ItemInstance from './ItemInstance';
 
 import { itemType } from '../../../types';
@@ -33,26 +34,38 @@ function ItemList({ items }:{items: itemType[]}) {
 
   return (
     (
-      <Container
-        contentContainerStyle={{
-          justifyContent: 'flex-start',
-        }}
-      >
-        <GridItem>
-          {items.map((item) => (
-            <ItemInstance
-              key={item.idx}
-              uri={item.images.length !== 0 ? item.images[0].name : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcuwX7lcqhAjm-fqpG8KKoNL84ldCGKt9Ugg&usqp=CAU'}
-              connectedUser={1}
-              status={item.state}
-              clickable
-              width={33}
-              passport
-              idx={item.idx}
-            />
-          ))}
-        </GridItem>
-      </Container>
+      items.length === 0 ? (
+        <Container
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ marginTop: 30 }}>등록된 아이템이 없습니다.</Text>
+        </Container>
+      )
+        : (
+          <Container
+            contentContainerStyle={{
+              justifyContent: 'flex-start',
+            }}
+          >
+            <GridItem>
+              {items.map((item) => (
+                <ItemInstance
+                  key={item.idx}
+                  uri={item.images.length !== 0 ? item.images[0].name : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcuwX7lcqhAjm-fqpG8KKoNL84ldCGKt9Ugg&usqp=CAU'}
+                  connectedUser={1}
+                  status={item.state}
+                  clickable
+                  width={33}
+                  passport
+                  idx={item.idx}
+                />
+              ))}
+            </GridItem>
+          </Container>
+        )
     )
   );
 }
