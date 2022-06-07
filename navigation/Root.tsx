@@ -93,10 +93,6 @@ const Nav = createNativeStackNavigator<RootStackParamList>();
 function Root() {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
-  const [initialRoute, setInitialRoute] = useState<'Auth' |
-    'Home' |
-    'Alarm' |
-    'Item'>('Auth');
   const dispatch = useDispatch();
   useEffect(() => {
     messaging().onNotificationOpenedApp((remoteMessage): any => {
@@ -315,7 +311,7 @@ function Root() {
 
   return (
     <Nav.Navigator
-      initialRouteName={initialRoute}
+      initialRouteName={"Auth"}
       screenOptions={{
         headerShown: false,
       }}

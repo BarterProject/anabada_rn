@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import SplashScreen from 'react-native-splash-screen';
 
 import styled from 'styled-components/native';
 
@@ -49,6 +50,11 @@ const Body = styled.View`
 `;
 
 export default function Main({ navigation }: any) {
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, [])
+
   return (
     <Container>
       <Header>
