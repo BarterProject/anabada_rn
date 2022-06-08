@@ -244,7 +244,8 @@ function Enroll({
           </InputColumn>
           <StatusText>
             <Ionicons size={20} name="warning" color="#ffe222" />
-            계좌번호 0000-000-00000에 계좌이체 하셔야 등록이 완료됩니다.
+            농협 356-1191-5550-63
+            에 계좌이체 하셔야 등록이 완료됩니다.
           </StatusText>
           <InputColumn>
             <CommonText>계약명세서 (더보기)</CommonText>
