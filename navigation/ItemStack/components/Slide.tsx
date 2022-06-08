@@ -87,7 +87,7 @@ function Slide({ imgList, edit, setImgList }: {
   };
 
   const imageFetch = useMemo(() => imgList.map((e, idx: number) => (
-    <ImageItem key={e.name}>
+    <ImageItem key={e.name + idx}>
       <ImageInstance
         source={{
           uri: edit ? e.path : `${BASE_URL}/api/v2/items/images/${e.name}`,
