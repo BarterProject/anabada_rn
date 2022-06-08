@@ -31,6 +31,7 @@ import {
   NavBar,
   NavBarButtonsConatainer,
 } from './components/MainComponents';
+import { AlertHelper } from '../components/AlertHelper';
 
 function Main() {
   const scale = useRef(new Animated.Value(1)).current;
@@ -141,6 +142,7 @@ function Main() {
       dispatch(requestDeal()); // 교환 신청하기
       next();
       POSITION.setValue(0);
+      AlertHelper.show('success', '', '교환 요청 완료')
     });
   };
 

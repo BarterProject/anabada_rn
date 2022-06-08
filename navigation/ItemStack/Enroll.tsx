@@ -21,6 +21,7 @@ import {
 import { itemApi } from '../../api';
 import { initialStateProps } from '../../slice';
 import { itemType } from '../../types';
+import { AlertHelper } from '../components/AlertHelper';
 // import { imageToSendType } from '../../types';
 
 const Container = styled.ScrollView`
@@ -157,6 +158,7 @@ function Enroll({
           }],
         }),
       );
+      AlertHelper.show('success', '', '아이템 등록 신청 완료')
     } catch (e) {
       console.log(e);
     } finally {

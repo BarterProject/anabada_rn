@@ -56,9 +56,9 @@ export type initialStateProps ={
       password: string,
       phone: string,
     }
-    chatRooms:ChatRoomProps[],
     chosenItemId:number,
     randomItems:itemType[],
+    roomItemIdEntered:number,
     notice:noticeType[],
     noticeAlarm:boolean
 }
@@ -105,9 +105,9 @@ const { actions, reducer } = createSlice({
       password: null,
       phone: null,
     },
-    chatRooms:[],
     chosenItemId: 0,
     randomItems: [],
+    roomItemIdEntered:0,
     notice: [],
     noticeAlarm: false,
   },
@@ -240,14 +240,11 @@ const { actions, reducer } = createSlice({
       ...state,
       randomItems:[]
     }),
-    setChatRooms:(state,{ payload:{roomId,messages} })=>({
+    setChatRoomItemId:(state,{ payload })=>({
       ...state,
-      chatRooms: {
-        ...state.chatRooms,
-        [roomId]:messages
-        
-      }
+      roomItemIdEntered:payload
     })
+
   },
 });
 
@@ -271,7 +268,8 @@ export const {
   setNoticeAlarm,
   setUserInfo,
   setPhoneToken,
-  resetRandomItems
+  resetRandomItems,
+  setChatRoomItemId
 } = actions;
 
 export function requestSignUp({

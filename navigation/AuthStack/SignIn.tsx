@@ -86,7 +86,7 @@ export default function SignIn() {
 
   useEffect(() => {
     console.log('로그인 스크린 리렌더 accessToken', accessToken);
-    if (accessToken === null) {
+    if (accessToken === null || undefined) {
       console.log('accessToken의 값이 없습니다.');
       return;
     }
