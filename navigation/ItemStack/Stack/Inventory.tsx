@@ -4,6 +4,7 @@ import {
   Text, View, ActivityIndicator,
 } from 'react-native';
 import { itemApi } from '../../../api';
+import { itemType } from '../../../types';
 import ItemInventory from '../components/ItemInventory';
 
 import { Fresh } from '../utils';
@@ -16,8 +17,7 @@ function Inventory({ route: { params }, navigation: { setOptions } }:{
   const getMyInventory = useCallback(async () => {
     try {
       const { data } = await itemApi.getMyInvetory();
-      setItems(data);
-      console.log(data);
+      setItems(data.filter((item:itemType) => item.state !== 0));
     } catch (e) {
       console.log(e);
     }
