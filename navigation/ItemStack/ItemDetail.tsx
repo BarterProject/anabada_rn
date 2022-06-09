@@ -91,7 +91,7 @@ function ItemDetail({
 
   const [delivery, setDelivery] = useState<boolean>(false);
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
@@ -158,7 +158,7 @@ function ItemDetail({
   const refundItem = async () => {
     try {
       await itemApi.refundItem(itemIdx);
-      dispatch(setItemToDeal({ chosenItemId: 0 }))
+      dispatch(setItemToDeal({ chosenItemId: 0 }));
       dis(
         CommonActions.reset({
           index: 0,
@@ -180,13 +180,13 @@ function ItemDetail({
   };
 
   const getItemInfo = useCallback(async () => {
-    console.log("진입", itemIdx)
+    console.log('진입', itemIdx);
 
     try {
       const { data }: { data: itemType } = await itemApi.getItemInfo(itemIdx);
       setItemInfo(data);
     } catch (e) {
-      console.log("getItemInfo 에러")
+      console.log('getItemInfo 에러');
       console.log(e);
     }
   }, [itemInfo]);
@@ -305,26 +305,28 @@ function ItemDetail({
           return null;
         }
         if (itemInfo.state === 2) {
-          return <TouchableOpacity
-            onPress={() => {
-              console.log('het')
-              // navigate('ChatRoom', {
-              //   id: itemInfo.idx,
-              //   test: "test"
-              // });
-              navigation.navigate('Item', {
-                screen: 'ChatRoom',
-                params: {
-                  itemIdx,
-                  name: itemInfo.name
-                }
-              });
-            }}
-          >
-            <Entypo name='chat' size={40} />
-          </TouchableOpacity >
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                console.log('het');
+                // navigate('ChatRoom', {
+                //   id: itemInfo.idx,
+                //   test: "test"
+                // });
+                navigation.navigate('Item', {
+                  screen: 'ChatRoom',
+                  params: {
+                    itemIdx,
+                    name: itemInfo.name,
+                  },
+                });
+              }}
+            >
+              <Entypo name="chat" size={40} />
+            </TouchableOpacity>
+          );
         }
-      }
+      },
     });
     console.log(enrollMode);
   }, [enrollMode, deliveryMode, itemInfo]);
@@ -395,18 +397,18 @@ function ItemDetail({
               {
                 !isItItem && itemInfo.state !== 4 && itemInfo.state !== 2
                   && itemInfo.state !== 5 && itemInfo.state !== 7 && itemInfo.state !== 6 ? (
-                  <Button
-                    style={{ marginTop: 15 }}
-                    onPress={() => {
-                      dispatch(setItemToDeal(itemIdx));
-                      dispatch(resetRandomItems());
-                      console.log(`${itemIdx}선택완료`);
-                      navigate('Home', { screen: 'Main' });
-                    }}
-                  >
-                    <ButtonText>선택하기</ButtonText>
-                  </Button>
-                ) : null
+                    <Button
+                      style={{ marginTop: 15 }}
+                      onPress={() => {
+                        dispatch(setItemToDeal(itemIdx));
+                        dispatch(resetRandomItems());
+                        console.log(`${itemIdx}선택완료`);
+                        navigate('Home', { screen: 'Main' });
+                      }}
+                    >
+                      <ButtonText>선택하기</ButtonText>
+                    </Button>
+                  ) : null
               }
               {
                 isItItem || itemInfo.state === 4 || itemInfo.registrant.idx === userIdx
