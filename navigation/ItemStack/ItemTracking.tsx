@@ -87,7 +87,7 @@ function ItemTracking({
   },
 }: {
   navigation: { setOptions: Function, goBack: Function, navigate: Function },
-  route: { params: { itemIdx: number, itemUrl:string} }
+  route: { params: { itemIdx: number, itemUrl: string } }
 }) {
   const [trackingInfo, setTrackingInfo] = useState<trackingType>(null);
   const getTrackingInfo = async () => {
@@ -121,9 +121,7 @@ function ItemTracking({
   return (trackingInfo
     ? (
       <KeyboardAwareScrollView extraScrollHeight={30}>
-
         <Container>
-
           <ItemInfoWrapper>
             <LeftSide>
               <ImageWrapper>
