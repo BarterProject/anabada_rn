@@ -1,10 +1,5 @@
 import styled from "styled-components/native";
 
-// aramgothic_b
-// aramgothic_l
-// aramgothic_r
-// Harlow_Solid_Italic
-
 export const TextFontAramB = styled.Text`
     font-family: '210AramGothicB';
 `

@@ -67,25 +67,25 @@ export default function Home({ navigation }: HomeScreenProps) {
           fontFamily: 'HarlowSolidItalic',
           fontSize: 30,
         },
-        headerRight: () => (
-          <Btn
-            onPress={() => {
-              navigation.navigate('Alarm', { screen: 'Main' });
-              if (noticeAlarm) {
-                dispatch(setNoticeAlarm(false));
-              }
-            }}
-          >
-            <Text>
-              <View>
-                <Icon size={30} name="notifications" />
-                {noticeAlarm ? (
-                  <Badge style={{ position: 'absolute', top: -3, left: 15 }} />
-                ) : null}
-              </View>
-            </Text>
-          </Btn>
-        ),
+        // headerRight: () => (
+        //   <Btn
+        //     onPress={() => {
+        //       navigation.navigate('Alarm', { screen: 'Main' });
+        //       if (noticeAlarm) {
+        //         dispatch(setNoticeAlarm(false));
+        //       }
+        //     }}
+        //   >
+        //     <Text>
+        //       <View>
+        //         <Icon size={30} name="notifications" />
+        //         {noticeAlarm ? (
+        //           <Badge style={{ position: 'absolute', top: -3, left: 15 }} />
+        //         ) : null}
+        //       </View>
+        //     </Text>
+        //   </Btn>
+        // ),
         headerShadowVisible: false,
         contentStyle: {
           backgroundColor: 'white',

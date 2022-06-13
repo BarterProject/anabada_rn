@@ -40,22 +40,7 @@ export default function Item() {
       screenOptions={{
         headerBackTitleVisible: false,
         title: '',
-        headerRight: () => (
-          <Btn
-            onPress={() => {
-              navigation.navigate('Alarm', { screen: 'Main' });
-            }}
-          >
-            <Text>
-              <View>
-                <Icon size={30} name="notifications" />
-                <Badge style={{ position: 'absolute', top: -3, left: 15 }}>
-                  <Text style={{ fontSize: 10, color: 'white' }}>5</Text>
-                </Badge>
-              </View>
-            </Text>
-          </Btn>
-        ),
+
         headerLeft: () => (
           <Btn
             onPress={() => {
