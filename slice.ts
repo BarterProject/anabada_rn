@@ -5,6 +5,7 @@ import {
   dealApi, userApi,
   getRandomItems, postLogin, postSignup, setToken,
 } from './api';
+import { AlertHelper } from './navigation/components/AlertHelper';
 import { itemType, noticeType } from './types';
 
 type ChatRoomsProps = ChatRoomProps[]
@@ -217,9 +218,9 @@ const { actions, reducer } = createSlice({
       ...state,
       randomItems: [...state.randomItems.slice(1)],
     }),
-    setItemToDeal: (state, { payload: itemId }) => ({
+    setItemToDeal: (state, { payload }) => ({
       ...state,
-      chosenItemId: itemId,
+      chosenItemId: payload,
     }),
     setNotice: (state, { payload: notice }) => ({
       ...state,
@@ -364,11 +365,14 @@ export function requestDeal() {
       console.log('requestDeal: chosenItemId', chosenItemId);
       console.log('requestDeal: randomItems[0].idx', randomItems[0].idx);
 
-
+      if (chosenItemId === 0) {
+        return alert('교환요청을 실패했습니다. \n교환할 자신의 아이템을 선택해주세요');
+      }
       await dealApi.requestDeal({
         requestId: chosenItemId,
         resqustedId: randomItems[0].idx,
       });
+      AlertHelper.show('success', '', '교환 요청 완료')
 
       // const data:itemType[] = await getRandomItems({ accessToken, number });
       // dispatch(addRandomItems(data));

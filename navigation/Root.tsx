@@ -69,7 +69,6 @@ function Root() {
         // AlertHelper.show('info', notification.title, notification.message)
       } else if (notification.data.channelId === 'DealBeenRequested') {
         AlertHelper.show('info', notification.title, notification.message)
-        dispatch(setItemToDeal(parseInt(notification.itemId)));
 
       } else if (notification.data.channelId === 'DealCompleted') {
         AlertHelper.show('info', notification.title, notification.message)
@@ -190,7 +189,7 @@ function Root() {
             }
           },
         });
-        dispatch(setItemToDeal({ itemId: remoteMessage.data.itemId }));
+        dispatch(setItemToDeal(parseInt(remoteMessage.data.itemId)));
         dispatch(resetRandomItems())
       } else if (remoteMessage.data.channelId === 'DeliveryRequested') {
         navigation.navigate('Home', {

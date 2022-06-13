@@ -254,7 +254,6 @@ export function DealsButton() {
     }));
 
   useEffect(() => {
-    console.log('chosenItemId', chosenItemId);
     itemApi.getItemInfo(chosenItemId).then((itemInfo) => {
       setChosenItemIamgeName(itemInfo.data.images[0].name);
       console.log('itemInfo');
