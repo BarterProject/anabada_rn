@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
 
 import { itemApi } from '../../../api';
+import { itemType } from '../../../types';
 
 import ItemList from '../components/ItemList';
 
@@ -15,8 +16,7 @@ function MyItem({ route: { params } }: { route: { params: { getNewData: boolean 
   const getMyItem = useCallback(async () => {
     try {
       const { data } = await itemApi.getMyItem();
-      setItems(data);
-      console.log(data);
+      setItems(data.filter((item:itemType) => item.state !== 0));
     } catch (e) {
       console.log(e);
     }
