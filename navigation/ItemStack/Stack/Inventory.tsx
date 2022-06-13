@@ -18,7 +18,7 @@ function Inventory({ route: { params }, navigation: { setOptions } }: {
   const getMyInventory = useCallback(async () => {
     try {
       const { data } = await itemApi.getMyInvetory();
-      setItems(data.filter((item:itemType) => item.state !== 0));
+      setItems(data.filter((item: itemType) => item.state !== 0));
     } catch (e) {
       console.log(e);
     }
@@ -55,7 +55,6 @@ function Inventory({ route: { params }, navigation: { setOptions } }: {
             />
           </Text>
         )}
-
       </Fresh>
     </View>
   ) : (
