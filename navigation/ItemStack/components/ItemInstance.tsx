@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { BASE_URL } from '@env';
+import { TextFontAramL } from '../../../Font';
 
 const Container = styled.View<{ width: number }>`
   width: ${(props) => `${props.width}%`};
@@ -38,7 +39,7 @@ const Badge = styled.View`
   align-items: center;
 `;
 
-const Status = styled.Text`
+const Status = styled(TextFontAramL)`
   font-size: 15px;
 `;
 

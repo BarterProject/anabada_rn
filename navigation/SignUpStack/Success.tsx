@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CommonActions } from '@react-navigation/native';
 import { AuthStackParamList } from '../Auth';
 import { initialStateProps, requestSignUp } from '../../slice';
+import { TextFontAramL } from '../../Font';
 
 // import { useSelector } from 'react-redux';
 
@@ -17,7 +18,7 @@ const Container = styled.View`
     flex: 1;
 `;
 
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
   font-size:40px;
   top:50px;
 `;
@@ -53,7 +54,7 @@ const TouchableButton = styled.TouchableOpacity`
     margin-top:30px;
   `;
 
-const ButtonText = styled.Text`
+const ButtonText = styled(TextFontAramL)`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;
@@ -95,10 +96,6 @@ export default function Success({ navigation }: SuccessProps) {
         </Text>
       </Body>
       <Footer>
-        {/* <ButtonFit
-          text="들어가기"
-          to="SignIn"
-        /> */}
         <TouchableButton
           onPress={() => {
             navigation.dispatch(
@@ -107,7 +104,6 @@ export default function Success({ navigation }: SuccessProps) {
                 routes: [{ name: 'SignIn' }],
               }),
             );
-            // navigation.navigate('SignIn');
           }}
         >
           <ButtonText>

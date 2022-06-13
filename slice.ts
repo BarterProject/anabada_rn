@@ -108,7 +108,15 @@ const { actions, reducer } = createSlice({
     chosenItemId: 0,
     randomItems: [],
     roomItemIdEntered:0,
-    notice: [],
+    notice: [
+      {
+        content:'hi',
+        idx:1,
+        kind:'1',
+        route:'1',
+        state:1,
+      }
+    ],
     noticeAlarm: false,
   },
   reducers: {
@@ -148,11 +156,11 @@ const { actions, reducer } = createSlice({
         phoneNumber,
       },
     }),
-    setPhoneAuthChecked: (state) => ({
+    setPhoneAuthChecked: (state,{payload}) => ({
       ...state,
       signUpField: {
         ...state.signUpField,
-        isPhoneAuthChecked: true,
+        isPhoneAuthChecked: payload,
       },
     }),
     setAddressinfo: (state, { payload: { zonecode, address, addressDetail } }) => ({
@@ -299,17 +307,9 @@ export function requestSignUp({
 
     try {
       const data = await postSignup(userInfo);
-      const { message, jwt } = data;
-
-      console.log('data', data);
-      if (message !== undefined) {
-        console.log(message);
-      } else {
-        console.log('postSignup에서 확인된 jwt', jwt);
-        dispatch(setAccessToken(jwt));
-      }
+      console.log(data);
     } catch (error) {
-      dispatch(setAccessToken(''));
+      console.log(error)
     }
   };
 }
@@ -364,9 +364,7 @@ export function requestDeal() {
       console.log('requestDeal: chosenItemId', chosenItemId);
       console.log('requestDeal: randomItems[0].idx', randomItems[0].idx);
 
-      if (chosenItemId === 0) {
-        return alert('교환요청을 실패했습니다. \n교환할 자신의 아이템을 선택해주세요');
-      }
+
       await dealApi.requestDeal({
         requestId: chosenItemId,
         resqustedId: randomItems[0].idx,

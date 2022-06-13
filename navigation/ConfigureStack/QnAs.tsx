@@ -6,6 +6,7 @@ import { TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import { boardApi } from '../../api';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.ScrollView`
     flex: 1;
@@ -16,7 +17,7 @@ const Header = styled.View`
 /* background-color:blue; */
 `;
 // 텍스트 아래 속성 없어야 중앙배열
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
     flex: 1;
     justify-content:center;
     align-items:center;
@@ -38,7 +39,7 @@ const ButtonContainer = styled.View`
   margin-bottom:15px;
 `;
 
-const Text2 = styled.Text`
+const Text2 = styled(TextFontAramL)`
   font-size:20px;
   margin-bottom:10px;
 `;
@@ -53,7 +54,7 @@ const Line = styled.View`
   height:2px;
   width:100%;
 `;
-const SmallText = styled.Text`
+const SmallText = styled(TextFontAramL)`
       font-size:10px;
 
 `;

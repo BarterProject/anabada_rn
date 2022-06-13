@@ -9,6 +9,7 @@ import { chatApi } from '../../api';
 import { initialStateProps, setChatRoomItemId } from '../../slice';
 import ChatBox from './components/ChatBox';
 import messaging from '@react-native-firebase/messaging';
+import { TextFontAramL } from '../../Font';
 
 
 
@@ -21,7 +22,7 @@ const Container = styled.View`
 `;
 
 //텍스트 아래 속성 없어야 중앙배열
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
     /* color:black;
     flex: 1;
     justify-content:center;
@@ -44,7 +45,7 @@ const MessageInput = styled.TextInput`
     flex:1;
     /* margin:3px; */
     padding:5px;
-
+    font-family: '210AramGothicL';
 `
 const SendButton = styled.Button`
     width:20px;

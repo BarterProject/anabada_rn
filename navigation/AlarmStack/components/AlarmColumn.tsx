@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import { TextFontAramL } from '../../../Font';
 
 const Container = styled.View`
   padding: 0 30px;
@@ -27,7 +28,7 @@ const AlarmContent = styled.View`
   padding-left: 30px;
 `;
 
-const Content = styled.Text`
+const Content = styled(TextFontAramL)`
   color: #757575;
   font-size: 16px;
 `;

@@ -11,14 +11,14 @@ const Container = styled.View`
     align-items:center;
 `;
 
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
     flex: 1;
     justify-content:center;
     align-items:center;
 `;
 
 export default function Receives({ route: { params } }:
-  {route:{params:{getNewData:boolean}}}) {
+  { route: { params: { getNewData: boolean } } }) {
   const [receiveDeals, setReceiveDeals] = useState([]);
 
   const { chosenItemId } = useSelector((state: initialStateProps) => ({

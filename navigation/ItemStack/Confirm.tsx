@@ -14,7 +14,7 @@ const Container = styled.View`
  padding:35px 25px 0 25px;
 `;
 
-const StatusText = styled.Text`
+const StatusText = styled(TextFontAramL)`
   color: black;
   font-size: 17px;
   font-weight: 300;
@@ -29,8 +29,8 @@ function Enroll({
     },
   },
 }: {
-  navigation: { setOptions: Function, navigate:Function },
-  route:{params:{title:string, bigMsg:string, smallMsg:string, screen:string, getNewData:boolean}}
+  navigation: { setOptions: Function, navigate: Function },
+  route: { params: { title: string, bigMsg: string, smallMsg: string, screen: string, getNewData: boolean } }
 }) {
   useEffect(() => {
     setOptions({

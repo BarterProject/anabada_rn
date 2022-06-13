@@ -6,6 +6,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components/native';
+import { TextFontAramR, TextFontHalrowItalic } from '../../Font';
 import {
   initialStateProps, requestLogin, setAccessToken, setIdForSigningIn, setPasswordForSigingIn,
 } from '../../slice';
@@ -26,7 +27,7 @@ const Button = styled.TouchableOpacity`
   color: white;
 `;
 
-const ButtonText = styled.Text`
+const ButtonText = styled(TextFontAramR)`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;
@@ -42,14 +43,16 @@ const TextInput = styled.TextInput`
   border: 1px;
   padding-left:20px;
   margin-bottom:10px;
+  font-family:'210AramGothicL';
 `;
 
 const TitleContainer = styled.View`
   /* top:80px; */
 `;
 
-const Title = styled.Text`
-  font-size:80px;
+const Title = styled(TextFontHalrowItalic)`
+  align-self:center;
+  font-size:130px;
   color:#E94057;
 `;
 
@@ -118,7 +121,7 @@ export default function SignIn() {
       <Container>
         <Header>
           <TitleContainer>
-            <Title>CLIP</Title>
+            <Title> clip </Title>
           </TitleContainer>
         </Header>
         <Body>

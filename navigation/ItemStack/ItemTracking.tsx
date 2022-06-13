@@ -70,7 +70,7 @@ const Item = styled.ImageBackground`
   justify-content: center;
 `;
 
-const ItemText = styled.Text`
+const ItemText = styled(TextFontAramL)`
     font-size:20px;
     font-weight:500;
 `;

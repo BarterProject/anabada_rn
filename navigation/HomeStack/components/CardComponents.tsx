@@ -2,6 +2,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import React from 'react';
 import styled from 'styled-components/native';
 import { itemType } from '../../../types';
+import { TextFontAramL } from '../../../Font';
 
 export const Container = styled.View`
 position:absolute;
@@ -18,7 +19,7 @@ width:100%;
 height:30%;
 `;
 
-export const InfoText = styled.Text`
+export const InfoText = styled(TextFontAramL)`
 padding: 8px;
 color: white;
 font-size:40px;
@@ -44,7 +45,7 @@ export const DetailButton = styled.Pressable`
 
 `;
 
-export const DetailButtonText = styled.Text`
+export const DetailButtonText = styled(TextFontAramL)`
 left:0;
 padding-top: 15px;
 `;
@@ -67,7 +68,7 @@ padding: 10px;
 top:-10px;
 `;
 
-export const Deposit = styled.Text`
+export const Deposit = styled(TextFontAramL)`
 background-color:gray;
 font-size: 20px;
 `;

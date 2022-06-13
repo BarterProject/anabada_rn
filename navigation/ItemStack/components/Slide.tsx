@@ -10,6 +10,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { BASE_URL } from '@env';
 
 import { imageType } from '../../../types';
+import { TextFontAramL } from '../../../Font';
 
 const Container = styled.View`
   width: 100%;
@@ -39,7 +40,7 @@ const ImageInstance = styled.ImageBackground`
   width: 100%;
 `;
 
-const ImageText = styled.Text`
+const ImageText = styled(TextFontAramL)`
   background-color: #f2f2f2;
   color: #626262;
   font-weight: 300;

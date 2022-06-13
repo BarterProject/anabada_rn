@@ -15,6 +15,7 @@ import { BASE_URL } from '@env';
 import { useSelector } from 'react-redux';
 import { initialStateProps } from '../../../slice';
 import { itemApi } from '../../../api';
+import { TextFontAramL } from '../../../Font';
 
 export type MarkProps = {
   declineOpacity: Animated.AnimatedInterpolation | null,
@@ -59,7 +60,7 @@ export const NavBarButtonsConatainer = styled.View`
   top:-30px;
 `;
 
-export const ButtonText = styled.Text`
+export const ButtonText = styled(TextFontAramL)`
   justify-content:center;
   align-items:center;
 `;

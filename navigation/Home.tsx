@@ -60,7 +60,13 @@ export default function Home({ navigation }: HomeScreenProps) {
       initialRouteName="Main"
       screenOptions={{
         headerBackTitleVisible: false,
-        title: '',
+        title: ' clip ',
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#E94057',
+          fontFamily: 'HarlowSolidItalic',
+          fontSize: 30,
+        },
         headerRight: () => (
           <Btn
             onPress={() => {
@@ -120,6 +126,6 @@ export default function Home({ navigation }: HomeScreenProps) {
         }}
       />
 
-    </Stack.Navigator>
+    </Stack.Navigator >
   );
 }

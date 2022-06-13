@@ -25,7 +25,7 @@ import { resetRandomItems, setItemToDeal } from '../../slice';
 
 const Container = styled.ScrollView``;
 
-const ItemName = styled.Text`
+const ItemName = styled(TextFontAramL)`
   font-size: 36;
   font-weight:600;
 
@@ -38,12 +38,12 @@ const ItemNameContainer = styled.View`
   /* padding-left:10px; */
 `;
 
-const Deposit = styled.Text`
+const Deposit = styled(TextFontAramL)`
   font-size: 20;
   font-weight:600;
 `;
 
-const Description = styled.Text`
+const Description = styled(TextFontAramL)`
   
 `;
 

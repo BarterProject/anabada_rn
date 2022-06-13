@@ -31,6 +31,13 @@ export default function Configure({ navigation }) {
       screenOptions={{
         headerTransparent: true,
         headerTitle: '',
+        headerStyle: {
+          backgroundColor: 'white',
+        },
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontFamily: '210AramGothicL'
+        },
         headerBackTitleVisible: false,
         headerBackButtonMenuEnabled: true,
         headerTintColor: '#E94057',
@@ -98,6 +105,6 @@ export default function Configure({ navigation }) {
 
         }}
       />
-    </Stack.Navigator>
+    </Stack.Navigator >
   );
 }

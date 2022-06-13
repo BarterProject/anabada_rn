@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 
 import { CommonActions } from '@react-navigation/native';
-import { initialStateProps, setPhoneNumberForSigingUp } from '../../slice';
+import { initialStateProps, setPhoneAuthChecked, setPhoneNumberForSigingUp } from '../../slice';
 
 const Container = styled.View`
     flex: 1;
@@ -24,7 +24,7 @@ const TouchableButton = styled.TouchableOpacity`
   margin:5px;
 `;
 
-const ButtonText = styled.Text`
+const ButtonText = styled(TextFontAramL)`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;
@@ -48,6 +48,7 @@ const TextInput = styled.TextInput`
   height:50px;
   border-radius:25px;
   padding-left:20px;
+  font-family: '210AramGothicL';
 `;
 
 const TouchableNextButton = styled.TouchableOpacity`
@@ -62,7 +63,7 @@ const TouchableNextButton = styled.TouchableOpacity`
   margin-top:30px;
 `;
 
-// const ButtonText = styled.Text`
+// const ButtonText = styled(TextFontAramL)`
 //   font-size: 18px;
 //   font-weight: 800;
 //   line-height: 27px;
@@ -101,6 +102,7 @@ export default function PhoneNumber({ navigation }: PhoneNumberProps) {
           placeholder="-없이 입력하세요"
           onChangeText={(text) => { setPhoneNumber(text); }}
           autoCapitalize="none"
+          value={phoneNumber}
         />
         <PhoneAuthContainer>
           <TouchableButton
@@ -136,6 +138,7 @@ export default function PhoneNumber({ navigation }: PhoneNumberProps) {
           }}
           onPress={() => {
             dispatch(setPhoneNumberForSigingUp(phoneNumber));
+            dispatch(setPhoneAuthChecked(false));
             // navigation.navigate('Address');
             navigation.dispatch(
               CommonActions.reset({

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex: 1;
@@ -8,7 +9,7 @@ const Container = styled.View`
     margin-top: 100px;
 `;
 
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
     flex: 1;
     justify-content:center;
     align-items:center;

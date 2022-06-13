@@ -22,6 +22,7 @@ import { itemApi } from '../../api';
 import { initialStateProps } from '../../slice';
 import { itemType } from '../../types';
 import { AlertHelper } from '../components/AlertHelper';
+import { TextFontAramL } from '../../Font';
 // import { imageToSendType } from '../../types';
 
 const Container = styled.ScrollView`
@@ -36,7 +37,7 @@ const Inputs = styled.View`
   padding: 0 25px;
 `;
 
-const StatusText = styled.Text`
+const StatusText = styled(TextFontAramL)`
   color: black;
   font-size: 20px;
 `;

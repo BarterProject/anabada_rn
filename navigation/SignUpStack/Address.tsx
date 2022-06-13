@@ -8,6 +8,7 @@ import { initialStateProps, setAddressinfo } from '../../slice';
 
 import InputFormRow from './components/InputFormRow';
 import InputFormRowForValue from './components/InputFormRowForValue';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex: 1;
@@ -38,7 +39,7 @@ const TouchableNextButton = styled.TouchableOpacity`
     margin-top:30px;
   `;
 
-const ButtonText = styled.Text`
+const ButtonText = styled(TextFontAramL)`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;
@@ -55,10 +56,10 @@ const Form = styled.View`
 `;
 
 interface AddressProps {
-  navigation : any;
+  navigation: any;
 }
 
-export default function Address({ navigation }:AddressProps) {
+export default function Address({ navigation }: AddressProps) {
   // const [zoneCode, setZoneCode] = useState('');
   // const [address, setAddress] = useState('');
   const [addressDetail, setAddressDetail] = useState('');
@@ -66,7 +67,7 @@ export default function Address({ navigation }:AddressProps) {
 
   const dispatch = useDispatch();
 
-  const { zonecode, address } = useSelector((state:initialStateProps) => ({
+  const { zonecode, address } = useSelector((state: initialStateProps) => ({
     zonecode: state.signUpField.addressinfo.zonecode,
     address: state.signUpField.addressinfo.address,
   }));

@@ -138,11 +138,15 @@ function Main() {
       restDisplacementThreshold: 100,
       restSpeedThreshold: 100,
     }).start(() => {
-      console.log('bounceTotheRightOut chosenItemId:', chosenItemId);
-      dispatch(requestDeal()); // 교환 신청하기
+      if (chosenItemId === 0) {
+        alert('교환요청을 실패했습니다. \n교환할 자신의 아이템을 선택해주세요');
+      } else {
+        dispatch(requestDeal()); // 교환 신청하기
+        AlertHelper.show('success', '', '교환 요청 완료')
+      }
+      // console.log('bounceTotheRightOut chosenItemId:', chosenItemId);
       next();
       POSITION.setValue(0);
-      AlertHelper.show('success', '', '교환 요청 완료')
     });
   };
 

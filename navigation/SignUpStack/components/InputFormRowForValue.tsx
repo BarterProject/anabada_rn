@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
 const Container = styled.View`
   display:flex;
@@ -10,7 +11,7 @@ const Container = styled.View`
   margin-top:10px;
 `;
 
-const Title = styled.Text`
+const Title = styled(TextFontAramL)`
   font-size:20px;
 `;
 
@@ -20,17 +21,18 @@ const TextInput = styled.TextInput`
   height:50px;
   border-radius:25px;
   padding-left:20px;
+  font-family: '210AramGothicL';
 `;
 
-interface InputFormRowForValueProps{
-  title:string,
-  placeholder :string,
-  value:string
+interface InputFormRowForValueProps {
+  title: string,
+  placeholder: string,
+  value: string
 }
 
 export default function InputFormRowForValue(
   { title, placeholder, value }
-  :InputFormRowForValueProps,
+    : InputFormRowForValueProps,
 ) {
   return (
     <Container>

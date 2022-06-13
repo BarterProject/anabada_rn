@@ -19,6 +19,7 @@ import {
 import { dealApi, deliveryApi } from '../../api';
 import Popup from './components/Popup';
 import { deliveryType } from '../../types';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex:1;
@@ -61,7 +62,7 @@ const Item = styled.ImageBackground`
   justify-content: center;
 `;
 
-const ItemText = styled.Text`
+const ItemText = styled(TextFontAramL)`
     font-size:20px;
     font-weight:500;
 `;

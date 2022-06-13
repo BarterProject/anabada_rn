@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SelectBank from './components/SelectBank';
 
 import { initialStateProps, setAccountNumber } from '../../slice';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex: 1;
@@ -25,7 +26,7 @@ const AccountContainer = styled.View`
   margin-top:20px;
 `;
 
-const Title = styled.Text`
+const Title = styled(TextFontAramL)`
   font-size:20px;
 `;
 
@@ -36,9 +37,10 @@ const TextInput = styled.TextInput`
   width:100%;
   border-radius:25px;
   padding-left:20px;
+  font-family: '210AramGothicL';
 `;
 
-const ButtonText = styled.Text`
+const ButtonText = styled(TextFontAramL)`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;
@@ -58,7 +60,7 @@ const TouchableButton = styled.TouchableOpacity`
 `;
 
 export default function AccountNumber({ navigation }) {
-  const { bankName } = useSelector((state:initialStateProps) => ({
+  const { bankName } = useSelector((state: initialStateProps) => ({
     bankName: state.signUpField.bankName,
   }));
   const [account, setAccount] = useState('');

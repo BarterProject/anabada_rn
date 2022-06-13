@@ -21,6 +21,7 @@ import { AlertHelper } from './components/AlertHelper';
 import { StatusBar } from 'react-native';
 
 
+StatusBar.setBackgroundColor("black");
 
 export type RootStackParamList = {
   Auth: NavigatorScreenParams<AuthStackParamList>;
@@ -147,7 +148,6 @@ function Root() {
             }
           }
         })
-
         navigation.navigate('Home', {
           screen: 'Item',
           params: {

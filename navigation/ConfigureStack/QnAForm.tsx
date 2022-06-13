@@ -9,9 +9,10 @@ import { boardApi } from '../../api';
 import {
   Container, InputContent, Inputs, InputTitle, WhiteText, Button,
 } from './components/QnAFormComponents';
+import { TextFontAramL } from '../../Font';
 
 // 텍스트 아래 속성 없어야 중앙배열
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
     flex: 1;
     justify-content:center;
     align-items:center;

@@ -17,7 +17,7 @@ export const TouchableButton = styled.TouchableOpacity`
   margin-top:30px;
 `;
 
-export const ButtonText = styled.Text`
+export const ButtonText = styled(TextFontAramL)`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;
@@ -27,13 +27,13 @@ export const ButtonText = styled.Text`
 
 type Props = NativeStackScreenProps<RootStackParamList>
 
-interface ButtonProps extends Props{
-  to: 'Main'|'SignIn'|'SignUp'|'PhoneAuth'|'SearchAddress',
-  text:string
+interface ButtonProps extends Props {
+  to: 'Main' | 'SignIn' | 'SignUp' | 'PhoneAuth' | 'SearchAddress',
+  text: string
 }
 
 export default function ButtonFit(
-  { navigation, to, text }:ButtonProps,
+  { navigation, to, text }: ButtonProps,
 ) {
   return (
     <TouchableButton

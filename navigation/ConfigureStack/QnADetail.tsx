@@ -6,9 +6,10 @@ import { PostType } from '../../types';
 import {
   Container, InputContent, Inputs, InputTitle,
 } from './components/QnAFormComponents';
+import { TextFontAramL } from '../../Font';
 
 // 텍스트 아래 속성 없어야 중앙배열
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
     flex: 1;
     justify-content:center;
     align-items:center;
@@ -27,7 +28,7 @@ const ReplyWrapper = styled.View`
     background-color: #e94057;
     padding:15px;
 `;
-const ReplyHeader = styled.Text`
+const ReplyHeader = styled(TextFontAramL)`
     font-size:20px;
     font-weight:700;
     color:white;
@@ -37,9 +38,10 @@ const ReplyContents = styled.TextInput`
     margin-top:15px;
     flex:1;   
     color:white;
+    font-family: '210AramGothicL';
 `;
 
-const ReplyText = styled.Text`
+const ReplyText = styled(TextFontAramL)`
     font-size:20px;
     font-weight:400;
     color:#e94057;
