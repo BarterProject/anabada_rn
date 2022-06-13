@@ -21,6 +21,7 @@ import {
 
 import { deliveryApi } from '../../api';
 import { trackingType } from '../../types';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex:1;

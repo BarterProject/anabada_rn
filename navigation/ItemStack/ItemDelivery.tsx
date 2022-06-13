@@ -19,6 +19,7 @@ import {
 } from './utils';
 
 import { deliveryApi } from '../../api';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex:1;

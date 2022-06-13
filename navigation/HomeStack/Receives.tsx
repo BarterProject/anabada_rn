@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { dealApi } from '../../api';
+import { TextFontAramL } from '../../Font';
 import { initialStateProps } from '../../slice';
 import ItemReceives from './ItemReceives';
 

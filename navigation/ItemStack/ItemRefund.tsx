@@ -8,7 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { BASE_URL } from '@env';
 
 import {
-  Dimensions, Pressable, TouchableOpacity, Text, ActivityIndicator,
+  Pressable, TouchableOpacity, Text, ActivityIndicator,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CommonActions } from '@react-navigation/native';

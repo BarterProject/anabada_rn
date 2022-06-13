@@ -6,6 +6,7 @@ import styled from 'styled-components/native';
 
 import { CommonActions } from '@react-navigation/native';
 import { initialStateProps, setPhoneAuthChecked, setPhoneNumberForSigingUp } from '../../slice';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex: 1;

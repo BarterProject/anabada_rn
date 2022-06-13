@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
 const ButtonText = styled(TextFontAramL)`
   font-size: 18px;

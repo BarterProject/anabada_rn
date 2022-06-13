@@ -18,6 +18,7 @@ import {
 
 import { dealApi } from '../../api';
 import { resetRandomItems, setItemToDeal } from '../../slice';
+import { TextFontAramL } from '../../Font';
 
 // const Container = styled.ScrollView`
 //     position: relative;

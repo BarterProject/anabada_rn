@@ -4,6 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import styled from 'styled-components/native';
 import { RootStackParamList } from '../../Root';
+import { TextFontAramL } from '../../../Font';
 
 export const TouchableButton = styled.TouchableOpacity`
   background-color:#E94057;
