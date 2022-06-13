@@ -311,6 +311,12 @@ export function requestSignUp({
       console.log(data);
     } catch (error) {
       console.log(error)
+      if (error.data.errorCode === "B0001") {
+        alert('회원가입에 오류가 생겼습니다.다시 시도해주세요')
+      }
+      if (error.data.errorCode === "B0006") {
+        alert('중복된 Email입니다. 다른 Email로 시도해주세요')
+      }
     }
   };
 }

@@ -92,7 +92,7 @@ export default function Success({ navigation }: SuccessProps) {
           color="#E94057"
         />
         <Text>
-          회원가입 완료
+          회원가입 요청완료
         </Text>
       </Body>
       <Footer>

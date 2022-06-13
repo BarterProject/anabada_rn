@@ -31,7 +31,6 @@ import {
   NavBar,
   NavBarButtonsConatainer,
 } from './components/MainComponents';
-import { AlertHelper } from '../components/AlertHelper';
 
 function Main() {
   const scale = useRef(new Animated.Value(1)).current;
@@ -109,8 +108,8 @@ function Main() {
   });
 
   const rotation = POSITION.interpolate({
-    inputRange: [-250, 250],
-    outputRange: ['-30deg', '30deg'],
+    inputRange: [-350, 350],
+    outputRange: ['-50deg', '50deg'],
     extrapolate: 'clamp',
   });
 
@@ -141,7 +140,7 @@ function Main() {
       dispatch(requestDeal()); // 교환 신청하기
       next();
       POSITION.setValue(0);
-    });
+    }).;
   };
 
   const bounceBack = () => {
