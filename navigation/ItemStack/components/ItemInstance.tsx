@@ -40,7 +40,7 @@ const Badge = styled.View`
 `;
 
 const Status = styled(TextFontAramL)`
-  font-size: 15px;
+  font-size: 14px;
 `;
 
 const AndroidStatus = styled.View`
