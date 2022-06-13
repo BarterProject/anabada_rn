@@ -136,7 +136,6 @@ export default function Card({
         style={{
           width: '100%',
           height: '100%',
-          borderRadius: 20,
         }}
         source={{
           uri: (images.length === 0 || images[index] === undefined
