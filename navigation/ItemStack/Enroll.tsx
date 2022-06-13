@@ -8,7 +8,7 @@ import Checkbox from 'expo-checkbox';
 
 import styled from 'styled-components/native';
 
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useSelector } from 'react-redux';

@@ -4,8 +4,6 @@ import styled from 'styled-components/native';
 
 import { TouchableOpacity, Text, View } from 'react-native';
 
-import { Ionicons } from '@expo/vector-icons';
-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Slide from './components/Slide';
@@ -49,7 +47,7 @@ const DescriptionContainer = styled.View`
 `;
 
 function ItemRequestDetail({ route, navigation: { navigate } }:
-  {route:{params}, navigation:{navigate:Function}}) {
+  { route: { params }, navigation: { navigate: Function } }) {
   const { item, dealIdx }: { item: itemType, dealIdx: number } = route.params;
 
   const deleteRequest = async () => {

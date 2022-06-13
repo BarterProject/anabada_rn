@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import React, { useEffect } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
@@ -51,10 +51,11 @@ export default function QnADetail({
     navigate,
   },
   route: { params: { detail } },
-}:{navigation: {
-  setOptions:Function, goBack:Function,
-  navigate:Function
-}, route: { params: { detail: PostType} },
+}: {
+  navigation: {
+    setOptions: Function, goBack: Function,
+    navigate: Function
+  }, route: { params: { detail: PostType } },
 }) {
   const styles = StyleSheet.create({
     textInputStyle: {
@@ -70,7 +71,7 @@ export default function QnADetail({
           }}
         >
           <Text>
-            <Ionicons size={30} name="chevron-back-outline" />
+            <Icon size={30} name="chevron-back-outline" />
           </Text>
         </TouchableOpacity>
       ),
@@ -93,29 +94,29 @@ export default function QnADetail({
         />
         <Line />
         {
-            detail.reply !== null ? (
-              <ReplyWrapper style={{
-                borderBottomLeftRadius: 15,
-                borderTopLeftRadius: 15,
-                borderTopRightRadius: 15,
-              }}
-              >
-                <ReplyHeader>운영진 답변</ReplyHeader>
-                <ReplyContents
-                  multiline
-                  style={
-                      styles.textInputStyle
-                  }
-                  editable={false}
-                  value={detail.reply}
-                />
-              </ReplyWrapper>
-            ) : (
-              <>
-                <ReplyText>운영진의 답변이 등록되지 않았습니다.</ReplyText>
-                <ReplyText>잠시 기다려주세요.</ReplyText>
-              </>
-            )
+          detail.reply !== null ? (
+            <ReplyWrapper style={{
+              borderBottomLeftRadius: 15,
+              borderTopLeftRadius: 15,
+              borderTopRightRadius: 15,
+            }}
+            >
+              <ReplyHeader>운영진 답변</ReplyHeader>
+              <ReplyContents
+                multiline
+                style={
+                  styles.textInputStyle
+                }
+                editable={false}
+                value={detail.reply}
+              />
+            </ReplyWrapper>
+          ) : (
+            <>
+              <ReplyText>운영진의 답변이 등록되지 않았습니다.</ReplyText>
+              <ReplyText>잠시 기다려주세요.</ReplyText>
+            </>
+          )
         }
 
       </Inputs>

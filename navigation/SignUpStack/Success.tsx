@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import styled from 'styled-components/native';
 
-import { AntDesign } from '@expo/vector-icons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 

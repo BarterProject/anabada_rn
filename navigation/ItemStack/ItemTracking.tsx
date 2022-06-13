@@ -13,7 +13,7 @@ import moment from 'moment';
 import {
   Dimensions, Pressable, TouchableOpacity, Text, ActivityIndicator,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import {
   InputColumn, InputTitle, CommonText, Button, ButtonText,

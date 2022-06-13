@@ -1,4 +1,4 @@
-package com.anabada;
+package org.name.anabada;
 
 import android.os.Build;
 import android.os.Bundle;

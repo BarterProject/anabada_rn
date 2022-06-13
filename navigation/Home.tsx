@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import Main from './HomeStack/Main';
@@ -72,7 +72,7 @@ export default function Home({ navigation }: HomeScreenProps) {
           >
             <Text>
               <View>
-                <Ionicons size={30} name="notifications" />
+                <Icon size={30} name="notifications" />
                 {noticeAlarm ? (
                   <Badge style={{ position: 'absolute', top: -3, left: 15 }} />
                 ) : null}

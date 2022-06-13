@@ -7,7 +7,8 @@ import {
   TouchableOpacity, Text, View, ActivityIndicator, Pressable, Linking, Alert,
 } from 'react-native';
 
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -70,18 +71,22 @@ function ItemDetail({
     setOptions, goBack, navigate, dispatch: dis,
   },
 }: {
-  route: { params: {
-    readOnly:boolean,
-    itemIdx:number,
-    enrollMode:boolean,
-    deliveryMode:boolean,
-    inventoryMode:boolean,
-    isItItem:boolean,
-    status:string
-    idx: number
-  } };
-  navigation: { setOptions: Function, goBack: Function, navigate:Function,
-    dispatch:Function };
+  route: {
+    params: {
+      readOnly: boolean,
+      itemIdx: number,
+      enrollMode: boolean,
+      deliveryMode: boolean,
+      inventoryMode: boolean,
+      isItItem: boolean,
+      status: string
+      idx: number
+    }
+  };
+  navigation: {
+    setOptions: Function, goBack: Function, navigate: Function,
+    dispatch: Function
+  };
 
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
@@ -238,7 +243,7 @@ function ItemDetail({
     }
   };
 
-  function OpenURLButton({ url, children }:{url:string, children:string}) {
+  function OpenURLButton({ url, children }: { url: string, children: string }) {
     const handlePress = useCallback(async () => {
       // Checking if the link is supported for links with custom URL scheme.
       const supported = await Linking.canOpenURL(url);

@@ -68,9 +68,11 @@ function Root() {
         // AlertHelper.show('info', notification.title, notification.message)
       } else if (notification.data.channelId === 'DealBeenRequested') {
         AlertHelper.show('info', notification.title, notification.message)
+        dispatch(setItemToDeal(parseInt(notification.itemId)));
 
       } else if (notification.data.channelId === 'DealCompleted') {
         AlertHelper.show('info', notification.title, notification.message)
+        dispatch(setItemToDeal(parseInt(notification.itemId)));
 
       } else if (notification.data.channelId === 'DeliveryRequested') {
         AlertHelper.show('info', notification.title, notification.message)

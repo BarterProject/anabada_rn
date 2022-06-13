@@ -1,4 +1,8 @@
-import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
+// import { AntDesign, Entypo, Ionicons } from 'react-native-vector-icons';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react';
 import {

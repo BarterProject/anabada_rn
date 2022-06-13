@@ -3,7 +3,7 @@ import {
   TouchableOpacity, Text, Animated,
 } from 'react-native';
 
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import styled from 'styled-components/native';
 
@@ -41,7 +41,7 @@ const InfoContainer = styled.View`
   width:100%;
 `;
 
-const Btn = styled.TouchableOpacity<{dis:boolean}>`
+const Btn = styled.TouchableOpacity<{ dis: boolean }>`
   opacity:${(props) => (props.dis ? 0.5 : 1)};
   margin: 0px 10px;
 `;
@@ -59,9 +59,9 @@ function ItemHistory({
   route: { params: { itemIdx, itemName } },
   navigation: { setOptions, goBack },
 }: {
-    route: { params: {itemIdx:number, itemName:string}},
-    navigation: { setOptions: Function; goBack: Function, }
-  }) {
+  route: { params: { itemIdx: number, itemName: string } },
+  navigation: { setOptions: Function; goBack: Function, }
+}) {
   const position = useRef(new Animated.Value(0)).current;
   const rotation = useRef(new Animated.Value(0)).current;
 
@@ -133,12 +133,12 @@ function ItemHistory({
 
   const onDismissPosition = () => {
     position.setValue(0);
-    setNowImage((prevState:number) => prevState - 1);
+    setNowImage((prevState: number) => prevState - 1);
   };
 
   const onDismissRotation = () => {
     rotation.setValue(0);
-    setNowImage((prevState:number) => prevState + 1);
+    setNowImage((prevState: number) => prevState + 1);
   };
 
   const setLoadingBtn = () => {
@@ -209,162 +209,162 @@ function ItemHistory({
   return (
     <Container>
       {
-    nowImage
-      ? (
-        <>
-          <CardContainer>
-            {nowImage >= 4 ? (
-              <Card
-                source={{
-                  uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 4].itemImages[0].name}`,
-                }}
-                resizeMode="cover"
-                imageStyle={{ borderRadius: 25 }}
-                style={{ transform: [{ rotateZ: finalBackRotation }, { scale: finalScale }] }}
-              >
-                <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
-                  <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 4].name}</Text>
-                  <Text>
-                    보증금
-                    :
-                    {images[nowImage - 4].deposit}
-                    원
-                  </Text>
-                </CardInfo>
-              </Card>
-            ) : null}
-            {nowImage >= 3 ? (
-              <Card
-                style={{
-                  transform: leftMode ? [{ rotateZ: thirdBackRotation }, { scale: thirdScale }]
-                    : [{ rotateZ: thirdForwardRotation }],
+        nowImage
+          ? (
+            <>
+              <CardContainer>
+                {nowImage >= 4 ? (
+                  <Card
+                    source={{
+                      uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 4].itemImages[0].name}`,
+                    }}
+                    resizeMode="cover"
+                    imageStyle={{ borderRadius: 25 }}
+                    style={{ transform: [{ rotateZ: finalBackRotation }, { scale: finalScale }] }}
+                  >
+                    <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+                      <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 4].name}</Text>
+                      <Text>
+                        보증금
+                        :
+                        {images[nowImage - 4].deposit}
+                        원
+                      </Text>
+                    </CardInfo>
+                  </Card>
+                ) : null}
+                {nowImage >= 3 ? (
+                  <Card
+                    style={{
+                      transform: leftMode ? [{ rotateZ: thirdBackRotation }, { scale: thirdScale }]
+                        : [{ rotateZ: thirdForwardRotation }],
 
-                }}
-                source={{
-                  uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 3].itemImages[0].name}`,
-                }}
-                resizeMode="cover"
-                imageStyle={{ borderRadius: 25 }}
-              >
-                <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
-                  <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 3].name}</Text>
-                  <Text>
-                    보증금
-                    :
-                    {images[nowImage - 3].deposit}
-                    원
-                  </Text>
-                </CardInfo>
-              </Card>
-            ) : null}
+                    }}
+                    source={{
+                      uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 3].itemImages[0].name}`,
+                    }}
+                    resizeMode="cover"
+                    imageStyle={{ borderRadius: 25 }}
+                  >
+                    <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+                      <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 3].name}</Text>
+                      <Text>
+                        보증금
+                        :
+                        {images[nowImage - 3].deposit}
+                        원
+                      </Text>
+                    </CardInfo>
+                  </Card>
+                ) : null}
 
-            {
-        nowImage >= 2 ? (
-          <Card
-            style={{
-              transform: leftMode ? [{ rotateZ: secondBackRotation }]
-                : [{ rotateZ: secondForwardRotation }],
-            }}
-            source={{
-              uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 2].itemImages[0].name}`,
+                {
+                  nowImage >= 2 ? (
+                    <Card
+                      style={{
+                        transform: leftMode ? [{ rotateZ: secondBackRotation }]
+                          : [{ rotateZ: secondForwardRotation }],
+                      }}
+                      source={{
+                        uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 2].itemImages[0].name}`,
 
-            }}
-            resizeMode="cover"
-            imageStyle={{ borderRadius: 25 }}
-          >
-            <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
-              <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 2].name}</Text>
-              <Text>
-                보증금
-                :
-                {images[nowImage - 2].deposit}
-                원
-              </Text>
-            </CardInfo>
-          </Card>
-        )
-          : null
-            }
+                      }}
+                      resizeMode="cover"
+                      imageStyle={{ borderRadius: 25 }}
+                    >
+                      <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+                        <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 2].name}</Text>
+                        <Text>
+                          보증금
+                          :
+                          {images[nowImage - 2].deposit}
+                          원
+                        </Text>
+                      </CardInfo>
+                    </Card>
+                  )
+                    : null
+                }
 
-            <Card
-              style={{
-                transform: leftMode ? [{ rotateZ: rotation }] : [
-                  { translateX: position },
-                  { rotateZ: ownForwardRotation },
+                <Card
+                  style={{
+                    transform: leftMode ? [{ rotateZ: rotation }] : [
+                      { translateX: position },
+                      { rotateZ: ownForwardRotation },
 
-                ],
-              }}
-              source={{
-                uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 1].itemImages[0].name}`,
-              }}
-              resizeMode="cover"
-              imageStyle={{ borderRadius: 25 }}
-            >
-              <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
-                <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 1].name}</Text>
-                <Text>
-                  보증금
-                  :
-                  {images[nowImage - 1].deposit}
-                  원
-                </Text>
-              </CardInfo>
+                    ],
+                  }}
+                  source={{
+                    uri: `${BASE_URL}/api/v2/items/images/${images[nowImage - 1].itemImages[0].name}`,
+                  }}
+                  resizeMode="cover"
+                  imageStyle={{ borderRadius: 25 }}
+                >
+                  <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+                    <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage - 1].name}</Text>
+                    <Text>
+                      보증금
+                      :
+                      {images[nowImage - 1].deposit}
+                      원
+                    </Text>
+                  </CardInfo>
 
-            </Card>
+                </Card>
 
-            {nowImage < images.length ? (
-              <Card
-                source={{
-                  uri: `${BASE_URL}/api/v2/items/images/${images[nowImage].itemImages[0].name}`,
-                }}
-                resizeMode="cover"
-                imageStyle={{ borderRadius: 25 }}
-                style={{
-                  transform: [{ translateX: lastMove }, { rotateZ: lastRotaion }],
-                }}
-              >
-                <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
-                  <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage].name}</Text>
-                  <Text>
-                    보증금
-                    :
-                    {images[nowImage].deposit}
-                    원
-                  </Text>
-                </CardInfo>
-              </Card>
-            ) : null}
+                {nowImage < images.length ? (
+                  <Card
+                    source={{
+                      uri: `${BASE_URL}/api/v2/items/images/${images[nowImage].itemImages[0].name}`,
+                    }}
+                    resizeMode="cover"
+                    imageStyle={{ borderRadius: 25 }}
+                    style={{
+                      transform: [{ translateX: lastMove }, { rotateZ: lastRotaion }],
+                    }}
+                  >
+                    <CardInfo style={{ borderBottomLeftRadius: 25, borderBottomRightRadius: 25 }}>
+                      <Text style={{ fontSize: 15, fontWeight: '600', marginBottom: 7 }}>{images[nowImage].name}</Text>
+                      <Text>
+                        보증금
+                        :
+                        {images[nowImage].deposit}
+                        원
+                      </Text>
+                    </CardInfo>
+                  </Card>
+                ) : null}
 
-            <BtnColumn>
-              <Btn
-                onPress={setBack}
-                disabled={btnLoading || nowImage === images.length}
-                dis={btnLoading || nowImage === images.length}
-              >
-                <Ionicons name="caret-back-circle-outline" color="black" size={40} />
-              </Btn>
-              <Btn
-                onPress={setForward}
-                disabled={btnLoading || nowImage === 1}
-                dis={btnLoading || nowImage === 1}
-              >
-                <Ionicons name="caret-forward-circle-outline" color="black" size={40} />
-              </Btn>
-            </BtnColumn>
-          </CardContainer>
+                <BtnColumn>
+                  <Btn
+                    onPress={setBack}
+                    disabled={btnLoading || nowImage === images.length}
+                    dis={btnLoading || nowImage === images.length}
+                  >
+                    <Ionicons name="caret-back-circle-outline" color="black" size={40} />
+                  </Btn>
+                  <Btn
+                    onPress={setForward}
+                    disabled={btnLoading || nowImage === 1}
+                    dis={btnLoading || nowImage === 1}
+                  >
+                    <Ionicons name="caret-forward-circle-outline" color="black" size={40} />
+                  </Btn>
+                </BtnColumn>
+              </CardContainer>
 
-          <InfoContainer>
-            <InputContent
-              placeholder="설명"
-              multiline
-              editable={false}
-              style={{ textAlignVertical: 'top', height: 80, color: 'black' }}
-              value={`'${itemName}’의 거래 히스토리 목록입니다.`}
-            />
-          </InfoContainer>
-        </>
-      ) : <Text>해당 아이템의 거래내역이 없습니다.</Text>
-              }
+              <InfoContainer>
+                <InputContent
+                  placeholder="설명"
+                  multiline
+                  editable={false}
+                  style={{ textAlignVertical: 'top', height: 80, color: 'black' }}
+                  value={`'${itemName}’의 거래 히스토리 목록입니다.`}
+                />
+              </InfoContainer>
+            </>
+          ) : <Text>해당 아이템의 거래내역이 없습니다.</Text>
+      }
     </Container>
 
   );

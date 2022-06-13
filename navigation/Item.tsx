@@ -7,7 +7,7 @@ import styled from 'styled-components/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Main from './ItemStack/Main';
 import ItemDetail from './ItemStack/ItemDetail';
 import ItemDelivery from './ItemStack/ItemDelivery';
@@ -48,7 +48,7 @@ export default function Item() {
           >
             <Text>
               <View>
-                <Ionicons size={30} name="notifications" />
+                <Icon size={30} name="notifications" />
                 <Badge style={{ position: 'absolute', top: -3, left: 15 }}>
                   <Text style={{ fontSize: 10, color: 'white' }}>5</Text>
                 </Badge>
@@ -63,7 +63,7 @@ export default function Item() {
             }}
           >
             <Text>
-              <Ionicons size={30} name="chevron-back-outline" />
+              <Icon size={30} name="chevron-back-outline" />
             </Text>
           </Btn>
         ),

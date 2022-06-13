@@ -1,5 +1,5 @@
 import { BASE_URL } from '@env';
-import { AntDesign } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -213,7 +213,7 @@ export default function Card({
               }
             >
               <DetailButtonText>
-                <AntDesign name="infocirlceo" color="white" size={20} />
+                <Icon name="infocirlceo" color="white" size={20} />
               </DetailButtonText>
             </DetailButton>
           </DetailButtonContainer>

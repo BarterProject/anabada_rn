@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useEffect } from 'react';
 
 import { Text } from 'react-native';
@@ -20,7 +20,7 @@ const CategoryContainer = styled.Pressable`
     height:45px;
 `;
 
-const CategoryTitle = styled.Text<{check:boolean}>`
+const CategoryTitle = styled.Text<{ check: boolean }>`
     color:${(props) => (props.check ? '#e94057' : 'black')};
     font-weight: ${(props) => (props.check ? 700 : 300)};
 `;
@@ -31,16 +31,19 @@ function Category({
   navigation: { setOptions, goBack, navigate },
   route: { params },
 }: {
-    navigation: { setOptions: Function, goBack:Function, navigate:Function},
-    route:{params:{
-      itemList:categoryType[] | paymentOptionType[],
-      check:number,
-      type:string,
-      delivery:deliveryType,
-      itemUrl:string,
-      itemName:string,
-      itemDescription:string, }}
-  }) {
+  navigation: { setOptions: Function, goBack: Function, navigate: Function },
+  route: {
+    params: {
+      itemList: categoryType[] | paymentOptionType[],
+      check: number,
+      type: string,
+      delivery: deliveryType,
+      itemUrl: string,
+      itemName: string,
+      itemDescription: string,
+    }
+  }
+}) {
   const setTitle = () => {
     if (params.type === 'category') {
       return '카테고리 선택';
@@ -69,7 +72,7 @@ function Category({
   }, []);
   return (
     <Container>
-      {params ? params.itemList.map((item:categoryType | paymentOptionType, idx:number) => (
+      {params ? params.itemList.map((item: categoryType | paymentOptionType, idx: number) => (
         <CategoryContainer
           style={{ borderBottomColor: 'lightgray', borderBottomWidth: 1 }}
           onPress={() => {

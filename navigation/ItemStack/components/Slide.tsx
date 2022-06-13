@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 
 import styled from 'styled-components/native';
 
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import ImagePicker from 'react-native-image-crop-picker';
 

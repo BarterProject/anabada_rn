@@ -3,7 +3,7 @@ import { useHeaderHeight } from '@react-navigation/elements';
 import DropShadow from 'react-native-drop-shadow';
 import styled from 'styled-components/native';
 import { TouchableOpacity, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import { boardApi } from '../../api';
 
@@ -46,7 +46,6 @@ const Text2 = styled.Text`
 const Button = styled.TouchableOpacity`
     /* background-color:yellow; */
     width:100%;
- 
 `;
 
 const Line = styled.View`
@@ -67,13 +66,15 @@ export default function QnAs({
     setOptions, goBack, navigate,
   },
 
-}:{navigation: {
-    setOptions:Function, goBack:Function, navigate:Function
-  }, route:{
-    params:{
-        getNewData:boolean
+}: {
+  navigation: {
+    setOptions: Function, goBack: Function, navigate: Function
+  }, route: {
+    params: {
+      getNewData: boolean
     }
-} }) {
+  }
+}) {
   const headerHeight = useHeaderHeight();
 
   const [posts, setPosts] = useState(null);
@@ -96,7 +97,7 @@ export default function QnAs({
           }}
         >
           <Text>
-            <Ionicons size={30} name="chevron-back-outline" />
+            <Icon size={30} name="chevron-back-outline" />
           </Text>
         </TouchableOpacity>
       ),

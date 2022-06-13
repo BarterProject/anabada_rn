@@ -12,7 +12,7 @@ import { BASE_URL } from '@env';
 import {
   Dimensions, Pressable, TouchableOpacity, Text, ActivityIndicator,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CommonActions } from '@react-navigation/native';
 import {
   InputColumn, InputTitle, CommonText, Button, ButtonText,
@@ -86,7 +86,7 @@ function ItemDelivery({
     },
   },
 }: {
-  navigation: { setOptions: Function, goBack: Function, navigate: Function, dispatch:Function },
+  navigation: { setOptions: Function, goBack: Function, navigate: Function, dispatch: Function },
   route: { params: { itemUrl: string, itemName: string, itemDescription: string, itemIdx: number } }
 }) {
   const [phone, setPhone] = useState('');
@@ -163,7 +163,7 @@ function ItemDelivery({
     }
   };
 
-  const returnPostcode = (display:boolean) => (
+  const returnPostcode = (display: boolean) => (
     display
       ? (
         <Popup style={{ width: Dimensions.get('window').width }}>
@@ -171,9 +171,9 @@ function ItemDelivery({
           <Postcode
             style={{ flex: 7, height: 500 }}
             jsOptions={{ animation: true }}
-    // onComplete={handleComplete}
+            // onComplete={handleComplete}
             onSelected={(data) => {
-            // console.log(data.zonecode, data.address)
+              // console.log(data.zonecode, data.address)
               const { zonecode, address: ad } = data;
               setAddress(`${zonecode} ${ad}`);
               setPopup(!popup);

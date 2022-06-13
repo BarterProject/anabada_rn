@@ -1,4 +1,4 @@
-import { AntDesign } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/AntDesign';
 import React from 'react';
 import styled from 'styled-components/native';
 import { itemType } from '../../../types';
@@ -72,10 +72,10 @@ background-color:gray;
 font-size: 20px;
 `;
 export type CardProps = {
-item:itemType
+  item: itemType
 }
 
-export function Info({ name }:{name:string}) {
+export function Info({ name }: { name: string }) {
   return (
     <InfoTitle>
       <InfoText>
@@ -84,7 +84,7 @@ export function Info({ name }:{name:string}) {
       <DetailButtonContainer>
         <DetailButton>
           <DetailButtonText>
-            <AntDesign
+            <Icon
               name="infocirlceo"
               color="white"
               size={20}
@@ -96,7 +96,7 @@ export function Info({ name }:{name:string}) {
   );
 }
 
-export function DepositInfo({ deposit }:{deposit:number}) {
+export function DepositInfo({ deposit }: { deposit: number }) {
   return (
     <DepositContainer>
       <Deposit>

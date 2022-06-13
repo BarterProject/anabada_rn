@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components/native';
 
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Container = styled.View`
   padding: 0 30px;
@@ -36,7 +36,7 @@ function AlarmColumn({ content }: { content: string }) {
   return (
     <Container>
       <AlarmType>
-        <Ionicons size={25} name="cube-outline" color="#E94057" />
+        <Icon size={25} name="cube-outline" color="#E94057" />
       </AlarmType>
       <AlarmContent>
         <Content>{content}</Content>
