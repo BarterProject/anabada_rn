@@ -2,6 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import DropShadow from 'react-native-drop-shadow';
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
 const Container = styled.Pressable`
     flex:1;
@@ -30,7 +31,7 @@ const Header = styled.View`
     height:100%;
   `;
 
-const HeaderText = styled.Text`
+const HeaderText = styled(TextFontAramL)`
   color:white;
   font-size:15px;
   font-weight:500;
@@ -42,7 +43,7 @@ const Body = styled.View`
   justify-content: space-between;
 `;
 
-const BodyText = styled.Text`
+const BodyText = styled(TextFontAramL)`
   color:black;
   font-size:15px;
   font-weight:600;
@@ -60,7 +61,7 @@ const Btn = styled.TouchableOpacity`
 
 function Popup({
   message, header, display, setDisplay,
-}:{message:string, header:string, display:boolean, setDisplay:Function}) {
+}: { message: string, header: string, display: boolean, setDisplay: Function }) {
   return (
     display ? (
       <Container onPress={() => { setDisplay(!display); }}>

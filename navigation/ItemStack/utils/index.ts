@@ -1,3 +1,4 @@
+import { TextFontAramL } from './../../../Font';
 import styled from 'styled-components/native';
 
 import { Animated, ImageBackground } from 'react-native';
@@ -13,6 +14,7 @@ export const InputTitle = styled.TextInput.attrs({
   padding: 10px 15px;
   margin-bottom: 15px;
   color:black;
+  font-family: '210AramGothicL';
 `;
 
 export const InputContent = styled(InputTitle)`
@@ -38,7 +40,7 @@ export const Button = styled.Pressable`
   align-items: center;
 `;
 
-export const ButtonText = styled.Text`
+export const ButtonText = styled(TextFontAramL)`
   color: white;
   font-weight: 600;
   font-size: 20px;
@@ -63,7 +65,7 @@ export const InputColumn = styled.View`
   height:50px;
 `;
 
-export const CommonText = styled.Text`
+export const CommonText = styled(TextFontAramL)`
 color: #626262;
 font-weight: 300;
 font-size: 23px;

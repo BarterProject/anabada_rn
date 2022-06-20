@@ -3,13 +3,14 @@ import React, { useMemo } from 'react';
 
 import styled from 'styled-components/native';
 
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import ImagePicker from 'react-native-image-crop-picker';
 
 import { BASE_URL } from '@env';
 
 import { imageType } from '../../../types';
+import { TextFontAramL } from '../../../Font';
 
 const Container = styled.View`
   width: 100%;
@@ -39,7 +40,7 @@ const ImageInstance = styled.ImageBackground`
   width: 100%;
 `;
 
-const ImageText = styled.Text`
+const ImageText = styled(TextFontAramL)`
   background-color: #f2f2f2;
   color: #626262;
   font-weight: 300;
@@ -87,7 +88,7 @@ function Slide({ imgList, edit, setImgList }: {
   };
 
   const imageFetch = useMemo(() => imgList.map((e, idx: number) => (
-    <ImageItem key={e.name}>
+    <ImageItem key={e.name + idx}>
       <ImageInstance
         source={{
           uri: edit ? e.path : `${BASE_URL}/api/v2/items/images/${e.name}`,

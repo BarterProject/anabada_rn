@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
 
@@ -9,7 +9,7 @@ import ItemList from '../components/ItemList';
 
 import { Fresh } from '../utils';
 
-function MyItem({ route: { params } }:{route:{params:{getNewData:boolean}}}) {
+function MyItem({ route: { params } }: { route: { params: { getNewData: boolean } } }) {
   const [items, setItems] = useState(null);
   const [loading, setLoading] = useState(false);
 

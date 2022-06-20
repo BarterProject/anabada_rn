@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
 import React, { useEffect, useState } from 'react';
@@ -9,9 +9,10 @@ import { boardApi } from '../../api';
 import {
   Container, InputContent, Inputs, InputTitle, WhiteText, Button,
 } from './components/QnAFormComponents';
+import { TextFontAramL } from '../../Font';
 
 // 텍스트 아래 속성 없어야 중앙배열
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
     flex: 1;
     justify-content:center;
     align-items:center;
@@ -22,10 +23,12 @@ export default function QnAForm({
     setOptions, goBack,
     navigate,
   },
-}:{navigation: {
-  setOptions:Function, goBack:Function,
-  navigate:Function
-}, }) {
+}: {
+  navigation: {
+    setOptions: Function, goBack: Function,
+    navigate: Function
+  },
+}) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [send, setSend] = useState(false);
@@ -36,10 +39,10 @@ export default function QnAForm({
         setSend(true);
       }
     } else
-    if (send) {
-      setSend(false);
-      console.log('send-false 리렌더!');
-    }
+      if (send) {
+        setSend(false);
+        console.log('send-false 리렌더!');
+      }
   }, [name, description]);
 
   useEffect(() => {
@@ -51,7 +54,7 @@ export default function QnAForm({
           }}
         >
           <Text>
-            <Ionicons size={30} name="chevron-back-outline" />
+            <Icon size={30} name="chevron-back-outline" />
           </Text>
         </TouchableOpacity>
       ),

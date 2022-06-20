@@ -3,7 +3,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import styled from 'styled-components/native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import AppInfo from './ConfigureStack/AppInfo';
 import Main from './ConfigureStack/Main';
 import MyInfo from './ConfigureStack/Myinfo';
@@ -31,6 +31,13 @@ export default function Configure({ navigation }) {
       screenOptions={{
         headerTransparent: true,
         headerTitle: '',
+        headerStyle: {
+          backgroundColor: 'white',
+        },
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontFamily: '210AramGothicL'
+        },
         headerBackTitleVisible: false,
         headerBackButtonMenuEnabled: true,
         headerTintColor: '#E94057',
@@ -46,7 +53,7 @@ export default function Configure({ navigation }) {
                 navigation.goBack();
               }}
             >
-              <Ionicons size={30} name="chevron-back-outline" />
+              <Icon size={30} name="chevron-back-outline" />
             </HomeButtton>
           ),
           //   headerShown: false,
@@ -98,6 +105,6 @@ export default function Configure({ navigation }) {
 
         }}
       />
-    </Stack.Navigator>
+    </Stack.Navigator >
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { memo } from 'react';
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
 const Container = styled.View`
     flex: 1;
@@ -9,7 +10,7 @@ const Container = styled.View`
 `;
 
 //텍스트 아래 속성 없어야 중앙배열
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
     flex: 1;
     justify-content:center;
     align-items:center;
@@ -26,7 +27,7 @@ const RightTextContainer = styled.View`
     margin-right:50px;
     
 `
-const RightText = styled.Text`
+const RightText = styled(TextFontAramL)`
     background-color:#85cd89fa;
     padding:10px;
     font-size: 20px;
@@ -41,7 +42,7 @@ const LeftTextContainer = styled.View`
     margin-left:30px;
     margin-right:50px;
 `
-const LeftText = styled.Text`
+const LeftText = styled(TextFontAramL)`
     background-color:#ff9c76f9;
     padding:10px;
     border-radius: 20px;

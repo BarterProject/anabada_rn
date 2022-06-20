@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
 const Container = styled.View`
   display:flex;
@@ -9,7 +10,7 @@ const Container = styled.View`
   margin-top:20px;
 `;
 
-const Title = styled.Text`
+const Title = styled(TextFontAramL)`
   font-size:20px;
 `;
 
@@ -20,18 +21,19 @@ const TextInput = styled.TextInput`
   width:100%;
   border-radius:25px;
   padding-left:20px;
+  font-family: '210AramGothicL';
 `;
 
-interface InputFormColumnProps{
-  title:string,
-  placeholder:string,
-  setText:any
+interface InputFormColumnProps {
+  title: string,
+  placeholder: string,
+  setText: any
 
 }
 export default function InputFormColumn(
-  { title, placeholder, setText }:InputFormColumnProps,
+  { title, placeholder, setText }: InputFormColumnProps,
 ) {
-  function handleChangeText(text:string) {
+  function handleChangeText(text: string) {
     setText(text);
   }
   return (

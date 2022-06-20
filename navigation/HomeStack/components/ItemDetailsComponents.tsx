@@ -2,13 +2,14 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 import { removeARandomItem, requestDeal } from '../../../slice';
 
 export const Container = styled.ScrollView`
     margin-bottom: 15px;
 `;
 
-export const ItemName = styled.Text`
+export const ItemName = styled(TextFontAramL)`
   font-size: 36;
   font-weight:600;
 
@@ -21,12 +22,12 @@ export const ItemNameContainer = styled.View`
   /* padding-left:10px; */
 `;
 
-export const Deposit = styled.Text`
+export const Deposit = styled(TextFontAramL)`
   font-size: 20;
   font-weight:600;
 `;
 
-export const Description = styled.Text`
+export const Description = styled(TextFontAramL)`
   
 `;
 
@@ -47,7 +48,7 @@ justify-content: center;
 align-items: center;
 `;
 
-export const ButtonText = styled.Text`
+export const ButtonText = styled(TextFontAramL)`
 color: white;
 font-weight: 600;
 font-size: 20px;

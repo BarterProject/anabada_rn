@@ -13,7 +13,7 @@ import moment from 'moment';
 import {
   Dimensions, Pressable, TouchableOpacity, Text, ActivityIndicator,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from 'axios';
 import {
   InputColumn, InputTitle, CommonText, Button, ButtonText,
@@ -21,6 +21,7 @@ import {
 
 import { deliveryApi } from '../../api';
 import { trackingType } from '../../types';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex:1;
@@ -70,7 +71,7 @@ const Item = styled.ImageBackground`
   justify-content: center;
 `;
 
-const ItemText = styled.Text`
+const ItemText = styled(TextFontAramL)`
     font-size:20px;
     font-weight:500;
 `;
@@ -87,7 +88,7 @@ function ItemTracking({
   },
 }: {
   navigation: { setOptions: Function, goBack: Function, navigate: Function },
-  route: { params: { itemIdx: number, itemUrl:string} }
+  route: { params: { itemIdx: number, itemUrl: string } }
 }) {
   const [trackingInfo, setTrackingInfo] = useState<trackingType>(null);
   const getTrackingInfo = async () => {
@@ -121,9 +122,7 @@ function ItemTracking({
   return (trackingInfo
     ? (
       <KeyboardAwareScrollView extraScrollHeight={30}>
-
         <Container>
-
           <ItemInfoWrapper>
             <LeftSide>
               <ImageWrapper>

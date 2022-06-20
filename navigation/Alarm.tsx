@@ -7,7 +7,7 @@ import styled from 'styled-components/native';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Main from './AlarmStack/Main';
 
 const Stack = createNativeStackNavigator();
@@ -29,7 +29,7 @@ function Alarm() {
             }}
           >
             <Text>
-              <Ionicons size={30} name="close-outline" />
+              <Icon size={30} name="close-outline" />
             </Text>
           </Btn>
         ),

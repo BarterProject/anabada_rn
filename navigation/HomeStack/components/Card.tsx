@@ -1,5 +1,5 @@
 import { BASE_URL } from '@env';
-import { AntDesign } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -10,12 +10,14 @@ import styled from 'styled-components/native';
 import { initialStateProps } from '../../../slice';
 import { itemType } from '../../../types';
 import { Mark, MarkProps } from './MainComponents';
+import { TextFontAramL } from '../../../Font';
 
 const Container = styled.View`
   position:absolute;
   justify-content:flex-end;
   width:100%;
   height:100%;
+  /* opacity:0; */
 `;
 
 const InfoContainer = styled.View`
@@ -24,13 +26,15 @@ const InfoContainer = styled.View`
   /* flex-direction:row; */
   width:100%;
   height:30%;
+  border-radius:50px;
 `;
 
-const InfoText = styled.Text`
+const InfoText = styled(TextFontAramL)`
   padding: 8px;
   color: white;
   font-size:40px;
   font-weight:900;
+  font-family:'210AramGothicL';
 `;
 
 const InfoContainerBackground = styled.View`
@@ -52,7 +56,7 @@ const DetailButton = styled.Pressable`
   
 `;
 
-const DetailButtonText = styled.Text`
+const DetailButtonText = styled(TextFontAramL)`
   left:0;
   padding-top: 15px;
 `;
@@ -75,9 +79,12 @@ const DepositContainer = styled.View`
   top:-10px;
 `;
 
-const Deposit = styled.Text`
+const Deposit = styled(TextFontAramL)`
   background-color:gray;
+  opacity: 0.9;
+  padding: 5px;
   font-size: 20px;
+  border-radius: 5px;
 `;
 type CardProps = MarkProps & {
   item: itemType
@@ -213,7 +220,7 @@ export default function Card({
               }
             >
               <DetailButtonText>
-                <AntDesign name="infocirlceo" color="white" size={20} />
+                <Icon name="infocirlceo" color="white" size={20} />
               </DetailButtonText>
             </DetailButton>
           </DetailButtonContainer>

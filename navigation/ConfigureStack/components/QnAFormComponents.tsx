@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
 export const Container = styled.View`
     flex: 1;
@@ -16,12 +17,12 @@ export const InputTitle = styled.TextInput.attrs({
   placeholderTextColor: '#626262',
 })`
   background-color: #eaeaea;
-
   height: 50px;
   width: 100%;
   border-radius: 10px;
   margin-bottom: 15px;
   padding: 10px 15px;
+  font-family: '210AramGothicL';
 `;
 export const InputContent = styled(InputTitle)`
 height: 200px;
@@ -29,7 +30,7 @@ padding-top: 15px;
 margin: 0;
 `;
 
-export const Button = styled.TouchableOpacity<{dis:boolean}>`
+export const Button = styled.TouchableOpacity<{ dis: boolean }>`
   /* width: 100%; */
   height: 50px;
   padding: 5px;
@@ -41,7 +42,7 @@ export const Button = styled.TouchableOpacity<{dis:boolean}>`
   opacity:${(props) => (props.dis ? 0.3 : 1)};
 `;
 
-export const WhiteText = styled.Text`
+export const WhiteText = styled(TextFontAramL)`
   color: white;
   /* font-weight: '600'; */
   font-size: 20 ;

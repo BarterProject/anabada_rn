@@ -8,9 +8,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { BASE_URL } from '@env';
 
 import {
-  Dimensions, Pressable, TouchableOpacity, Text, ActivityIndicator,
+  Pressable, TouchableOpacity, Text, ActivityIndicator,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CommonActions } from '@react-navigation/native';
 import {
   InputColumn, InputTitle, CommonText, Button, ButtonText,
@@ -19,6 +19,7 @@ import {
 import { dealApi, deliveryApi } from '../../api';
 import Popup from './components/Popup';
 import { deliveryType } from '../../types';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex:1;
@@ -61,7 +62,7 @@ const Item = styled.ImageBackground`
   justify-content: center;
 `;
 
-const ItemText = styled.Text`
+const ItemText = styled(TextFontAramL)`
     font-size:20px;
     font-weight:500;
 `;
@@ -79,9 +80,13 @@ function ItemRefund({
     },
   },
 }: {
-  navigation: { setOptions: Function, goBack: Function, navigate: Function, dispatch:Function },
-  route: { params: { itemUrl: string, itemName: string, itemDescription: string, idx: number,
-    delivery:deliveryType } }
+  navigation: { setOptions: Function, goBack: Function, navigate: Function, dispatch: Function },
+  route: {
+    params: {
+      itemUrl: string, itemName: string, itemDescription: string, idx: number,
+      delivery: deliveryType
+    }
+  }
 }) {
   const [phone, setPhone] = useState('');
   const [receiverName, setReceiverName] = useState('');
@@ -234,7 +239,7 @@ function ItemRefund({
             <InputColumn style={{ marginTop: 15 }}>
               <CommonText>운송장 번호</CommonText>
             </InputColumn>
-            <InputTitle placeholder="운송장 번호를 입력해주세요." value={waybill} editable onChangeText={(text:string) => { setWaybill(text); }} />
+            <InputTitle placeholder="운송장 번호를 입력해주세요." value={waybill} editable onChangeText={(text: string) => { setWaybill(text); }} />
           </InputWrapper>
 
           <Button

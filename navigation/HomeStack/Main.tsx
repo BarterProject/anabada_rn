@@ -108,8 +108,8 @@ function Main() {
   });
 
   const rotation = POSITION.interpolate({
-    inputRange: [-250, 250],
-    outputRange: ['-30deg', '30deg'],
+    inputRange: [-350, 350],
+    outputRange: ['-50deg', '50deg'],
     extrapolate: 'clamp',
   });
 
@@ -137,7 +137,6 @@ function Main() {
       restDisplacementThreshold: 100,
       restSpeedThreshold: 100,
     }).start(() => {
-      console.log('bounceTotheRightOut chosenItemId:', chosenItemId);
       dispatch(requestDeal()); // 교환 신청하기
       next();
       POSITION.setValue(0);

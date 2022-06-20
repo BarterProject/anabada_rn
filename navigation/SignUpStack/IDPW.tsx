@@ -11,6 +11,7 @@ import { CommonActions } from '@react-navigation/native';
 import InputFormRow from './components/InputFormRow';
 import InputFormRowSecrue from './components/InputFormRowSecrue';
 import { setIdForSigningUp, setPasswordForSigingUp } from '../../slice';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex: 1;
@@ -34,7 +35,7 @@ color: white;
 margin-top:30px;
 `;
 
-const ButtonText = styled.Text`
+const ButtonText = styled(TextFontAramL)`
 font-size: 18px;
 font-weight: 800;
 line-height: 27px;

@@ -3,12 +3,13 @@ import { useMemo } from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useInfiniteQuery, useQueryClient } from 'react-query';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { chatApi, fetchAllPosts } from '../../api';
-import { initialStateProps } from '../../slice';
+import { chatApi } from '../../api';
+import { initialStateProps, setChatRoomItemId } from '../../slice';
 import ChatBox from './components/ChatBox';
 import messaging from '@react-native-firebase/messaging';
+import { TextFontAramL } from '../../Font';
 
 
 
@@ -21,7 +22,7 @@ const Container = styled.View`
 `;
 
 //텍스트 아래 속성 없어야 중앙배열
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
     /* color:black;
     flex: 1;
     justify-content:center;
@@ -44,7 +45,7 @@ const MessageInput = styled.TextInput`
     flex:1;
     /* margin:3px; */
     padding:5px;
-
+    font-family: '210AramGothicL';
 `
 const SendButton = styled.Button`
     width:20px;
@@ -57,6 +58,7 @@ const SendButton = styled.Button`
 
 export default function ChatRoom({ route: { params }, navigation: { setOptions
 }, }) {
+    const dispatch = useDispatch()
     const { itemIdx, name } = params
     const [height, setHeight] = useState(0)
     const [content, setContent] = useState('')
@@ -93,6 +95,7 @@ export default function ChatRoom({ route: { params }, navigation: { setOptions
     //아이템 아이디로 챗룸 아이디, 이름 가져오기
     useEffect(() => {
         console.log('email', email)
+        dispatch(setChatRoomItemId(itemIdx))
         chatApi.getRoomById(itemIdx).then((value) => {
             console.log("chatApi.getRoomById  성공")
             setRoomIdx(value.data.idx)
@@ -101,6 +104,9 @@ export default function ChatRoom({ route: { params }, navigation: { setOptions
         }).catch((error) => {
             console.log(error)
         })
+        return () => {
+            dispatch(setChatRoomItemId(0))
+        }
     }, [itemIdx])
 
     // 리렌더를 막으려했지만 실패, ChatBox 사용
@@ -177,6 +183,11 @@ export default function ChatRoom({ route: { params }, navigation: { setOptions
             // let message_body = remoteMessage.notification.body;
         })
     }, [roomIdx])
+    useEffect(() => {
+        return () => {
+
+        }
+    })
     return (
         <Container>
             {
@@ -191,12 +202,6 @@ export default function ChatRoom({ route: { params }, navigation: { setOptions
                         refreshing={isRefetching}
                         data={data.pages.map((page) => page.data.contents).flat()}
                         renderItem={memoizedValue}
-                        // renderItem={({ item }) => <ChatBox key={item.idx}
-                        //     id={item.idx}
-                        //     text={item.content}
-                        //     sender={item.sender.email === email} />}
-                        // keyExtractor={useCallback((item) => { console.log(item.idx); return `${item.idx}` }, [data])}
-                        // keyExtractor={(item) => { console.log(item.idx); return `${item.idx}` }}
                         keyExtractor={(item) => `${item.idx}`}
                         onEndReached={loadMore}
                         showsVerticalScrollIndicator={true}

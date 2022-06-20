@@ -14,6 +14,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import messaging from '@react-native-firebase/messaging';
 import MyItem from './Stack/MyItem';
 import Inventory from './Stack/Inventory';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
   flex: 1;
@@ -36,6 +37,13 @@ const BtnInstance = styled.View`
   justify-content: center;
   border-radius: 80px;
 `;
+
+const ButtonText = styled(TextFontAramL)`
+  color: white;
+  font-size: 18;
+  font-weight: 600;
+
+`
 
 function Main() {
   const navigation = useNavigation();
@@ -74,7 +82,10 @@ function Main() {
     <Container>
       <Tab.Navigator
         screenOptions={{
-          tabBarLabelStyle: { fontSize: 16 },
+          tabBarLabelStyle: {
+            fontSize: 16,
+            fontFamily: '210AramGothicL',
+          },
           tabBarIndicatorStyle: {
             height: 5, borderRadius: 20, width: Dimensions.get('window').width / 4, left: Dimensions.get('window').width / 8, backgroundColor: '#e94057',
           },
@@ -87,7 +98,7 @@ function Main() {
           initialParams={{
             getNewData: false,
           }}
-          // options={{ headerShown: true }}
+        // options={{ headerShown: true }}
         />
         <Tab.Screen
           name="아이템"
@@ -111,9 +122,9 @@ function Main() {
           }}
         >
           <BtnInstance>
-            <Text style={{ color: 'white', fontSize: 18, fontWeight: '600' }}>
+            <ButtonText>
               등록하기
-            </Text>
+            </ButtonText>
           </BtnInstance>
         </DropShadow>
       </Btn>

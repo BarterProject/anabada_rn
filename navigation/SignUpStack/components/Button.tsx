@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
 const TouchableButton = styled.TouchableOpacity`
   background-color:#E94057;
@@ -14,7 +15,7 @@ const TouchableButton = styled.TouchableOpacity`
   margin:5px;
 `;
 
-const ButtonText = styled.Text`
+const ButtonText = styled(TextFontAramL)`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;
@@ -22,14 +23,14 @@ const ButtonText = styled.Text`
   color: #FFFFFF;
 `;
 
-interface ButtonProps{
-//   navigation:any,
-  to:string,
-  text:string
+interface ButtonProps {
+  //   navigation:any,
+  to: string,
+  text: string
 }
 
 export default function Button(
-  { to, text }:ButtonProps,
+  { to, text }: ButtonProps,
 ) {
   const navigation = useNavigation();
 

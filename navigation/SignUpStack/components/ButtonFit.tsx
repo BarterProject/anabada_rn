@@ -3,8 +3,9 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
-const ButtonText = styled.Text`
+const ButtonText = styled(TextFontAramL)`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;
@@ -12,14 +13,14 @@ const ButtonText = styled.Text`
   color: #FFFFFF;
 `;
 
-interface ButtonProps{
-  to:string,
-  text:string,
-  disabled?:boolean,
+interface ButtonProps {
+  to: string,
+  text: string,
+  disabled?: boolean,
 }
 
 export default function ButtonFit(
-  { disabled = false, to, text }:ButtonProps,
+  { disabled = false, to, text }: ButtonProps,
 ) {
   const navigation = useNavigation();
 

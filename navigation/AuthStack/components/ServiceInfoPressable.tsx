@@ -1,19 +1,20 @@
 import React from 'react';
 import { Pressable } from 'react-native';
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
   color:#E94057;
 `;
 
 interface ServiceInfoPressableTextProps {
-  navigation:any,
-  to:string,
-  text:string
+  navigation: any,
+  to: string,
+  text: string
 }
 
 export default function ServiceInfoPressableText(
-  { navigation, to, text }:ServiceInfoPressableTextProps,
+  { navigation, to, text }: ServiceInfoPressableTextProps,
 ) {
   return (
     <Pressable

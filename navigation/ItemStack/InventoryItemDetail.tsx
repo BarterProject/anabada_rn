@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 
 import { TouchableOpacity, Text, View } from 'react-native';
 
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 

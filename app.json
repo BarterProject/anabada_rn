@@ -13,5 +13,6 @@
       "package": "org.name.anabada"
     }
   },
-  "name": "anabada"
+  "name": "anabada",
+  "displayName": "clip"
 }

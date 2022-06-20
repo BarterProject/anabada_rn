@@ -8,6 +8,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import InputFormColumn from '../AuthStack/components/InputFormColumn';
 import { setPhoneAuthChecked } from '../../slice';
 import { AuthStackParamList } from '../Auth';
+import { TextFontAramL } from '../../Font';
 
 const TouchableButton = styled.TouchableOpacity`
   background-color:#E94057;
@@ -20,7 +21,7 @@ const TouchableButton = styled.TouchableOpacity`
   margin:5px;
 `;
 
-const ButtonText = styled.Text`
+const ButtonText = styled(TextFontAramL)`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;
@@ -66,7 +67,7 @@ export default function PhoneAuth({ route, navigation }: PhoneAuthProps) {
       const response = await confirm.confirm(code);
       console.log(response);
       if (response) {
-        dispatch(setPhoneAuthChecked());
+        dispatch(setPhoneAuthChecked(true));
         navigation.goBack();
       }
     } catch (e) {

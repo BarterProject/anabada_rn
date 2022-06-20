@@ -7,7 +7,8 @@ import {
   TouchableOpacity, Text, View, ActivityIndicator, Pressable, Linking, Alert,
 } from 'react-native';
 
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -59,6 +60,16 @@ const HistoryBtn = styled.TouchableOpacity`
   justify-content: center;
 `;
 
+const ChatButton = styled.TouchableOpacity`
+  width:32px;
+  height:32px;
+  border-radius: 32px;
+  background-color: rgba(236, 101, 120, 0.19);
+  align-items: center;
+  justify-content: center;
+  margin-right:5px;
+`
+
 function ItemDetail({
   route: {
     params: {
@@ -70,18 +81,22 @@ function ItemDetail({
     setOptions, goBack, navigate, dispatch: dis,
   },
 }: {
-  route: { params: {
-    readOnly:boolean,
-    itemIdx:number,
-    enrollMode:boolean,
-    deliveryMode:boolean,
-    inventoryMode:boolean,
-    isItItem:boolean,
-    status:string
-    idx: number
-  } };
-  navigation: { setOptions: Function, goBack: Function, navigate:Function,
-    dispatch:Function };
+  route: {
+    params: {
+      readOnly: boolean,
+      itemIdx: number,
+      enrollMode: boolean,
+      deliveryMode: boolean,
+      inventoryMode: boolean,
+      isItItem: boolean,
+      status: string
+      idx: number
+    }
+  };
+  navigation: {
+    setOptions: Function, goBack: Function, navigate: Function,
+    dispatch: Function
+  };
 
 }) {
   const [itemInfo, setItemInfo] = useState<itemType>(null);
@@ -103,12 +118,6 @@ function ItemDetail({
     }),
   );
 
-  // useEffect(() => {
-  //   if (idx) {
-  //     // eslint-disable-next-line no-unused-expressions
-  //     setCompanyCheck(idx);
-  //   }
-  // }, [idx]);
   const go = (enroll: boolean, delivery: boolean) => {
     if (enroll) {
       navigate('Main', { screen: '아이템', params: { getNewData: true } });
@@ -116,44 +125,6 @@ function ItemDetail({
       navigate('Main', { screen: '인벤토리', params: { getNewData: true } });
     } else { goBack(); }
   };
-
-  // const saveTracking = async () => {
-  //   try {
-  //     const body = {
-  //       trackingNumber: parseInt(waybill, 10),
-  //       deliveryCompanyIdx: parseInt(courier, 10),
-  //     };
-  //     const { data } = await deliveryApi.saveTracking(itemInfo.delivery.idx, body);
-  //     console.log(data);
-  //     dis(
-  //       CommonActions.reset({
-  //         index: 0,
-  //         routes: [{
-  //           name: 'Confirm',
-  //           params: {
-  //             title: '운송장번호 등록완료',
-  //             bigMsg: `아이템 ${itemInfo.name}의 운송장번호가 등록되었습니다.`,
-  //             smallMsg: '보증금 입금은 잠시 기다려주십시오.',
-  //             screen: '아이템',
-  //             getNewData: true,
-  //           },
-  //         }],
-  //       }),
-  //     );
-  //   } catch (e) {
-  //     console.log(e);
-  //     if (e.response.status === 404) {
-  //       setTrackingError(true);
-  //       setTrackingErrorMsg('유효하지 않은 운송장 정보입니다.');
-  //     } else if (e.response.staus === 401) {
-  //       setTrackingError(true);
-  //       setTrackingErrorMsg('권한이 없습니다.');
-  //     } else if (e.response.status === 400) {
-  //       setTrackingError(true);
-  //       setTrackingErrorMsg('운송장 번호가 이미 등록되었습니다.');
-  //     }
-  //   }
-  // };
 
   const refundItem = async () => {
     try {
@@ -238,7 +209,7 @@ function ItemDetail({
     }
   };
 
-  function OpenURLButton({ url, children }:{url:string, children:string}) {
+  function OpenURLButton({ url, children }: { url: string, children: string }) {
     const handlePress = useCallback(async () => {
       // Checking if the link is supported for links with custom URL scheme.
       const supported = await Linking.canOpenURL(url);
@@ -262,30 +233,48 @@ function ItemDetail({
     );
   }
 
+  const HistoryButton = () => (!readOnly
+    ? (
+      <HistoryBtn
+        onPress={async () => {
+          navigate('Item', { screen: 'History', params: { itemIdx, itemName: itemInfo.name } });
+        }}
+      >
+        <Text>
+          <Icon
+            size={20}
+            name="layers-outline"
+            color="#E94057"
+          />
+        </Text>
+      </HistoryBtn>
+    ) : null
+  )
+
   useEffect(() => {
     getItemInfo();
   }, []);
-  useEffect(() => {
-    setOptions({
-      headerRight: () => (!readOnly
-        ? (
-          <HistoryBtn
-            onPress={async () => {
-              navigate('Item', { screen: 'History', params: { itemIdx, itemName: itemInfo.name } });
-            }}
-          >
-            <Text>
-              <Ionicons
-                size={20}
-                name="layers-outline"
-                color="#E94057"
-              />
-            </Text>
-          </HistoryBtn>
-        ) : null
-      ),
-    });
-  }, [itemInfo]);
+  // useEffect(() => {
+  //   setOptions({
+  //     headerRight: () => (!readOnly
+  //       ? (
+  //         <HistoryBtn
+  //           onPress={async () => {
+  //             navigate('Item', { screen: 'History', params: { itemIdx, itemName: itemInfo.name } });
+  //           }}
+  //         >
+  //           <Text>
+  //             <Icon
+  //               size={20}
+  //               name="layers-outline"
+  //               color="#E94057"
+  //             />
+  //           </Text>
+  //         </HistoryBtn>
+  //       ) : null
+  //     ),
+  //   });
+  // }, [itemInfo]);
 
   useEffect(() => {
     setOptions({
@@ -296,7 +285,7 @@ function ItemDetail({
           }}
         >
           <Text>
-            <Ionicons size={30} name="chevron-back-outline" />
+            <Icon size={30} name="chevron-back-outline" />
           </Text>
         </TouchableOpacity>
       ),
@@ -306,25 +295,34 @@ function ItemDetail({
         }
         if (itemInfo.state === 2) {
           return (
-            <TouchableOpacity
-              onPress={() => {
-                console.log('het');
-                // navigate('ChatRoom', {
-                //   id: itemInfo.idx,
-                //   test: "test"
-                // });
-                navigation.navigate('Item', {
-                  screen: 'ChatRoom',
-                  params: {
-                    itemIdx,
-                    name: itemInfo.name,
-                  },
-                });
-              }}
-            >
-              <Entypo name="chat" size={40} />
-            </TouchableOpacity>
+            <>
+              <ChatButton
+                onPress={() => {
+                  console.log('het');
+
+                  navigation.navigate('Item', {
+                    screen: 'ChatRoom',
+                    params: {
+                      itemIdx,
+                      name: itemInfo.name,
+                    },
+                  });
+                }}
+
+              >
+                <Entypo
+                  name="chat"
+                  size={20}
+                  style={{
+                    // paddingRight: 10,
+                    color: "#E94057"
+                  }} />
+              </ChatButton>
+              <HistoryButton />
+            </>
           );
+        } else {
+          return <HistoryButton />
         }
       },
     });
@@ -397,18 +395,18 @@ function ItemDetail({
               {
                 !isItItem && itemInfo.state !== 4 && itemInfo.state !== 2
                   && itemInfo.state !== 5 && itemInfo.state !== 7 && itemInfo.state !== 6 ? (
-                    <Button
-                      style={{ marginTop: 15 }}
-                      onPress={() => {
-                        dispatch(setItemToDeal(itemIdx));
-                        dispatch(resetRandomItems());
-                        console.log(`${itemIdx}선택완료`);
-                        navigate('Home', { screen: 'Main' });
-                      }}
-                    >
-                      <ButtonText>선택하기</ButtonText>
-                    </Button>
-                  ) : null
+                  <Button
+                    style={{ marginTop: 15 }}
+                    onPress={() => {
+                      dispatch(setItemToDeal(itemIdx));
+                      dispatch(resetRandomItems());
+                      console.log(`${itemIdx}선택완료`);
+                      navigate('Home', { screen: 'Main' });
+                    }}
+                  >
+                    <ButtonText>선택하기</ButtonText>
+                  </Button>
+                ) : null
               }
               {
                 isItItem || itemInfo.state === 4 || itemInfo.registrant.idx === userIdx

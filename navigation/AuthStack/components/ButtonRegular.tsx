@@ -4,6 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import styled from 'styled-components/native';
 import { RootStackParamList } from '../../Root';
+import { TextFontAramL } from '../../../Font';
 
 const TouchableButton = styled.TouchableOpacity`
   background-color:#E94057;
@@ -16,7 +17,7 @@ const TouchableButton = styled.TouchableOpacity`
   margin:5px;
 `;
 
-const ButtonText = styled.Text`
+const ButtonText = styled(TextFontAramL)`
   font-size: 18px;
   font-weight: 800;
   line-height: 27px;
@@ -26,13 +27,13 @@ const ButtonText = styled.Text`
 
 type Props = NativeStackScreenProps<RootStackParamList>
 
-interface ButtonProps extends Props{
-  to: 'Main'|'SignIn'|'SignUp'|'PhoneAuth'|'SearchAddress',
-  text:string
+interface ButtonProps extends Props {
+  to: 'Main' | 'SignIn' | 'SignUp' | 'PhoneAuth' | 'SearchAddress',
+  text: string
 }
 
 export default function ButtonRegular(
-  { navigation, to, text }:ButtonProps,
+  { navigation, to, text }: ButtonProps,
 ) {
   return (
     <TouchableButton

@@ -8,6 +8,7 @@ import { deleteAccessToken } from '../../slice';
 // import { ConfigureStackParamList } from '../Configure';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { useDispatch } from 'react-redux';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
   /* background-color:red; */
@@ -29,7 +30,7 @@ const ButtonContainer = styled.View`
   align-items:flex-start;
 `;
 
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
   font-size:20px;
 `;
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -16,6 +16,12 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { useDispatch } from 'react-redux';
 import { resetRandomItems, setItemToDeal } from '../slice';
 
+import DropdownAlert from 'react-native-dropdownalert';
+import { AlertHelper } from './components/AlertHelper';
+import { StatusBar } from 'react-native';
+
+
+StatusBar.setBackgroundColor("black");
 
 export type RootStackParamList = {
   Auth: NavigatorScreenParams<AuthStackParamList>;
@@ -23,6 +29,8 @@ export type RootStackParamList = {
   Alarm: undefined;
   Item: undefined;
 };
+
+
 
 
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
@@ -33,71 +41,101 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
 
 // const navigationDeferred = new Deferred
 
-PushNotification.configure({
-  // (optional) 토큰이 생성될 때 실행됨(토큰을 서버에 등록할 때 쓸 수 있음)
-  onRegister(token: any) {
-    console.log('TOKEN:', token);
-  },
 
-  // (required) 리모트 노티를 수신하거나, 열었거나 로컬 노티를 열었을 때 실행
-  onNotification(notification: any) {
-    console.log('onNotification NOTIFICATION:', notification);
-    if (notification.data.channelId === 'ItemActivated') {
-      console.log('채널 아이디가 ItemActivated이다.')
-    } else if (notification.data.channelId === 'chatting') {
-      console.log('채팅 알람이 왔습니다. foreground.')
-    }
-    // process the notification
-
-    // (required) 리모트 노티를 수신하거나, 열었거나 로컬 노티를 열었을 때 실행
-    notification.finish(PushNotificationIOS.FetchResult.NoData);
-  },
-
-  // (optional) 등록한 액션을 누렀고 invokeApp이 false 상태일 때 실행됨, true면 onNotification이 실행됨 (Android)
-  onAction(notification: any) {
-    console.log('onAction ACTION:', notification.action);
-    console.log('onAction NOTIFICATION:', notification);
-
-    // process the action
-  },
-
-  // (optional) Called when the user fails to register for remote notifications.
-  // Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
-  onRegistrationError(err: Error) {
-    console.error(err.message, err);
-  },
-
-  // IOS ONLY (optional): default: all - Permissions to register.
-  permissions: {
-    alert: true,
-    badge: true,
-    sound: true,
-  },
-
-  // Should the initial notification be popped automatically
-  // default: true
-  popInitialNotification: true,
-
-  /**
-   * (optional) default: true
-   * - Specified if permissions (ios) and token (android and ios) will requested or not,
-   * - if not, you must call PushNotificationsHandler.requestPermissions() later
-   * - if you are not using remote notification or do not have Firebase installed, use this:
-   *     requestPermissions: Platform.OS === 'ios'
-   */
-  requestPermissions: true,
-});
 
 const Nav = createNativeStackNavigator<RootStackParamList>();
 
 function Root() {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
-  const [initialRoute, setInitialRoute] = useState<'Auth' |
-    'Home' |
-    'Alarm' |
-    'Item'>('Auth');
+
   const dispatch = useDispatch();
+
+  PushNotification.configure({
+    // (optional) 토큰이 생성될 때 실행됨(토큰을 서버에 등록할 때 쓸 수 있음)
+    onRegister(token: any) {
+      console.log('TOKEN:', token);
+    },
+
+    // (required) 리모트 노티를 수신하거나, 열었거나 로컬 노티를 열었을 때 실행
+    onNotification(notification: any) {
+      console.log('onNotification NOTIFICATION:', notification);
+      if (notification.data.channelId === 'ItemActivated') {
+        console.log('채널 아이디가 ItemActivated이다.')
+        console.log(notification.data)
+        AlertHelper.show('info', notification.title, notification.message)
+      } else if (notification.data.channelId === 'chatting') {
+        console.log('채팅 알람이 왔습니다. foreground.')
+        // AlertHelper.show('info', notification.title, notification.message)
+      } else if (notification.data.channelId === 'DealBeenRequested') {
+        console.log("🟢AlertHelper DealBeenRequested")
+        console.log(notification.data)
+        AlertHelper.show('info', notification.title, notification.message)
+        dispatch(setItemToDeal(parseInt(notification.data.itemId)));
+
+      } else if (notification.data.channelId === 'DealCompleted') {
+        console.log("🟢AlertHelper DealCompleted")
+        console.log(notification.data)
+        AlertHelper.show('info', notification.title, notification.message)
+        dispatch(setItemToDeal(parseInt(notification.data.itemId)));
+
+      } else if (notification.data.channelId === 'DeliveryRequested') {
+        AlertHelper.show('info', notification.title, notification.message)
+
+      } else if (notification.data.channelId === 'DeliveryStarted') {
+        AlertHelper.show('info', notification.title, notification.message)
+
+      } else if (notification.data.channelId === 'DepositLost') {
+        AlertHelper.show('info', notification.title, notification.message)
+
+      } else if (notification.data.channelId === 'DepositPresented') {
+        AlertHelper.show('info', notification.title, notification.message)
+
+      } else if (notification.data.channelId === 'DepositRefunded') {
+        AlertHelper.show('info', notification.title, notification.message)
+      }
+
+      // process the notification
+
+      // (required) 리모트 노티를 수신하거나, 열었거나 로컬 노티를 열었을 때 실행
+      notification.finish(PushNotificationIOS.FetchResult.NoData);
+    },
+
+    // (optional) 등록한 액션을 누렀고 invokeApp이 false 상태일 때 실행됨, true면 onNotification이 실행됨 (Android)
+    onAction(notification: any) {
+      console.log('onAction ACTION:', notification.action);
+      console.log('onAction NOTIFICATION:', notification);
+
+      // process the action
+    },
+
+    // (optional) Called when the user fails to register for remote notifications.
+    // Typically occurs when APNS is having issues, or the device is a simulator. (iOS)
+    onRegistrationError(err: Error) {
+      console.error(err.message, err);
+    },
+
+    // IOS ONLY (optional): default: all - Permissions to register.
+    permissions: {
+      alert: true,
+      badge: true,
+      sound: true,
+    },
+
+    // Should the initial notification be popped automatically
+    // default: true
+    popInitialNotification: true,
+
+    /**
+     * (optional) default: true
+     * - Specified if permissions (ios) and token (android and ios) will requested or not,
+     * - if not, you must call PushNotificationsHandler.requestPermissions() later
+     * - if you are not using remote notification or do not have Firebase installed, use this:
+     *     requestPermissions: Platform.OS === 'ios'
+     */
+    requestPermissions: true,
+  });
+
   useEffect(() => {
     messaging().onNotificationOpenedApp((remoteMessage): any => {
       // console.log("test1111111")
@@ -113,7 +151,6 @@ function Root() {
             }
           }
         })
-
         navigation.navigate('Home', {
           screen: 'Item',
           params: {
@@ -127,7 +164,6 @@ function Root() {
         });
       } else if (remoteMessage.data.channelId === 'DealBeenRequested') {
         dispatch(setItemToDeal(parseInt(remoteMessage.data.itemId)));
-
         navigation.navigate('Home', {
           screen: 'ItemDeals',
           params: {
@@ -157,7 +193,7 @@ function Root() {
             }
           },
         });
-        dispatch(setItemToDeal({ itemId: remoteMessage.data.itemId }));
+        dispatch(setItemToDeal(parseInt(remoteMessage.data.itemId)));
         dispatch(resetRandomItems())
       } else if (remoteMessage.data.channelId === 'DeliveryRequested') {
         navigation.navigate('Home', {
@@ -313,18 +349,29 @@ function Root() {
     // })
   }, []);
 
+  // useEffect(() => {
+  //   AlertHelper.setOnClose(() => { alert('Hi, I am onClose') });
+  // });
   return (
-    <Nav.Navigator
-      initialRouteName={initialRoute}
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Nav.Screen name="Auth" component={Auth} />
-      <Nav.Screen name="Home" component={Home} />
-      <Nav.Screen name="Alarm" component={Alarm} />
-      <Nav.Screen name="Item" component={Item} />
-    </Nav.Navigator>
+    <>
+      <DropdownAlert
+        defaultContainer={{ padding: 8, paddingTop: StatusBar.currentHeight, flexDirection: 'row' }}
+        ref={ref => AlertHelper.setDropDown(ref)}
+        // onPress={() => console.log("touch")}
+        onClose={() => AlertHelper.invokeOnClose()}
+      />
+      <Nav.Navigator
+        initialRouteName={"Auth"}
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Nav.Screen name="Auth" component={Auth} />
+        <Nav.Screen name="Home" component={Home} />
+        <Nav.Screen name="Alarm" component={Alarm} />
+        <Nav.Screen name="Item" component={Item} />
+      </Nav.Navigator>
+    </>
   );
 }
 

@@ -8,7 +8,7 @@ import Checkbox from 'expo-checkbox';
 
 import styled from 'styled-components/native';
 
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useSelector } from 'react-redux';
@@ -21,6 +21,8 @@ import {
 import { itemApi } from '../../api';
 import { initialStateProps } from '../../slice';
 import { itemType } from '../../types';
+import { AlertHelper } from '../components/AlertHelper';
+import { TextFontAramL } from '../../Font';
 // import { imageToSendType } from '../../types';
 
 const Container = styled.ScrollView`
@@ -35,7 +37,7 @@ const Inputs = styled.View`
   padding: 0 25px;
 `;
 
-const StatusText = styled.Text`
+const StatusText = styled(TextFontAramL)`
   color: black;
   font-size: 20px;
 `;
@@ -157,6 +159,7 @@ function Enroll({
           }],
         }),
       );
+      AlertHelper.show('success', '', '아이템 등록 신청 완료')
     } catch (e) {
       console.log(e);
     } finally {
@@ -244,7 +247,8 @@ function Enroll({
           </InputColumn>
           <StatusText>
             <Ionicons size={20} name="warning" color="#ffe222" />
-            계좌번호 0000-000-00000에 계좌이체 하셔야 등록이 완료됩니다.
+            농협 356-1191-5550-63
+            에 계좌이체 하셔야 등록이 완료됩니다.
           </StatusText>
           <InputColumn>
             <CommonText>계약명세서 (더보기)</CommonText>

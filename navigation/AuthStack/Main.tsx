@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import SplashScreen from 'react-native-splash-screen';
 
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../Font';
 
 import Button from './components/Button';
 import ServiceInfoPressableText from './components/ServiceInfoPressable';
@@ -13,9 +15,11 @@ const TitleContainer = styled.View`
   top:80px;
 `;
 
-const Title = styled.Text`
-  font-size:80px;
+const Title = styled(TextFontAramL)`
+align-self:center;
+  font-size:130px;
   color:#E94057;
+  font-family:'HarlowSolidItalic';
 `;
 
 const ButtonsContainer = styled.View`
@@ -49,11 +53,16 @@ const Body = styled.View`
 `;
 
 export default function Main({ navigation }: any) {
+
+  useEffect(() => {
+    SplashScreen.hide();
+  }, [])
+
   return (
     <Container>
       <Header>
         <TitleContainer>
-          <Title>CLIP</Title>
+          <Title> clip </Title>
         </TitleContainer>
       </Header>
 

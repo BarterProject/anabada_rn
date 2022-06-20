@@ -1,7 +1,11 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "commonjs",
+    "esModuleInterop": true
+  },
   "extends": "expo/tsconfig.base",
   "typesRoots": [
-    "./types"
+    "./types",
   ]
 }

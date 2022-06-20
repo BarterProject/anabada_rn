@@ -5,6 +5,7 @@ import {
   dealApi, userApi,
   getRandomItems, postLogin, postSignup, setToken,
 } from './api';
+import { AlertHelper } from './navigation/components/AlertHelper';
 import { itemType, noticeType } from './types';
 
 type ChatRoomsProps = ChatRoomProps[]
@@ -56,9 +57,9 @@ export type initialStateProps ={
       password: string,
       phone: string,
     }
-    chatRooms:ChatRoomProps[],
     chosenItemId:number,
     randomItems:itemType[],
+    roomItemIdEntered:number,
     notice:noticeType[],
     noticeAlarm:boolean
 }
@@ -105,10 +106,18 @@ const { actions, reducer } = createSlice({
       password: null,
       phone: null,
     },
-    chatRooms:[],
     chosenItemId: 0,
     randomItems: [],
-    notice: [],
+    roomItemIdEntered:0,
+    notice: [
+      {
+        content:'hi',
+        idx:1,
+        kind:'1',
+        route:'1',
+        state:1,
+      }
+    ],
     noticeAlarm: false,
   },
   reducers: {
@@ -148,11 +157,11 @@ const { actions, reducer } = createSlice({
         phoneNumber,
       },
     }),
-    setPhoneAuthChecked: (state) => ({
+    setPhoneAuthChecked: (state,{payload}) => ({
       ...state,
       signUpField: {
         ...state.signUpField,
-        isPhoneAuthChecked: true,
+        isPhoneAuthChecked: payload,
       },
     }),
     setAddressinfo: (state, { payload: { zonecode, address, addressDetail } }) => ({
@@ -209,9 +218,9 @@ const { actions, reducer } = createSlice({
       ...state,
       randomItems: [...state.randomItems.slice(1)],
     }),
-    setItemToDeal: (state, { payload: itemId }) => ({
+    setItemToDeal: (state, { payload }) => ({
       ...state,
-      chosenItemId: itemId,
+      chosenItemId: payload,
     }),
     setNotice: (state, { payload: notice }) => ({
       ...state,
@@ -240,14 +249,11 @@ const { actions, reducer } = createSlice({
       ...state,
       randomItems:[]
     }),
-    setChatRooms:(state,{ payload:{roomId,messages} })=>({
+    setChatRoomItemId:(state,{ payload })=>({
       ...state,
-      chatRooms: {
-        ...state.chatRooms,
-        [roomId]:messages
-        
-      }
+      roomItemIdEntered:payload
     })
+
   },
 });
 
@@ -271,7 +277,8 @@ export const {
   setNoticeAlarm,
   setUserInfo,
   setPhoneToken,
-  resetRandomItems
+  resetRandomItems,
+  setChatRoomItemId
 } = actions;
 
 export function requestSignUp({
@@ -301,17 +308,15 @@ export function requestSignUp({
 
     try {
       const data = await postSignup(userInfo);
-      const { message, jwt } = data;
-
-      console.log('data', data);
-      if (message !== undefined) {
-        console.log(message);
-      } else {
-        console.log('postSignup에서 확인된 jwt', jwt);
-        dispatch(setAccessToken(jwt));
-      }
+      console.log(data);
     } catch (error) {
-      dispatch(setAccessToken(''));
+      console.log(error)
+      if (error.data.errorCode === "B0001") {
+        alert('회원가입에 오류가 생겼습니다.다시 시도해주세요')
+      }
+      if (error.data.errorCode === "B0006") {
+        alert('중복된 Email입니다. 다른 Email로 시도해주세요')
+      }
     }
   };
 }
@@ -373,6 +378,7 @@ export function requestDeal() {
         requestId: chosenItemId,
         resqustedId: randomItems[0].idx,
       });
+      AlertHelper.show('success', '', '교환 요청 완료')
 
       // const data:itemType[] = await getRandomItems({ accessToken, number });
       // dispatch(addRandomItems(data));

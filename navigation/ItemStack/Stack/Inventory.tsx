@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   Text, View, ActivityIndicator,
@@ -9,15 +9,16 @@ import ItemInventory from '../components/ItemInventory';
 
 import { Fresh } from '../utils';
 
-function Inventory({ route: { params }, navigation: { setOptions } }:{
-  route:{params:{getNewData:boolean}},
-   navigation:{setOptions:Function}}) {
+function Inventory({ route: { params }, navigation: { setOptions } }: {
+  route: { params: { getNewData: boolean } },
+  navigation: { setOptions: Function }
+}) {
   const [items, setItems] = useState(null);
   const [loading, setLoading] = useState(false);
   const getMyInventory = useCallback(async () => {
     try {
       const { data } = await itemApi.getMyInvetory();
-      setItems(data.filter((item:itemType) => item.state !== 0));
+      setItems(data.filter((item: itemType) => item.state !== 0));
     } catch (e) {
       console.log(e);
     }
@@ -47,14 +48,13 @@ function Inventory({ route: { params }, navigation: { setOptions } }:{
       <Fresh disabled={loading} onPress={getRefreshment}>
         {loading ? <ActivityIndicator size="small" color="#e94057" /> : (
           <Text>
-            <Ionicons
+            <Icon
               size={35}
               color="#e94057"
               name="refresh-outline"
             />
           </Text>
         )}
-
       </Fresh>
     </View>
   ) : (

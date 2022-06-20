@@ -5,15 +5,16 @@ import { useSelector } from 'react-redux';
 import { initialStateProps } from '../../slice';
 import { dealApi } from '../../api';
 import ItemRequests from './ItemRequests';
+import { TextFontAramL } from '../../Font';
 
-const Text = styled.Text`
+const Text = styled(TextFontAramL)`
     flex: 1;
     justify-content:center;
     align-items:center;
 `;
 
 export default function Request({ route: { params } }:
-  {route:{params:{getNewData:boolean}}}) {
+  { route: { params: { getNewData: boolean } } }) {
   const [requestDeals, setRequestDeals] = useState([]);
 
   const { chosenItemId } = useSelector((state: initialStateProps) => ({

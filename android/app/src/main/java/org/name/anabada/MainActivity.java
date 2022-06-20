@@ -1,4 +1,4 @@
-package com.anabada;
+package org.name.anabada;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 
 import expo.modules.ReactActivityDelegateWrapper;
+import org.devio.rn.splashscreen.SplashScreen; // here
+
 
 import android.content.Intent;
 
@@ -17,6 +19,7 @@ public class MainActivity extends ReactActivity {
     // Set the theme to AppTheme BEFORE onCreate to support 
     // coloring the background, status bar, and navigation bar.
     // This is required for expo-splash-screen.
+    SplashScreen.show(this);  // here
     setTheme(R.style.AppTheme);
     super.onCreate(null);
   }

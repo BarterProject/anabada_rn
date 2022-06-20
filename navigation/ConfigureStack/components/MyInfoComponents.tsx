@@ -1,20 +1,21 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
 export type MyInfoProps = {
-    activated: boolean
-    address: string
-    auth: string
-    bankAccount: string
-    bankKind: string
-    createdAt: string
-    email: string
-    phone: string
+  activated: boolean
+  address: string
+  auth: string
+  bankAccount: string
+  bankKind: string
+  createdAt: string
+  email: string
+  phone: string
 }
 
 export type InfoProps = {
-    title:string,
-    description :string
+  title: string,
+  description: string
 }
 
 export const Container = styled.View`
@@ -42,7 +43,7 @@ export const InputRow = styled.View`
   /* justify-content:center; */
 `;
 
-export const Text = styled.Text`
+export const Text = styled(TextFontAramL)`
     flex: 2;
     justify-content:center;
     align-items:center;
@@ -61,10 +62,10 @@ export const InputTitle = styled.TextInput.attrs({
   border-radius: 10px;
   /* margin-bottom: 15px; */
   padding: 10px 15px;
-
+  font-family: '210AramGothicL';
 `;
 
-export function Info({ title, description }:InfoProps) {
+export function Info({ title, description }: InfoProps) {
   return (
     <InputRow>
       <Text>

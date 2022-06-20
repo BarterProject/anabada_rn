@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styled from 'styled-components/native';
+import { TextFontAramL } from '../../../Font';
 
 const Container = styled.View`
   display:flex;
@@ -10,11 +11,12 @@ const Container = styled.View`
   margin-top:10px;
 `;
 
-const Title = styled.Text`
+const Title = styled(TextFontAramL)`
   font-size:20px;
 `;
 
 const TextInput = styled.TextInput`
+  font-family: '210AramGothicL';
   background-color:#E6E6E6;
   width:200px;
   height:50px;
@@ -22,14 +24,14 @@ const TextInput = styled.TextInput`
   padding-left:20px;
 `;
 
-interface InputFormRowProps{
-  title:string,
-  placeholder :string,
-  setText:any
+interface InputFormRowProps {
+  title: string,
+  placeholder: string,
+  setText: any
 }
 
-export default function InputFormRow({ title, placeholder, setText }:InputFormRowProps) {
-  function handleChangeText(text:string) {
+export default function InputFormRow({ title, placeholder, setText }: InputFormRowProps) {
+  function handleChangeText(text: string) {
     setText(text);
   }
   return (

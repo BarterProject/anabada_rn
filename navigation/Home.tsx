@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import Main from './HomeStack/Main';
@@ -60,26 +60,32 @@ export default function Home({ navigation }: HomeScreenProps) {
       initialRouteName="Main"
       screenOptions={{
         headerBackTitleVisible: false,
-        title: '',
-        headerRight: () => (
-          <Btn
-            onPress={() => {
-              navigation.navigate('Alarm', { screen: 'Main' });
-              if (noticeAlarm) {
-                dispatch(setNoticeAlarm(false));
-              }
-            }}
-          >
-            <Text>
-              <View>
-                <Ionicons size={30} name="notifications" />
-                {noticeAlarm ? (
-                  <Badge style={{ position: 'absolute', top: -3, left: 15 }} />
-                ) : null}
-              </View>
-            </Text>
-          </Btn>
-        ),
+        title: ' clip ',
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          color: '#E94057',
+          fontFamily: 'HarlowSolidItalic',
+          fontSize: 30,
+        },
+        // headerRight: () => (
+        //   <Btn
+        //     onPress={() => {
+        //       navigation.navigate('Alarm', { screen: 'Main' });
+        //       if (noticeAlarm) {
+        //         dispatch(setNoticeAlarm(false));
+        //       }
+        //     }}
+        //   >
+        //     <Text>
+        //       <View>
+        //         <Icon size={30} name="notifications" />
+        //         {noticeAlarm ? (
+        //           <Badge style={{ position: 'absolute', top: -3, left: 15 }} />
+        //         ) : null}
+        //       </View>
+        //     </Text>
+        //   </Btn>
+        // ),
         headerShadowVisible: false,
         contentStyle: {
           backgroundColor: 'white',
@@ -120,6 +126,6 @@ export default function Home({ navigation }: HomeScreenProps) {
         }}
       />
 
-    </Stack.Navigator>
+    </Stack.Navigator >
   );
 }

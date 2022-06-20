@@ -1,4 +1,8 @@
-import { AntDesign, Entypo, Ionicons } from '@expo/vector-icons';
+// import { AntDesign, Entypo, Ionicons } from 'react-native-vector-icons';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -11,6 +15,7 @@ import { BASE_URL } from '@env';
 import { useSelector } from 'react-redux';
 import { initialStateProps } from '../../../slice';
 import { itemApi } from '../../../api';
+import { TextFontAramL } from '../../../Font';
 
 export type MarkProps = {
   declineOpacity: Animated.AnimatedInterpolation | null,
@@ -55,7 +60,7 @@ export const NavBarButtonsConatainer = styled.View`
   top:-30px;
 `;
 
-export const ButtonText = styled.Text`
+export const ButtonText = styled(TextFontAramL)`
   justify-content:center;
   align-items:center;
 `;
@@ -249,7 +254,6 @@ export function DealsButton() {
     }));
 
   useEffect(() => {
-    console.log('chosenItemId', chosenItemId);
     itemApi.getItemInfo(chosenItemId).then((itemInfo) => {
       setChosenItemIamgeName(itemInfo.data.images[0].name);
       console.log('itemInfo');

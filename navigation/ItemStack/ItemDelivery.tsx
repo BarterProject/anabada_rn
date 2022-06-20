@@ -12,13 +12,14 @@ import { BASE_URL } from '@env';
 import {
   Dimensions, Pressable, TouchableOpacity, Text, ActivityIndicator,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CommonActions } from '@react-navigation/native';
 import {
   InputColumn, InputTitle, CommonText, Button, ButtonText,
 } from './utils';
 
 import { deliveryApi } from '../../api';
+import { TextFontAramL } from '../../Font';
 
 const Container = styled.View`
     flex:1;
@@ -68,7 +69,7 @@ const Item = styled.ImageBackground`
   justify-content: center;
 `;
 
-const ItemText = styled.Text`
+const ItemText = styled(TextFontAramL)`
     font-size:20px;
     font-weight:500;
 `;
@@ -86,7 +87,7 @@ function ItemDelivery({
     },
   },
 }: {
-  navigation: { setOptions: Function, goBack: Function, navigate: Function, dispatch:Function },
+  navigation: { setOptions: Function, goBack: Function, navigate: Function, dispatch: Function },
   route: { params: { itemUrl: string, itemName: string, itemDescription: string, itemIdx: number } }
 }) {
   const [phone, setPhone] = useState('');
@@ -163,7 +164,7 @@ function ItemDelivery({
     }
   };
 
-  const returnPostcode = (display:boolean) => (
+  const returnPostcode = (display: boolean) => (
     display
       ? (
         <Popup style={{ width: Dimensions.get('window').width }}>
@@ -171,9 +172,9 @@ function ItemDelivery({
           <Postcode
             style={{ flex: 7, height: 500 }}
             jsOptions={{ animation: true }}
-    // onComplete={handleComplete}
+            // onComplete={handleComplete}
             onSelected={(data) => {
-            // console.log(data.zonecode, data.address)
+              // console.log(data.zonecode, data.address)
               const { zonecode, address: ad } = data;
               setAddress(`${zonecode} ${ad}`);
               setPopup(!popup);
