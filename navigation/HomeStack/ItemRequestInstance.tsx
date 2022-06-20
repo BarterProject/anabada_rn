@@ -7,7 +7,6 @@ import {
 
 import styled from 'styled-components/native';
 
-import { BlurView } from 'expo-blur';
 import DropShadow from 'react-native-drop-shadow';
 
 import { BASE_URL } from '@env';

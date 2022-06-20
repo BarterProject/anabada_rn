@@ -140,7 +140,7 @@ function Main() {
       dispatch(requestDeal()); // 교환 신청하기
       next();
       POSITION.setValue(0);
-    }).;
+    });
   };
 
   const bounceBack = () => {

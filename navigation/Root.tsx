@@ -68,11 +68,16 @@ function Root() {
         console.log('채팅 알람이 왔습니다. foreground.')
         // AlertHelper.show('info', notification.title, notification.message)
       } else if (notification.data.channelId === 'DealBeenRequested') {
+        console.log("🟢AlertHelper DealBeenRequested")
+        console.log(notification.data)
         AlertHelper.show('info', notification.title, notification.message)
+        dispatch(setItemToDeal(parseInt(notification.data.itemId)));
 
       } else if (notification.data.channelId === 'DealCompleted') {
+        console.log("🟢AlertHelper DealCompleted")
+        console.log(notification.data)
         AlertHelper.show('info', notification.title, notification.message)
-        dispatch(setItemToDeal(parseInt(notification.itemId)));
+        dispatch(setItemToDeal(parseInt(notification.data.itemId)));
 
       } else if (notification.data.channelId === 'DeliveryRequested') {
         AlertHelper.show('info', notification.title, notification.message)
@@ -88,7 +93,6 @@ function Root() {
 
       } else if (notification.data.channelId === 'DepositRefunded') {
         AlertHelper.show('info', notification.title, notification.message)
-
       }
 
       // process the notification
