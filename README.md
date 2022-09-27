@@ -19,8 +19,8 @@
 - 보증금으로 정상적인 교환을 보장합니다!
 - 📑[KI-IT에 제출된 논문 - 동상 수상](https://space.malangmalang.com/open?fileId=m:0:1136726563&lang=ko)
 - 🎬[논문 발표 영상](https://www.youtube.com/watch?v=-1S4ILNXUUA)
-- 🎥[홍보 영상](https://www.youtube.com/watch?v=B-tpYH9fy4Y&t=1s)
-
+- 🎥[홍보 영상 short](https://www.youtube.com/watch?v=B-tpYH9fy4Y&t=1s)
+- 🎥[홍보 영상 long]( https://www.youtube.com/watch?v=QZpSQWhGSos&list=PLJ8elSeS2xGzF_XREuwtVei7JwcD2SSUv&index=13)
 
 ## 👨‍👩‍👧‍👦 팀원 소개
 |박성일|배성연|임예광|임소윤|민인아|
